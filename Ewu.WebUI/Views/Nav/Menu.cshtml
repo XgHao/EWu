@@ -1,0 +1,30 @@
+﻿@model IEnumerable<string>
+
+@Html.ActionLink(
+        linkText: "Home",
+        actionName: "List",
+        controllerName: "Treasure",
+        routeValues: null,
+        htmlAttributes: new
+        {
+            @class = "btn btn-block btn-default btn-lg"
+        }
+    )
+@foreach(var link in Model)
+{
+    @Html.RouteLink(
+        linkText: link,
+        routeValues: new
+        {
+            controller = "Treasure",
+            action = "List",
+            category = link,
+            page = 1
+        },
+        htmlAttributes: new
+        {
+            @class = "btn btn-block btn-default btn-lg"
+                   + (link == ViewBag.SelectedCategory ? " btn-primary" : "")
+        }
+    )
+}

@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ewu.WebUI", "Ewu.WebUI\Ewu.WebUI.csproj", "{8E888B35-5631-4505-A8D3-065F0378ABB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ewu.Domain", "Ewu.Domain\Ewu.Domain.csproj", "{DB0C5101-4CC7-4DBA-BFF6-F97046E0F09D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ewu.UnitTests", "Ewu.UnitTests\Ewu.UnitTests.csproj", "{B996BA91-EF70-4A0D-A3CE-302FCA283544}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E888B35-5631-4505-A8D3-065F0378ABB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E888B35-5631-4505-A8D3-065F0378ABB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E888B35-5631-4505-A8D3-065F0378ABB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E888B35-5631-4505-A8D3-065F0378ABB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0C5101-4CC7-4DBA-BFF6-F97046E0F09D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0C5101-4CC7-4DBA-BFF6-F97046E0F09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0C5101-4CC7-4DBA-BFF6-F97046E0F09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0C5101-4CC7-4DBA-BFF6-F97046E0F09D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B996BA91-EF70-4A0D-A3CE-302FCA283544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B996BA91-EF70-4A0D-A3CE-302FCA283544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B996BA91-EF70-4A0D-A3CE-302FCA283544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B996BA91-EF70-4A0D-A3CE-302FCA283544}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

@@ -1,0 +1,23 @@
+﻿@model Ewu.Domain.Entities.Treasure
+
+<div class="well">
+    <h3>
+        <strong>@Model.TreasureName</strong>
+        <span class="pull-right label label-primary">@Model.DamageDegree</span>
+    </h3>
+
+    @using(Html.BeginForm(
+            actionName:"AddToFavorite",
+            controllerName:"Favorite"
+        ))
+    {
+        <div class="pull-right">
+            @Html.HiddenFor(x=>x.TreasureUID)
+            @Html.Hidden("returnUel",Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Add to Favorite" />
+        </div>
+    }
+
+    <span class="lead">@Model.TradeRange</span>
+</div>
+

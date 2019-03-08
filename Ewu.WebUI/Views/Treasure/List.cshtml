@@ -1,0 +1,27 @@
+﻿@using Ewu.WebUI.Models;
+@model TreasureListViewModel
+
+@{
+    ViewBag.Title = "List";
+}
+
+@foreach(var t in Model.Treasures)
+{
+    @Html.Partial("TreasureSummary", t)
+}
+
+<div class="btn-group pull-right">
+    @*@Html.PageLinks(Model.PagingInfo, x=>Url.Action(
+                                                actionName:"List",
+                                                routeValues: new{ Page=x }
+                                            ))*@
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action(
+                                                 actionName: "List",
+                                                 routeValues: new
+                                                 {
+                                                     page = x,
+                                                     category = Model.CurrentCategory
+                                                 }
+                                             ))
+</div>
+
