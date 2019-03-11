@@ -69,13 +69,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IOrderProcessor.cs" />
     <Compile Include="Abstract\ITreasuresRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Concrete\EFDBContext.cs" />
     <Compile Include="Concrete\EFTreasureRepository.cs" />
+    <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Deal.cs" />
     <Compile Include="Entities\Favorite.cs" />
     <Compile Include="Entities\Notice.cs" />
+    <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\Treasure.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

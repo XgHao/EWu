@@ -1,0 +1,23 @@
+﻿@model Ewu.Domain.Entities.Favorite
+
+<div class="navbar-right">
+    @Html.ActionLink(
+        linkText: "Checkout",
+        actionName: "Index",
+        controllerName: "Favorite",
+        routeValues: new
+        {
+            returnUrl = Request.Url.PathAndQuery
+        },
+        htmlAttributes: new
+        {
+            @class = "btn btn-dafault navbar-btn"
+        }
+    )
+</div>
+
+<div class="navbar-text navbar-right">
+    <b>Your Favorite:</b>
+    @Model.Lines.Sum(x=>x.Quantity)item(s),
+    @Model.ComputeTotalValue()
+</div>

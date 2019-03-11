@@ -8,6 +8,7 @@ using Moq;
 using Ewu.Domain.Abstract;
 using Ewu.Domain.Concrete;
 using Ewu.Domain.Entities;
+using System.Configuration;
 
 namespace Ewu.WebUI.Infrastructure
 {
@@ -45,6 +46,13 @@ namespace Ewu.WebUI.Infrastructure
             //});
             //kernel.Bind<ITreasuresRepository>().ToConstant(mock.Object);
             #endregion
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("setting", emailSettings);
         }
     }
 }
