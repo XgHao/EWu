@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ewu.Domain.Entities
@@ -10,6 +11,7 @@ namespace Ewu.Domain.Entities
     public class Treasure
     {
         [Key]
+        [HiddenInput(DisplayValue = false)]
         public Guid TreasureUID { get; set; }     //物品唯一标识
 
         public string HolderID { get; set; }        //所有者ID
@@ -19,6 +21,7 @@ namespace Ewu.Domain.Entities
         public string TradeRange { get; set; }      //交易范围
         public string Cover { get; set; }           //封面图片
         public string DetailPic { get; set; }       //补充图片
+        [DataType(DataType.MultilineText)]
         public string DetailContent { get; set; }   //补充说明
         public DateTime UploadTime { get; set; }    //上传时间
         public DateTime UpdateTime { get; set; }    //最后更新时间

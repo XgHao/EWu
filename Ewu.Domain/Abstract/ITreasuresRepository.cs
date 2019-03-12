@@ -10,5 +10,7 @@ namespace Ewu.Domain.Abstract
     public interface ITreasuresRepository
     {
         IEnumerable<Treasure> Treasures { get; }
+
+        void SaveTreasure(Treasure treasure);
     }
 }

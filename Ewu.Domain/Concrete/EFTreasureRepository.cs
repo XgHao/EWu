@@ -16,5 +16,25 @@ namespace Ewu.Domain.Concrete
         {
             get { return context.Treasures; }
         }
+
+        public void SaveTreasure(Treasure treasure)
+        {
+            if (treasure.TreasureUID.ToString() == "0")
+            {
+                context.Treasures.Add(treasure);
+            }
+            else
+            {
+                Treasure dbEntry = context.Treasures.Find(treasure.TreasureUID);
+                if (dbEntry != null)
+                {
+                    dbEntry.TreasureName = treasure.TreasureName;
+                    dbEntry.DetailContent = treasure.DetailContent;
+                    dbEntry.BrowseNum = treasure.BrowseNum;
+                    dbEntry.Favorite = treasure.Favorite;
+                }
+            }
+            context.SaveChanges();
+        }
     }
 }
