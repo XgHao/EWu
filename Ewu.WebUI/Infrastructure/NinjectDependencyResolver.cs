@@ -9,6 +9,8 @@ using Ewu.Domain.Abstract;
 using Ewu.Domain.Concrete;
 using Ewu.Domain.Entities;
 using System.Configuration;
+using Ewu.WebUI.Infrastructure.Abstract;
+using Ewu.WebUI.Infrastructure.Concrete;
 
 namespace Ewu.WebUI.Infrastructure
 {
@@ -53,6 +55,7 @@ namespace Ewu.WebUI.Infrastructure
             };
 
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("setting", emailSettings);
+            kernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }
 }

@@ -17,10 +17,22 @@ namespace Ewu.Domain.Concrete
             get { return context.Treasures; }
         }
 
+        public Treasure DeleteTreasure(Guid treasureUID)
+        {
+            Treasure dbEntry = context.Treasures.Find(treasureUID);
+            if (dbEntry != null)
+            {
+                context.Treasures.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
+
         public void SaveTreasure(Treasure treasure)
         {
-            if (treasure.TreasureUID.ToString() == "0")
+            if (treasure.TreasureUID == Guid.Empty)
             {
+                treasure.TreasureUID = Guid.NewGuid();
                 context.Treasures.Add(treasure);
             }
             else

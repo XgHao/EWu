@@ -12,5 +12,7 @@ namespace Ewu.Domain.Abstract
         IEnumerable<Treasure> Treasures { get; }
 
         void SaveTreasure(Treasure treasure);
+
+        Treasure DeleteTreasure(Guid treasureUID);
     }
 }

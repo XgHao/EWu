@@ -8,6 +8,7 @@ using Ewu.Domain.Entities;
 
 namespace Ewu.WebUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private ITreasuresRepository repository;
@@ -42,6 +43,22 @@ namespace Ewu.WebUI.Controllers
             {
                 return View(treasure);
             }
+        }
+
+        public ViewResult Create()
+        {
+            return View("Edit", new Treasure());
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Guid treasureUID)
+        {
+            Treasure deletedTreasure = repository.DeleteTreasure(treasureUID);
+            if (deletedTreasure != null)
+            {
+                TempData["message"] = string.Format("{0} was deleted", deletedTreasure.TreasureName);
+            }
+            return RedirectToAction("Index");
         }
     }
 }

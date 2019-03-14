@@ -1,7 +1,7 @@
 ﻿@model Ewu.Domain.Entities.Treasure
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit" + Model.TreasureName;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="panel-heading">
         <h3>Edit @Model.TreasureName</h3>
     </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Edit","Admin"))
     {
         <div class="panel-body">
             @Html.HiddenFor(m=>m.TreasureUID)
@@ -42,6 +42,7 @@
                                 }
                             )
                         }
+                        @Html.ValidationMessage(property.PropertyName)
                     </div>
                 }
             }
