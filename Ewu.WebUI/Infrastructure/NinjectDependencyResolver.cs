@@ -14,23 +14,41 @@ using Ewu.WebUI.Infrastructure.Concrete;
 
 namespace Ewu.WebUI.Infrastructure
 {
+    /// <summary>
+    /// 一个自定义的依赖项解析器
+    /// 保证MVC框架在任何时候都能使用Ninject创建对象
+    /// </summary>
     public class NinjectDependencyResolver : IDependencyResolver
     {
+        //创建一个Ninject内核(Kernel)实例
         private IKernel kernel;
 
+
+        /// <summary>
+        /// 构造函数传递Kernel
+        /// </summary>
+        /// <param name="kernelParam"></param>
         public NinjectDependencyResolver(IKernel kernelParam)
         {
             kernel = kernelParam;
             AddBindings();
         }
 
+        /// <summary>
+        /// MVC框架需要类实例
+        /// 以便对传入的请求进行服务
+        /// </summary>
+        /// <param name="serviceType"></param>
+        /// <returns></returns>
         public object GetService(Type serviceType)
         {
+            //返回绑定，没有这返回NULL
             return kernel.TryGet(serviceType);
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
+            //对单一类型的多个绑定
             return kernel.GetAll(serviceType);
         }
 
@@ -38,16 +56,6 @@ namespace Ewu.WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<ITreasuresRepository>().To<EFTreasureRepository>();
-            #region 模仿库
-            //Mock<ITreasuresRepository> mock = new Mock<ITreasuresRepository>();
-            //mock.Setup(m => m.Treasures).Returns(new List<Treasure>
-            //{
-            //    new Treasure{TreasureName="蓝牙鼠标",DamageDegree="九成新",TradeRange="省内" },
-            //    new Treasure{TreasureName="考研教材",DamageDegree="八成新",TradeRange="市内" },
-            //    new Treasure{TreasureName="Xbox游戏机",DamageDegree="七成新",TradeRange="不限" },
-            //});
-            //kernel.Bind<ITreasuresRepository>().ToConstant(mock.Object);
-            #endregion
 
             EmailSettings emailSettings = new EmailSettings
             {

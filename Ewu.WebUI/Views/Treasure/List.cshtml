@@ -11,10 +11,6 @@
 }
 
 <div class="btn-group pull-right">
-    @*@Html.PageLinks(Model.PagingInfo, x=>Url.Action(
-                                                actionName:"List",
-                                                routeValues: new{ Page=x }
-                                            ))*@
     @Html.PageLinks(Model.PagingInfo, x => Url.Action(
                                                  actionName: "List",
                                                  routeValues: new

@@ -56,6 +56,7 @@ namespace Ewu.WebUI.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            //×¢²áÒÀÀµÏî½âÎöÆ÷
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }        
     }

@@ -1,6 +1,13 @@
 ﻿@model Ewu.Domain.Entities.Treasure
 
 <div class="well">
+    @if (Model.ImageData != null)
+    {
+        <div class="pull-left" style="margin-right:10px">
+            <img class="img-thumbnail" width="75" height="75" src="@Url.Action("GetImage","Treasure",new { Model.TreasureUID })" />
+        </div>
+    }
+
     <h3>
         <strong>@Model.TreasureName</strong>
         <span class="pull-right label label-primary">@Model.DamageDegree</span>

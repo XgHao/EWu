@@ -31,10 +31,17 @@ namespace Ewu.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Treasure treasure)
+        public ActionResult Edit(Treasure treasure, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    treasure.ImageMimeType = image.ContentType;
+                    treasure.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(treasure.ImageData, 0, image.ContentLength);
+                }
+
                 repository.SaveTreasure(treasure);
                 TempData["message"] = string.Format("{0} has been saved", treasure.TreasureName);
                 return RedirectToAction("Index");

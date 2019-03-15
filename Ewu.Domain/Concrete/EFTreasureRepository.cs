@@ -44,6 +44,8 @@ namespace Ewu.Domain.Concrete
                     dbEntry.DetailContent = treasure.DetailContent;
                     dbEntry.BrowseNum = treasure.BrowseNum;
                     dbEntry.Favorite = treasure.Favorite;
+                    dbEntry.ImageData = treasure.ImageData;
+                    dbEntry.ImageMimeType = treasure.ImageMimeType;
                 }
             }
             context.SaveChanges();

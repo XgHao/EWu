@@ -10,8 +10,8 @@ namespace Ewu.Domain.Entities
 {
     public class Treasure
     {
-        [Key]
-        [HiddenInput(DisplayValue = false)]
+        [Key]                                     //主键
+        [HiddenInput(DisplayValue = false)]       
         public Guid TreasureUID { get; set; }     //物品唯一标识
 
         public string HolderID { get; set; }        //所有者ID
@@ -38,5 +38,9 @@ namespace Ewu.Domain.Entities
 
         [Range(0, double.MaxValue, ErrorMessage = "please enter a positive num")]
         public int BrowseNum { get; set; }          //物品的浏览量
+
+        //图像上传测试
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
     }
 }
