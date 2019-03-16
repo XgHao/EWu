@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Ewu.WebUI.Models
 {
+    /// <summary>
+    /// 分页信息
+    /// </summary>
     public class PagingInfo
     {
         public int TotalItem { get; set; }          //总数

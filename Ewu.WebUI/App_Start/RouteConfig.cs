@@ -17,6 +17,7 @@ namespace Ewu.WebUI
             routes.MapRoute(
                 name: null,
                 url: "",
+                //默认值-物品详情第一页，全部分类
                 defaults: new
                 {
                     controller = "Treasure",
@@ -30,12 +31,14 @@ namespace Ewu.WebUI
             routes.MapRoute(
                 name: null,
                 url: "Page{page}",
+                //默认值-物品详情第page页，全部分类
                 defaults: new
                 {
                     controller = "Treasure",
                     action = "List",
                     category = (string)null
                 },
+                //限制page参数为数值
                 constraints: new
                 {
                     page = @"\d+"
@@ -46,6 +49,7 @@ namespace Ewu.WebUI
             routes.MapRoute(
                 name: null,
                 url: "{category}",
+                //默认值-category类物品的第一页
                 defaults: new
                 {
                     controller = "Treasure",
@@ -58,6 +62,7 @@ namespace Ewu.WebUI
             routes.MapRoute(
                 name: null,
                 url: "{category}/Page{page}",
+                //默认值-category类物品的第page页
                 defaults: new
                 {
                     controller = "Treasure",

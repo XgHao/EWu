@@ -17,10 +17,12 @@
                     <th class="text-right">BrowseNum</th>
                     <th class="text-center">Actions</th>
                 </tr>
+                @*遍历所有物品*@
                 @foreach(var item in Model)
                 {
                     <tr>
                         <td class="text-left">@item.TreasureUID</td>
+                        @*编辑物品*@
                         <td>@Html.ActionLink(
                                 linkText:item.TreasureName,
                                 actionName:"Edit",
@@ -31,6 +33,7 @@
                             )</td>
                         <td class="text-right">@item.BrowseNum</td>
                         <td class="text-center">
+                            @*删除物品*@
                             @using (Html.BeginForm("Delete", "Admin"))
                             {
                                 @Html.Hidden("TreasureUID",item.TreasureUID)
@@ -42,6 +45,7 @@
             </table>
         </div>
         <div class="panel-footer">
+            @*添加一个新的物品*@
             @Html.ActionLink(
                 linkText:"Add a new Treasure",
                 actionName:"Create",

@@ -1,5 +1,6 @@
 ﻿@model Ewu.Domain.Entities.Favorite
 
+@*顶部右边checkout按钮*@
 <div class="navbar-right">
     @Html.ActionLink(
         linkText: "Checkout",
@@ -16,6 +17,7 @@
     )
 </div>
 
+@*收藏页的概况*@
 <div class="navbar-text navbar-right">
     <b>Your Favorite:</b>
     @Model.Lines.Sum(x=>x.Quantity)item(s),

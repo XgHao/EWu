@@ -6,6 +6,9 @@ using Ewu.Domain.Entities;
 
 namespace Ewu.WebUI.Models
 {
+    /// <summary>
+    /// 为视图提供的PagingInfo视图模型类实例
+    /// </summary>
     public class TreasureListViewModel
     {
         //物品信息

@@ -1,6 +1,8 @@
 ﻿@model Ewu.Domain.Entities.Treasure
+@*分部视图-用于显示物品*@
 
 <div class="well">
+    @*物品图片存在时*@
     @if (Model.ImageData != null)
     {
         <div class="pull-left" style="margin-right:10px">
@@ -13,14 +15,15 @@
         <span class="pull-right label label-primary">@Model.DamageDegree</span>
     </h3>
 
-    @using(Html.BeginForm(
-            actionName:"AddToFavorite",
-            controllerName:"Favorite"
+    @*添加收藏按钮*@
+    @using (Html.BeginForm(
+            actionName: "AddToFavorite",
+            controllerName: "Favorite"
         ))
     {
         <div class="pull-right">
-            @Html.HiddenFor(x=>x.TreasureUID)
-            @Html.Hidden("returnUrl",Request.Url.PathAndQuery)
+            @Html.HiddenFor(x => x.TreasureUID)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
             <input type="submit" class="btn btn-success" value="Add to Favorite" />
         </div>
     }

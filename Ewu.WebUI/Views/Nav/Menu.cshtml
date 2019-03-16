@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<string>
 
+@*生成主页链接按钮*@
 @Html.ActionLink(
         linkText: "Home",
         actionName: "List",
@@ -10,6 +11,7 @@
             @class = "btn btn-block btn-default btn-lg"
         }
     )
+@*根据分类列表生成对应的链接按钮*@
 @foreach(var link in Model)
 {
     @Html.RouteLink(
@@ -23,6 +25,7 @@
         },
         htmlAttributes: new
         {
+            //高亮当前分类
             @class = "btn btn-block btn-default btn-lg"
                    + (link == ViewBag.SelectedCategory ? " btn-primary" : "")
         }

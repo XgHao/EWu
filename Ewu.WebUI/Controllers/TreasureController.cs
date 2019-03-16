@@ -34,21 +34,26 @@ namespace Ewu.WebUI.Controllers
         /// <returns></returns>
         public ViewResult List(string category, int page = 1)
         {
+            //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
+                //根据页码以及分类来确定具体要显示的物品列表
                 Treasures = repository.Treasures
                                     .Where(t => category == null || t.TreasureType == category)
                                     .OrderBy(t => t.TreasureName)
                                     .Skip((page - 1) * PageSize)
                                     .Take(PageSize),
+                //分页信息
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
+                    //总页数，无选择分类这全部，否则按当前的分类
                     TotalItem = category == null
                                           ? repository.Treasures.Count()
                                           : repository.Treasures.Where(e => e.TreasureType == category).Count()
                 },
+                //当前分类
                 CurrentCategory = category
             };
             return View(model);

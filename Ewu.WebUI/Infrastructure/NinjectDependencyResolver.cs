@@ -55,6 +55,7 @@ namespace Ewu.WebUI.Infrastructure
         //这里存放绑定
         private void AddBindings()
         {
+            //绑定Treasure存储库的接口与上下文类
             kernel.Bind<ITreasuresRepository>().To<EFTreasureRepository>();
 
             EmailSettings emailSettings = new EmailSettings

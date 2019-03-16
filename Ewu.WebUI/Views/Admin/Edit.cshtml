@@ -9,10 +9,12 @@
     <div class="panel-heading">
         <h3>Edit @Model.TreasureName</h3>
     </div>
-    @using (Html.BeginForm("Edit","Admin",FormMethod.Post,new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
     <div class="panel-body">
+        @*物品UID*@
         @Html.HiddenFor(m => m.TreasureUID)
+        @*遍历所有的属性*@
         @foreach (var property in ViewData.ModelMetadata.Properties)
         {
             switch (property.PropertyName)

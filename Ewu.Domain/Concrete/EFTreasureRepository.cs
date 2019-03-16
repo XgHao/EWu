@@ -8,10 +8,18 @@ using Ewu.Domain.Entities;
 
 namespace Ewu.Domain.Concrete
 {
+    /// <summary>
+    /// 存储库类，实现ITreasureRepository接口
+    /// </summary>
     public class EFTreasureRepository : ITreasuresRepository
     {
+        //一个EFDBContext实例，从数据库接受数据
         private EFDBContext context = new EFDBContext();
 
+        /// <summary>
+        /// 实现接口中的方法
+        /// 赋予Treasures模型类
+        /// </summary>
         public IEnumerable<Treasure> Treasures
         {
             get { return context.Treasures; }

@@ -8,24 +8,36 @@ using Ewu.Domain.Entities;
 
 namespace Ewu.WebUI.Controllers
 {
-    [Authorize]
+    /// <summary>
+    /// 管理员控制器
+    /// </summary>
+    [Authorize]     //启动验证
     public class AdminController : Controller
     {
+        //物品存储库
         private ITreasuresRepository repository;
 
+        //构造函数，传递存储库
         public AdminController(ITreasuresRepository repo)
         {
             repository = repo;
         }
 
-        // GET: Admin
+        // 显示主页
         public ActionResult Index()
         {
             return View(repository.Treasures);
         }
 
+
+        /// <summary>
+        /// 编辑物品
+        /// </summary>
+        /// <param name="treasureUID">物品的UID</param>
+        /// <returns></returns>
         public ViewResult Edit(Guid treasureUID)
         {
+            //根据UID获取物品对象
             Treasure treasure = repository.Treasures.FirstOrDefault(t => t.TreasureUID == treasureUID);
             return View(treasure);
         }

@@ -21,6 +21,7 @@
         </tr>
     </thead>
     <tbody>
+        @*遍历收藏列表*@
         @foreach(var line in Model.Favorite.Lines)
         {
             <tr>
@@ -31,13 +32,14 @@
                     @((line.Quantity * line.Treasure.BrowseNum))
                 </td>
                 <td>
-                    @using(Html.BeginForm(
-                            actionName:"RemoveFromFavorite",
-                            controllerName:"Favorite"
+                    @*移除收藏的按钮*@
+                    @using (Html.BeginForm(
+                            actionName: "RemoveFromFavorite",
+                            controllerName: "Favorite"
                         ))
                     {
-                        @Html.Hidden("TreasureUID",line.Treasure.TreasureUID)
-                        @Html.HiddenFor(x=>x.ReturnUrl)
+                        @Html.Hidden("TreasureUID", line.Treasure.TreasureUID)
+                        @Html.HiddenFor(x => x.ReturnUrl)
                         <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
                     }
                 </td>
@@ -48,6 +50,7 @@
         <tr>
             <td colspan="3" class="text-right">Total:</td>
             <td class="text-right">
+                @*总计的价格*@
                 @Model.Favorite.ComputeTotalValue()
             </td>
         </tr>
@@ -55,7 +58,9 @@
 </table>
 
 <div class="text-center">
+    @*返回物品列表*@
     <a class="btn btn-primary" href="@Model.ReturnUrl">Return</a>
+    @*添加结算按钮*@
     @Html.ActionLink(
         linkText: "Checkout Now",
         actionName: "Checkout",

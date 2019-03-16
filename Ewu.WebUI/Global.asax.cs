@@ -16,6 +16,7 @@ namespace Ewu.WebUI
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
+            //注册自定义的FavoriteModelBinder类
             ModelBinders.Binders.Add(typeof(Favorite), new FavoriteModelBinder());
         }
     }
