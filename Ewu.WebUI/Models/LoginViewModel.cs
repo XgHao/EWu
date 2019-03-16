@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ewu.WebUI.Models
 {
+    /// <summary>
+    /// 登录视图模型
+    /// </summary>
     public class LoginViewModel
     {
         [Required]

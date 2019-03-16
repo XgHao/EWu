@@ -59,8 +59,15 @@ namespace Ewu.WebUI.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// 获取图片
+        /// FileContentResult将二进制文件的内容发送到响应
+        /// </summary>
+        /// <param name="treasureUID">操作的物品对象GUID</param>
+        /// <returns></returns>
         public FileContentResult GetImage(Guid treasureUID)
         {
+            //根据GUID获取对象
             Treasure trea = repository.Treasures.FirstOrDefault(t => t.TreasureUID == treasureUID);
             if (trea != null)
             {

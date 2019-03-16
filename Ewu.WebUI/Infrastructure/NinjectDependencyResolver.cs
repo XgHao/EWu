@@ -58,12 +58,10 @@ namespace Ewu.WebUI.Infrastructure
             //绑定Treasure存储库的接口与上下文类
             kernel.Bind<ITreasuresRepository>().To<EFTreasureRepository>();
 
-            EmailSettings emailSettings = new EmailSettings
-            {
-
-            };
-
+            //绑定订单接口和邮箱订单
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("setting", emailSettings);
+
+            //绑定验证接口，注册FormsAuthProvider
             kernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }

@@ -9,6 +9,8 @@
     <div class="panel-heading">
         <h3>Edit @Model.TreasureName</h3>
     </div>
+    @*因为此处也会被Create方法调用，所以要固定actionname和controlname参数*@
+    @*只有当HTML的form元素定义了一个值为multipart/form-data的enctype时，web浏览器才会适当的上传文件*@
     @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
     <div class="panel-body">
@@ -49,11 +51,13 @@
                                 }
                             )
                         }
+                        @*验证消息-错误的格式*@
                         @Html.ValidationMessage(property.PropertyName)
                     </div>
                 break;
             }
         }
+        @*图像上传*@
         <div class="form-group">
             <div style="position:relative;">
                 <label>Image</label>
@@ -67,6 +71,7 @@
                 </a>
                 <span class="label label-info" id="upload-file-info"></span>
             </div>
+            @*模型中有无原图像*@
             @if (Model.ImageData == null)
             {
                 <div class="form-control-static">No Image</div>
