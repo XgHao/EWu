@@ -59,7 +59,7 @@ namespace Ewu.WebUI.Infrastructure
             kernel.Bind<ITreasuresRepository>().To<EFTreasureRepository>();
 
             //绑定订单接口和邮箱订单
-            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("setting", emailSettings);
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("setting", new EmailSettings { });
 
             //绑定验证接口，注册FormsAuthProvider
             kernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
