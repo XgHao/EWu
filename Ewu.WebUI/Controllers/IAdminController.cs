@@ -15,6 +15,7 @@ namespace Ewu.WebUI.Controllers
     /// <summary>
     /// 用于集中化的用户管理工具
     /// </summary>
+    [Authorize(Roles = "Admin")]
     public class IAdminController : Controller
     {
         // GET: IAdmin

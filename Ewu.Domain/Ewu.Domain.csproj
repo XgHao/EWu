@@ -105,6 +105,7 @@
     <Compile Include="Concrete\EFDBContext.cs" />
     <Compile Include="Concrete\EFTreasureRepository.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
+    <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Deal.cs" />
     <Compile Include="Entities\Favorite.cs" />

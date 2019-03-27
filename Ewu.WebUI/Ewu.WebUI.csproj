@@ -192,18 +192,22 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\FavoriteController.cs" />
+    <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\IAdminController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\NavController.cs" />
+    <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\TreasureController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\IdentityHelpers.cs" />
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
     <Compile Include="Infrastructure\Binders\FavoriteModelBinder.cs" />
     <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Infrastructure\Identity\AppIdentityDbContext.cs" />
+    <Compile Include="Infrastructure\Identity\AppRoleManager.cs" />
     <Compile Include="Infrastructure\Identity\AppUserManager.cs" />
     <Compile Include="Infrastructure\Identity\Validator\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\Identity\Validator\CustomUserValidator.cs" />
@@ -248,6 +252,10 @@
     <Content Include="Views\IAdmin\Create.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\IAdmin\Edit.cshtml" />
+    <Content Include="Views\IAccount\Login.cshtml" />
+    <Content Include="Views\RoleAdmin\Index.cshtml" />
+    <Content Include="Views\RoleAdmin\Create.cshtml" />
+    <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Ewu.Domain.Entities;
+using Microsoft.AspNet.Identity;
 
 namespace Ewu.WebUI.Infrastructure.Identity
 {
@@ -61,6 +62,39 @@ namespace Ewu.WebUI.Infrastructure.Identity
         public void PerformInitialSetup(AppIdentityDbContext context)
         {
             //数据初始化操作
+            //新建管理器
+            AppUserManager userMgr = new AppUserManager(new UserStore<AppUser>(context));
+            AppRoleManager roleMgr = new AppRoleManager(new RoleStore<AppRole>(context));
+
+            #region 默认用户信息
+            string roleName = "Admin";
+            string userName = "XgHao";
+            string password = "MySecret";
+            string eamil = "zxh@example.com";
+            #endregion
+
+            //当前角色名不存在
+            if (!roleMgr.RoleExists(roleName))
+            {
+                //根据默认角色名新建
+                roleMgr.Create(new AppRole(roleName));
+            }
+
+            //根据用户名查找用户对象
+            AppUser user = userMgr.FindByName(userName);
+            //不存在
+            if (user == null)
+            {
+                //根据用户默认信息创建
+                userMgr.Create(new AppUser { UserName = userName, Email = eamil }, password);
+                user = userMgr.FindByName(userName);
+            }
+
+            //当前用户不存在默认的角色时
+            if (!userMgr.IsInRole(user.Id, roleName))
+            {
+                userMgr.AddToRole(user.Id, roleName);
+            }
         }
     }
 }

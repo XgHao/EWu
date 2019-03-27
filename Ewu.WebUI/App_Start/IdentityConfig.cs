@@ -24,12 +24,14 @@ namespace Ewu.WebUI.App_Start
             //CreatePerOwinContext用于创建AppUserManager的新实例和APPIdentityDbContext类用于每一个请求
             app.CreatePerOwinContext<AppIdentityDbContext>(AppIdentityDbContext.Create);
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
+            //创建AppRoleManager角色管理器实例
+            app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
 
             //该方法告诉ASP.NET Identity如何用Cookie去标识已认证的用户
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/IAccount/Login")
             });
         }
     }
