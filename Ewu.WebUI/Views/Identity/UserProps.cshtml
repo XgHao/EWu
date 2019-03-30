@@ -1,0 +1,60 @@
+﻿@using Ewu.Domain.Entities
+@using Ewu.WebUI.Models
+@model AppUser
+
+@{
+    ViewBag.Title = "UserProps";
+    Layout = "~/Views/Shared/_IdentityLayout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Custom User Properties</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Gender</th>
+            <td>@Model.Gender</td>
+        </tr>
+        <tr>
+            <th>Signature</th>
+            <td>@Model.Signature</td>
+        </tr>
+        <tr>
+            <th>RealName</th>
+            <td>@Model.RealName</td>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <td>@Model.Age</td>
+        </tr>
+        <tr>
+            <th>IDCardNO</th>
+            <td>@Model.IDCardNO</td>
+        </tr>
+    </table>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label>Gender</label>
+        @Html.DropDownListFor(x => x.Gender, new SelectList(Enum.GetNames(typeof(Gender))))
+    </div>
+    <div class="form-group">
+        <label>Siguature</label>
+        @Html.TextAreaFor(x => x.Signature)
+    </div>
+    <div class="form-group">
+        <label>RealName</label>
+        @Html.TextBoxFor(x => x.RealName)
+    </div>
+    <div class="form-group">
+        <label>Age</label>
+        @Html.TextBoxFor(x => x.Age, new { @type = "number" })
+    </div>
+    <div class="form-group">
+        <label>IDCardNO</label>
+        @Html.TextBoxFor(x => x.IDCardNO, new { @type = "number" })
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+}
+

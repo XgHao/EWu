@@ -212,6 +212,12 @@
     <Compile Include="Infrastructure\Identity\Validator\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\Identity\Validator\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Migrations\201903300733188_MoreInfoProperty.cs" />
+    <Compile Include="Migrations\201903300733188_MoreInfoProperty.Designer.cs">
+      <DependentUpon>201903300733188_MoreInfoProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ChangeInfoViewModel.cs" />
     <Compile Include="Models\FavoriteIndexViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
@@ -256,6 +262,7 @@
     <Content Include="Views\RoleAdmin\Index.cshtml" />
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
+    <Content Include="Views\Identity\UserProps.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -277,6 +284,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903300733188_MoreInfoProperty.resx">
+      <DependentUpon>201903300733188_MoreInfoProperty.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

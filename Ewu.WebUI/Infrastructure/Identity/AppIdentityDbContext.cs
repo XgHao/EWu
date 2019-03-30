@@ -40,61 +40,63 @@ namespace Ewu.WebUI.Infrastructure.Identity
         }
     }
 
-    /// <summary>
-    /// 种植类-在Entity Framework的Code First特性第一次创建数据库架构使用
-    /// </summary>
-    public class IdentityDbInit : DropCreateDatabaseIfModelChanges<AppIdentityDbContext>
-    {
-        /// <summary>
-        /// 种植数据库
-        /// </summary>
-        /// <param name="context"></param>
-        protected override void Seed(AppIdentityDbContext context)
-        {
-            PerformInitialSetup(context);
-            base.Seed(context);
-        }
+    public class IdentityDbInit : NullDatabaseInitializer<AppIdentityDbContext> { }
 
-        /// <summary>
-        /// 数据库初始化配置
-        /// </summary>
-        /// <param name="context"></param>
-        public void PerformInitialSetup(AppIdentityDbContext context)
-        {
-            //数据初始化操作
-            //新建管理器
-            AppUserManager userMgr = new AppUserManager(new UserStore<AppUser>(context));
-            AppRoleManager roleMgr = new AppRoleManager(new RoleStore<AppRole>(context));
+    ///// <summary>
+    ///// 种植类-在Entity Framework的Code First特性第一次创建数据库架构使用
+    ///// </summary>
+    //public class IdentityDbInit : DropCreateDatabaseIfModelChanges<AppIdentityDbContext>
+    //{
+    //    /// <summary>
+    //    /// 种植数据库
+    //    /// </summary>
+    //    /// <param name="context"></param>
+    //    protected override void Seed(AppIdentityDbContext context)
+    //    {
+    //        PerformInitialSetup(context);
+    //        base.Seed(context);
+    //    }
 
-            #region 默认用户信息
-            string roleName = "Admin";
-            string userName = "XgHao";
-            string password = "MySecret";
-            string eamil = "zxh@example.com";
-            #endregion
+    //    /// <summary>
+    //    /// 数据库初始化配置
+    //    /// </summary>
+    //    /// <param name="context"></param>
+    //    public void PerformInitialSetup(AppIdentityDbContext context)
+    //    {
+    //        //数据初始化操作
+    //        //新建管理器
+    //        AppUserManager userMgr = new AppUserManager(new UserStore<AppUser>(context));
+    //        AppRoleManager roleMgr = new AppRoleManager(new RoleStore<AppRole>(context));
 
-            //当前角色名不存在
-            if (!roleMgr.RoleExists(roleName))
-            {
-                //根据默认角色名新建
-                roleMgr.Create(new AppRole(roleName));
-            }
+    //        #region 默认用户信息
+    //        string roleName = "Admin";
+    //        string userName = "XgHao";
+    //        string password = "MySecret";
+    //        string eamil = "zxh@example.com";
+    //        #endregion
 
-            //根据用户名查找用户对象
-            AppUser user = userMgr.FindByName(userName);
-            //不存在
-            if (user == null)
-            {
-                //根据用户默认信息创建
-                userMgr.Create(new AppUser { UserName = userName, Email = eamil }, password);
-                user = userMgr.FindByName(userName);
-            }
+    //        //当前角色名不存在
+    //        if (!roleMgr.RoleExists(roleName))
+    //        {
+    //            //根据默认角色名新建
+    //            roleMgr.Create(new AppRole(roleName));
+    //        }
 
-            //当前用户不存在默认的角色时
-            if (!userMgr.IsInRole(user.Id, roleName))
-            {
-                userMgr.AddToRole(user.Id, roleName);
-            }
-        }
-    }
+    //        //根据用户名查找用户对象
+    //        AppUser user = userMgr.FindByName(userName);
+    //        //不存在
+    //        if (user == null)
+    //        {
+    //            //根据用户默认信息创建
+    //            userMgr.Create(new AppUser { UserName = userName, Email = eamil }, password);
+    //            user = userMgr.FindByName(userName);
+    //        }
+
+    //        //当前用户不存在默认的角色时
+    //        if (!userMgr.IsInRole(user.Id, roleName))
+    //        {
+    //            userMgr.AddToRole(user.Id, roleName);
+    //        }
+    //    }
+    //}
 }

@@ -1,45 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+using Ewu.Domain.Entities;
 
-namespace Ewu.Domain.Entities
+namespace Ewu.WebUI.Models
 {
-
-
-
     /// <summary>
-    /// 用户类派生于IdentityUser基础用户类
+    /// 更改信息模型
     /// </summary>
-    public class AppUser : IdentityUser
+    public class ChangeInfoViewModel
     {
-        #region 集成IdentityUser中原有的属性
-        //Id-用户唯一标识
-        //UserName-用户名称
-        //Email-邮箱
-        //EmailConfirmed-邮箱确认
-        //PasswordHash-密码哈希值
-        //SecurityStamp-安全标记，在用户凭据相关的内容更改时，必须修改该值
-        //PhoneNumber-手机号
-        //PhoneNumberConfirmed-手机号确认
-        //TwoFactorEnabled-是否开启双因子验证
-        //LockoutEnabled-只是这个用户可不可以被锁定
-        //LockoutEndDateUtc-指定锁定的到期日期
-        //AccessFailedCount-记录用户登录失败的次数
-        #endregion
-
         //基本信息
-        //public string UserName { get; set; }        //用户名
         public string HeadPortrait { get; set; }    //头像
+        [Required]
         public Gender Gender { get; set; }          //性别
+        [Required]
         public string Signature { get; set; }       //个性签名
 
         //个人信息
+        [Required]
         public string RealName { get; set; }        //真实姓名
         public DateTime BirthDay { get; set; }      //出生年月
+        [Required]
         public int Age { get; set; }                //年龄
+        [Required]
         public string IDCardNO { get; set; }        //身份证号码
         public string NativePlace { get; set; }     //籍贯
         //public string PhoneNumber { get; set; }     //联系方式
@@ -62,13 +48,5 @@ namespace Ewu.Domain.Entities
         //社交
         public int Notice { get; set; }             //未读的通知数
         public int Favorite { get; set; }           //收藏数
-    }
-
-    /// <summary>
-    /// 性别枚举
-    /// </summary>
-    public enum Gender
-    {
-        男,女,保密
     }
 }
