@@ -648,11 +648,10 @@
     <Content Include="fonts\Linearicons-Free.ttf" />
     <Content Include="fonts\Linearicons-Free.woff" />
     <Content Include="fonts\Linearicons-Free.woff2" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery-1.12.3.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.3.js" />
+    <Content Include="Scripts\jquery-1.12.3.min.js" />
+    <Content Include="Scripts\jquery-1.12.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -704,6 +703,7 @@
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TreasureController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -738,8 +738,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Treasure\List.cshtml" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -770,6 +768,8 @@
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Identity\UserProps.cshtml" />
+    <Content Include="Views\Shared\_EwuLayout.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
