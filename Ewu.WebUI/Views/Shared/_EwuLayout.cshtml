@@ -423,10 +423,13 @@
         </div>
     </div>
 
+    @RenderSection("signup")
 
     @RenderSection("DailyRecommend")
-    
+
     @RenderSection("NewTreasure")
+
+    @RenderSection("Random")
 
     <!--页尾底栏-->
     <footer class="footer-area">
@@ -571,7 +574,8 @@
 
 
     <!-- JS -->
-    <script src="http://ditu.google.cn/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script>
+    <!--script src="http://ditu.google.cn/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script-->
+    <script src="~/Scripts/js.js"></script>
     <script src="~/Scripts/vendor/jquery/jquery-1.12.3.js"></script>
     <script src="~/Scripts/vendor/jquery/popper.min.js"></script>
     <script src="~/Scripts/vendor/jquery/uikit.min.js"></script>

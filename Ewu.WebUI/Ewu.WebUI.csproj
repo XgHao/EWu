@@ -657,6 +657,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -692,6 +693,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\IdentityORC.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -722,6 +724,10 @@
     <Compile Include="Migrations\201903300733188_MoreInfoProperty.cs" />
     <Compile Include="Migrations\201903300733188_MoreInfoProperty.Designer.cs">
       <DependentUpon>201903300733188_MoreInfoProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904020817201_IDCardProperty.cs" />
+    <Compile Include="Migrations\201904020817201_IDCardProperty.Designer.cs">
+      <DependentUpon>201904020817201_IDCardProperty.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChangeInfoViewModel.cs" />
@@ -770,6 +776,7 @@
     <Content Include="Views\Identity\UserProps.cshtml" />
     <Content Include="Views\Shared\_EwuLayout.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\SignUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -795,6 +802,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903300733188_MoreInfoProperty.resx">
       <DependentUpon>201903300733188_MoreInfoProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020817201_IDCardProperty.resx">
+      <DependentUpon>201904020817201_IDCardProperty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

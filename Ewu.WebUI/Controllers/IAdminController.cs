@@ -39,11 +39,29 @@ namespace Ewu.WebUI.Controllers
         /// <param name="model">目标用户验证模型</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Create(CreateModel model)
+        public async Task<ActionResult> Create(CreateModel model, HttpPostedFileBase idcardImg = null)
         {
             //验证模型无误
-            if (ModelState.IsValid)
+            if (true)
             {
+                if (idcardImg != null)
+                {
+                    //文件MimeType
+                    model.IDCardImageMimeType = idcardImg.ContentType;
+                    //
+                    model.IDCardImageData = new byte[idcardImg.ContentLength];
+                    //数据以二进制的形势写入到流中
+                    idcardImg.InputStream.Read(model.IDCardImageData, 0, idcardImg.ContentLength);
+
+                    string base64 = Convert.ToBase64String(model.IDCardImageData);
+                    string tp = null;
+                }
+                //无图片
+                else
+                {
+
+                }
+
                 //根据模型生成对应的用户实例
                 AppUser user = new AppUser
                 {

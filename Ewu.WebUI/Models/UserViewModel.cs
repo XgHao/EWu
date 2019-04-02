@@ -8,18 +8,35 @@ using Ewu.Domain.Entities;
 namespace Ewu.WebUI.Models
 {
     /// <summary>
-    /// 创建新用户验证模型
+    /// 注册用户验证模型
     /// </summary>
     public class CreateModel
     {
-        [Required]
+        public string Id { get; set; }      
+
         public string Name { get; set; }        //用户名
 
-        [Required]
         public string Email { get; set; }       //邮箱
 
-        [Required]
         public string Password { get; set; }    //密码
+
+        public string PhoneNumber { get; set; } //联系方式
+
+        public string RealName { get; set; }    //真实姓名
+
+        public string Gender { get; set; }      //性别 
+
+        public DateTime BirthDay { get; set; }  //出生年月
+
+        public int Age { get; set; }            //年龄
+
+        public string IDCardNO { get; set; }    //身份证号码
+
+        public string NativePlace { get; set; } //籍贯
+
+        //身份证照
+        public byte[] IDCardImageData { get; set; }
+        public string IDCardImageMimeType { get; set; }
     }
 
     /// <summary>

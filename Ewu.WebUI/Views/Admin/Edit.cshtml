@@ -13,7 +13,7 @@
     @*只有当HTML的form元素定义了一个值为multipart/form-data的enctype时，web浏览器才会适当的上传文件*@
     @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-    <div class="panel-body">
+        <div class="panel-body">
         @*物品UID*@
         @Html.HiddenFor(m => m.TreasureUID)
         @*遍历所有的属性*@

@@ -14,5 +14,10 @@ namespace Ewu.WebUI.Controllers
             return View();
         }
 
+
+        public ActionResult SignUp()
+        {
+            return View();
+        }
     }
 }

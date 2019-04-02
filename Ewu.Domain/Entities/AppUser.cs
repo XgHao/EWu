@@ -62,6 +62,10 @@ namespace Ewu.Domain.Entities
         //社交
         public int Notice { get; set; }             //未读的通知数
         public int Favorite { get; set; }           //收藏数
+
+        //身份证照
+        public byte[] IDCardImageData { get; set; }
+        public string IDCardImageMimeType { get; set; }
     }
 
     /// <summary>

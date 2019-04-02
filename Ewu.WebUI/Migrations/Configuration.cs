@@ -69,6 +69,8 @@ namespace Ewu.WebUI.Migrations
                 dbUser.RealName = dbUser.UserName + "(用户名临时替代)";
                 dbUser.Age = 0;
                 dbUser.IDCardNO = "未知";
+                dbUser.IDCardImageData = null;
+                dbUser.IDCardImageMimeType = null;
             }
             context.SaveChanges();
         }
