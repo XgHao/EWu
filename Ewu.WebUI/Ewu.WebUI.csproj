@@ -693,7 +693,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\IdentityORC.cs" />
+    <Compile Include="API\Identity.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
