@@ -397,11 +397,11 @@
 @section signup{
     <section class="signup_area section--padding2">
         <div class="container">
-            <div class="row">
-                <!--1.输入用户信息-->
-                <div class="col-lg-6 offset-lg-3">
-                    @using (Html.BeginForm("Create", "IAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
+            @using (Html.BeginForm("Create", "IAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <!--1.输入用户信息-->
+                    <div class="col-lg-6 offset-lg-0">
                         <div class="cardify signup_form">
                             <!--标题-->
                             <div class="login--header">
@@ -428,6 +428,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="cardify signup_form">
                             <!--标题-->
                             <div class="login--header">
@@ -444,34 +446,44 @@
                                         <a class="btn" href="javascript:;">
                                             Choose File...
                                             <input type="file" name="idcardImg" size="40"
-                                                    style="position:absolute; z-index:2;top:0;
+                                                   style="position:absolute; z-index:2;top:0;
                                 left:0;filter: alpha(opacity=0); opacity:0;
                                 background-color:transparent; color:transparent;"
-                                                    onchange='$("#upload-file-info").html($(this).val());' />
+                                                   onchange='$("#upload-file-info").html($(this).val());' />
                                         </a>
                                         <span class="label label-info" id="upload-file-info"></span>
                                     </div>
-                                    @*模型中有无原图像*@
-                                    @*@if (Model.IDCardImageData==null)
-                                    {
-                                        <div class="form-control-static">No Image</div>
-                                    }
-                                    else
-                                    {
-                                        <img class="img-thumbnail" width="250" height="150" src="@Url.Action("GetImage", "IAdmin", new { Model.Id })" />
-                                    }*@
+                                </div>
+                                <div class="form-group">
+                                    <label>身份证号码</label>
+                                    @Html.TextBoxFor(x => x.IDCardNO, new { @class = "text_field", @placeholder = "请上传身份证正面照", @readonly = "true" })
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label>出生日期</label>
+                                            @Html.TextBoxFor(x => x.BirthDay, new { @class="text_field", @placeholder = "请上传身份证正面照", @readonly = "true"})
+                                        </div>
+                                        <div class="col-6">
+                                            <label>年龄</label>
+                                            @Html.TextBoxFor(x=>x.Age, new { @class="text_field", @placeholder = "请上传身份证正面照", @readonly = "true"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn--fullwidth btn-primary" />
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    }
+                    </div>
                 </div>
-            </div>
+            }
+
         </div>
     </section>
 }
 
-<h2>Create User</h2>
+@*<h2>Create User</h2>
 @Html.ValidationSummary(false)
 @using (Html.BeginForm())
 {
@@ -497,7 +509,7 @@
             @class = "btn btn-default"
         }
     )
-}
+}*@
 
 
 @section DailyRecommend{}

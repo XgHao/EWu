@@ -42,7 +42,7 @@ namespace Ewu.WebUI.Controllers
         public async Task<ActionResult> Create(CreateModel model, HttpPostedFileBase idcardImg = null)
         {
             //验证模型无误
-            if (true)
+            if (ModelState.IsValid)
             {
                 if (idcardImg != null)
                 {

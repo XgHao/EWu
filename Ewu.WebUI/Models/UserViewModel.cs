@@ -12,13 +12,17 @@ namespace Ewu.WebUI.Models
     /// </summary>
     public class CreateModel
     {
-        public string Id { get; set; }      
-
+        [Required]
         public string Name { get; set; }        //用户名
 
         public string Email { get; set; }       //邮箱
 
+        [Required]
         public string Password { get; set; }    //密码
+
+        [Required]
+        [Compare("Password")]
+        public string ConfirmedPassWd { get; set; } //确认密码
 
         public string PhoneNumber { get; set; } //联系方式
 
