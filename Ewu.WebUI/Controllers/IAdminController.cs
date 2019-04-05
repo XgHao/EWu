@@ -9,6 +9,7 @@ using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models;
 using Ewu.Domain.Entities;
 using System.Threading.Tasks;
+using Ewu.WebUI.API;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -42,7 +43,8 @@ namespace Ewu.WebUI.Controllers
         public async Task<ActionResult> Create(CreateModel model, HttpPostedFileBase idcardImg = null)
         {
             //验证模型无误
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            if(true)
             {
                 if (idcardImg != null)
                 {
@@ -54,7 +56,13 @@ namespace Ewu.WebUI.Controllers
                     idcardImg.InputStream.Read(model.IDCardImageData, 0, idcardImg.ContentLength);
 
                     string base64 = Convert.ToBase64String(model.IDCardImageData);
-                    string tp = null;
+                    //使用API获取身份证信息
+                    Identity iden = new Identity();
+                    Dictionary<string,object> res = iden.IdentityORC(base64);
+                    if (true)
+                    {
+
+                    }
                 }
                 //无图片
                 else
