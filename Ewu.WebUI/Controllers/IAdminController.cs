@@ -10,6 +10,7 @@ using Ewu.WebUI.Models;
 using Ewu.Domain.Entities;
 using System.Threading.Tasks;
 using Ewu.WebUI.API;
+using System.Globalization;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -43,8 +44,7 @@ namespace Ewu.WebUI.Controllers
         public async Task<ActionResult> Create(CreateModel model, HttpPostedFileBase idcardImg = null)
         {
             //验证模型无误
-            //if (ModelState.IsValid)
-            if(true)
+            if(ModelState.IsValid)
             {
                 if (idcardImg != null)
                 {
@@ -57,11 +57,26 @@ namespace Ewu.WebUI.Controllers
 
                     string base64 = Convert.ToBase64String(model.IDCardImageData);
                     //使用API获取身份证信息
-                    Identity iden = new Identity();
-                    Dictionary<string,object> res = iden.IdentityORC(base64);
-                    if (true)
-                    {
 
+                    Dictionary<string, string> info = new Identity().IdentityORC(base64);
+                    //识别成功
+                    if (info["Status"] == "SUCCESS")
+                    {
+                        DateTime birth;
+                        //转换时间
+                        if(DateTime.TryParseExact(info["birth"],"yyyyMMdd",null,DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AdjustToUniversal,out birth))
+                        {
+                            model.BirthDay = birth;
+                            model.Age = DateTime.Now.Year - birth.Year;
+                        }
+                        model.NativePlace = info["address"];
+                        model.RealName = info["name"];
+                        model.IDCardNO = info["num"];
+                        model.Gender = info["sex"];
+                    }
+                    else if(info["Status"] == "ERROR")
+                    {
+                        return View(model);
                     }
                 }
                 //无图片

@@ -424,7 +424,7 @@
                                 <div class="form-group">
                                     <span class="lnr lnr-lock"></span>
                                     <label for="urname">确认密码</label>
-                                    @Html.PasswordFor(x => x.Password, new { @class = "text_field", @placeholder = "请再输入一次密码" })
+                                    @Html.PasswordFor(x => x.ConfirmedPassWd, new { @class = "text_field", @placeholder = "请再输入一次密码" })
                                 </div>
                             </div>
                         </div>
@@ -433,7 +433,7 @@
                         <div class="cardify signup_form">
                             <!--标题-->
                             <div class="login--header">
-                                <h3>二、上传你的正面身份证照</h3>
+                                <h3>二、验证身份及绑定手机号码</h3>
                                 <p>
                                     请上传你的身份证正面照(人物面非国徽面)，系统会获取你的个人信息
                                 </p>
@@ -442,9 +442,10 @@
                                 @*图像上传*@
                                 <div class="form-group">
                                     <div style="position:relative;">
-                                        <label>Image</label>
-                                        <a class="btn" href="javascript:;">
-                                            Choose File...
+                                        <span class="lnr lnr-license"></span>
+                                        <label for="idCard">身份证正面照</label>
+                                        <a class="lnr lnr-upload" href="javascript:;">
+                                            点击上传
                                             <input type="file" name="idcardImg" size="40"
                                                    style="position:absolute; z-index:2;top:0;
                                 left:0;filter: alpha(opacity=0); opacity:0;
@@ -455,18 +456,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>身份证号码</label>
-                                    @Html.TextBoxFor(x => x.IDCardNO, new { @class = "text_field", @placeholder = "请上传身份证正面照", @readonly = "true" })
+                                    <span class="lnr lnr-phone-handset"></span>
+                                    <label for="phonenum">联系方式</label>
+                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "text_field", @placeholder = "请输入手机号码", @type = "number" })
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-6">
-                                            <label>出生日期</label>
-                                            @Html.TextBoxFor(x => x.BirthDay, new { @class="text_field", @placeholder = "请上传身份证正面照", @readonly = "true"})
+                                            @Html.TextBoxFor(x => x.CAPTCHA, new { @class = "text_field", @placeholder = "请输入收到的验证码" })
                                         </div>
                                         <div class="col-6">
-                                            <label>年龄</label>
-                                            @Html.TextBoxFor(x=>x.Age, new { @class="text_field", @placeholder = "请上传身份证正面照", @readonly = "true"})
+                                            <input type="submit" id="setCode" value="发送验证码" class="btn btn--fullwidth btn-success" /> 
                                         </div>
                                     </div>
                                 </div>
@@ -483,35 +483,8 @@
     </section>
 }
 
-@*<h2>Create User</h2>
-@Html.ValidationSummary(false)
-@using (Html.BeginForm())
-{
-    <div class="form-group">
-        <label>Name</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    @Html.ActionLink(
-        linkText: "Cancel",
-        actionName: "Index",
-        routeValues: null,
-        htmlAttributes: new
-        {
-            @class = "btn btn-default"
-        }
-    )
-}*@
-
 
 @section DailyRecommend{}
 @section NewTreasure{}
 @section Random{}
+

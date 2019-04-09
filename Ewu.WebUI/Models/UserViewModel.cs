@@ -41,6 +41,9 @@ namespace Ewu.WebUI.Models
         //身份证照
         public byte[] IDCardImageData { get; set; }
         public string IDCardImageMimeType { get; set; }
+
+        public string CAPTCHA { get; set; }     //验证码
+        public bool IsMatch { get; set; }       //验证码是否通过
     }
 
     /// <summary>

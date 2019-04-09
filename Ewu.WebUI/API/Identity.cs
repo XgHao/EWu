@@ -7,12 +7,18 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
+using Newtonsoft.Json.Linq;
 
 namespace Ewu.WebUI.API
 {
     public class Identity
     {
-        public Dictionary<string,object> IdentityORC(string base64)
+        /// <summary>
+        /// 返回结果字典集
+        /// </summary>
+        /// <param name="base64"></param>
+        /// <returns></returns>
+        public Dictionary<string, string> IdentityORC(string base64)
         {
             string url = "http://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json";
             string appcode = "4b677fa79cc14896a78936a7dde89445";
@@ -91,29 +97,28 @@ namespace Ewu.WebUI.API
                 httpResponse = (HttpWebResponse)ex.Response;
             }
 
-            Dictionary<string, object> result = new Dictionary<string, object>();
+            //保存结果的字典集
+            Dictionary<string, string> result = new Dictionary<string, string>();
 
+            //响应状态-请求不成功
             if (httpResponse.StatusCode != HttpStatusCode.OK)
             {
-                result.Add("httpResponse", httpRequest);
-                //ViewBag.httpResponse = httpResponse;
-                Stream st = httpResponse.GetResponseStream();
-                StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
-                result.Add("reader2", reader);
-                //ViewBag.reader2 = reader.ReadToEnd();
-                //Console.WriteLine(reader.ReadToEnd());
+                result.Add("Status", "ERROR");
             }
+            //请求成功
             else
             {
-
+                result.Add("Status", "SUCCESS");
                 Stream st = httpResponse.GetResponseStream();
                 StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
-                result.Add("reader2", reader.ReadToEnd());
-
-                //ViewBag.reader2 = reader.ReadToEnd();
-                //Console.WriteLine(reader.ReadToEnd());
+                JObject personInfo = JObject.Parse(reader.ReadToEnd());
+                result.Add("address", personInfo["address"].ToString() ?? string.Empty);
+                result.Add("birth", personInfo["birth"].ToString() ?? string.Empty);
+                result.Add("name", personInfo["name"].ToString() ?? string.Empty);
+                result.Add("nationality", personInfo["nationality"].ToString() ?? string.Empty);
+                result.Add("num", personInfo["num"].ToString() ?? string.Empty);
+                result.Add("sex", personInfo["sex"].ToString() ?? string.Empty);
             }
-
             return result;
         }
 
