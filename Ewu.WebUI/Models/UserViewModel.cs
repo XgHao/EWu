@@ -12,15 +12,15 @@ namespace Ewu.WebUI.Models
     /// </summary>
     public class CreateModel
     {
-        [Required]
+        [Required(ErrorMessage = "请填写用户名")]
         public string Name { get; set; }        //用户名
 
         public string Email { get; set; }       //邮箱
 
-        [Required]
+        [Required(ErrorMessage = "请设置你的登录密码")]
         public string Password { get; set; }    //密码
 
-        [Required]
+        [Required(ErrorMessage = "请再次输入你的登录密码")]
         [Compare("Password")]
         public string ConfirmedPassWd { get; set; } //确认密码
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ewu.WebUI.API;
 
 //腾讯云短信
 using qcloudsms_csharp;
@@ -20,48 +21,22 @@ namespace Ewu.WebUI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 获取验证码并发送
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetCode()
         {
             string code = Request["Code"];
             string phoNum = Request["phoNum"];
-
-            //短信应用SDK AppID
-            int appid = 1400187647;
-
-            //短信应用SDK AppKey
-            string appkey = "225561ebc612eb400a62819edd1f192e";
-
-            //需要发送短信的手机号码
-            string[] phoneNumbers = { phoNum };
-
-            //短信模板ID，需要在短信应用中申请
-            int templateId = 281441;
-
-            //签名
-            string smsSign = "郑兴豪个人开发测试";
-
-            try
+            //发送短信
+            string result = new Identity().MobileMsg(code, phoNum);
+            if (result == "OK")
             {
-                SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
-                var info = ssender.sendWithParam("86", phoneNumbers[0], templateId, new[] { code, "5" }, smsSign, "", "");
-                int result = info.result;
-                string errMsg = info.errMsg;
-                return Json(info + "||" + errMsg, JsonRequestBehavior.AllowGet);
-
+                //保存验证码
+                Session.Add("Code", code);
             }
-            catch (JSONException e)
-            {
-                ViewBag.Result = e;
-            }
-            catch (HTTPException e)
-            {
-                ViewBag.Result = e;
-            }
-            catch (Exception e)
-            {
-                ViewBag.Result = e;
-            }
-            return View("Index");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

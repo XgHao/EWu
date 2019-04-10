@@ -8,16 +8,21 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json.Linq;
+//腾讯云短信
+using qcloudsms_csharp;
+using qcloudsms_csharp.json;
+using qcloudsms_csharp.httpclient;
 
 namespace Ewu.WebUI.API
 {
     public class Identity
     {
+        #region 身份证IRC识别
         /// <summary>
-        /// 返回结果字典集
+        /// 身份证OCR识别
         /// </summary>
         /// <param name="base64"></param>
-        /// <returns></returns>
+        /// <returns>返回结果字典集</returns>
         public Dictionary<string, string> IdentityORC(string base64)
         {
             string url = "http://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json";
@@ -264,5 +269,56 @@ namespace Ewu.WebUI.API
                 }
             }
         }
+        #endregion
+
+        #region 手机验证
+
+        /// <summary>
+        /// 发送手机验证码
+        /// </summary>
+        /// <param name="code">前端生成的验证码</param>
+        /// <param name="phoNum">发送的手机号</param>
+        /// <returns>发送结果</returns>
+        public string MobileMsg(string code,string phoNum)
+        {
+            //短信应用SDK AppID
+            int appid = 1400187647;
+
+            //短信应用SDK AppKey
+            string appkey = "225561ebc612eb400a62819edd1f192e";
+
+            //需要发送短信的手机号码
+            string[] phoneNumbers = { phoNum };
+
+            //短信模板ID，需要在短信应用中申请
+            int templateId = 281441;
+
+            //签名
+            string smsSign = "郑兴豪个人开发测试";
+
+            //发送短信
+            try
+            {
+                SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
+                var info = ssender.sendWithParam("86", phoneNumbers[0], templateId, new[] { code, "30" }, smsSign, "", "");
+                string result = info.errMsg;
+                //返回结果
+                return result;
+            }
+            catch (JSONException e)
+            {
+                throw e;
+            }
+            catch (HTTPException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        #endregion
     }
 }

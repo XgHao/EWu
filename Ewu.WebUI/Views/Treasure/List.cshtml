@@ -13,7 +13,7 @@
 
 @*分页信息-页码*@
 <div class="btn-group pull-right">
-    @* 这里使用自定义的PageLinks HTML辅助器生成链接，使用Url.Action输出链接 *@
+    @*这里使用自定义的PageLinks HTML辅助器生成链接，使用Url.Action输出链接*@
     @Html.PageLinks(Model.PagingInfo, x => Url.Action(
                                                  actionName: "List",
                                                  routeValues: new

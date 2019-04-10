@@ -3,16 +3,16 @@
 
     //短信验证码  
     var InterValObj; //timer变量，控制时间    
-    var count = 60; //间隔函数，1秒执行    
-    var curCount;//当前剩余秒数    
+    var InterValObj2; //timer变量，控制时间    
+    var curCount;//当前剩余秒数  
     var code = ""; //验证码    
     var codeLength = 4;//验证码长度   
+    var errorMsg = "";  //错误信息
 
     $("#setCode").click(function () {
 
         //获取输入的手机号码
         var phoNum = $("#PhoneNumber").val();
-        curCount = count;
 
         // 产生随记验证码    
         for (var i = 0; i < codeLength; i++) {
@@ -21,8 +21,6 @@
 
         // 设置按钮显示效果，倒计时   
         $("#setCode").attr("disabled", "true");
-        $("#setCode").val("已发送，" + curCount + "秒重试");
-        InterValObj = setInterval(SetRemainTime, 1000);
 
          //向后台发送处理数据    
         $.ajax({
@@ -34,13 +32,17 @@
                 alert(msg);
             },
             success: function (data) {
-                //前台给出提示语
-                if (data) {
-                    alert("发送成功，请注意查收！");
+                console.log(data);
+                //发送成功，定时60秒
+                if (data == "\"OK\"") {
+                    curCount = 60;
+                    InterValObj = setInterval(SetRemainTime, 1000);
                 }
+                //发送失败时，定时10秒
                 else {
-                    alert("发送失败");
-                    return false;
+                    errorMsg = data;
+                    curCount = 10;
+                    InterValObj2 = setInterval(SetRemainTime2, 1000);
                 }
             }
         });
@@ -49,7 +51,7 @@
 
     //timer处理函数    
     function SetRemainTime() {
-        console.log(curCount);
+        console.log("成功" + curCount);
         if (curCount == 0) {
             clearInterval(InterValObj);// 停止计时器    
             $("#setCode").removeAttr("disabled");// 启用按钮    
@@ -58,7 +60,22 @@
         }
         else {
             curCount--;
-            $("#setCode").val("已发送，" + curCount + "秒重试");
+            $("#setCode").val("已发送，" + curCount + "秒后重试");
+        }
+    }
+
+    //timer处理函数2  
+    function SetRemainTime2() {
+        console.log("失败" + curCount);
+        if (curCount == 0) {
+            clearInterval(InterValObj2);// 停止计时器    
+            $("#setCode").removeAttr("disabled");// 启用按钮    
+            $("#setCode").val("重新发送验证码");
+            code = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+        }
+        else {
+            curCount--;
+            $("#setCode").val(errorMsg + "," + curCount + "秒后重试");
         }
     }
 

@@ -17,7 +17,7 @@ namespace Ewu.WebUI.Controllers
     /// <summary>
     /// 用于集中化的用户管理工具
     /// </summary>
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class IAdminController : Controller
     {
         // GET: IAdmin
@@ -46,6 +46,7 @@ namespace Ewu.WebUI.Controllers
             //验证模型无误
             if(ModelState.IsValid)
             {
+                //检查有无上传图片
                 if (idcardImg != null)
                 {
                     //文件MimeType
@@ -82,7 +83,8 @@ namespace Ewu.WebUI.Controllers
                 //无图片
                 else
                 {
-
+                    ViewBag.Img = "None";
+                    return View(model);
                 }
 
                 //根据模型生成对应的用户实例
