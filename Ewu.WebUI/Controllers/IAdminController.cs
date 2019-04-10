@@ -91,7 +91,10 @@ namespace Ewu.WebUI.Controllers
                 AppUser user = new AppUser
                 {
                     UserName = model.Name,
-                    Email = model.Email,
+                    //Email = model.Email,
+                    Age = model.Age,
+                    BirthDay = model.BirthDay,
+
                 };
                 //创建用户，并返回结果
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);

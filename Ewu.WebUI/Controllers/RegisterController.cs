@@ -22,10 +22,10 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
-        /// 获取验证码并发送
+        /// 获取手机验证码并发送
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetCode()
+        public ActionResult GetPhoCode()
         {
             string code = Request["Code"];
             string phoNum = Request["phoNum"];
@@ -34,9 +34,14 @@ namespace Ewu.WebUI.Controllers
             if (result == "OK")
             {
                 //保存验证码
-                Session.Add("Code", code);
+                Session.Add("PhoCode", code);
             }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetEmailCode()
+        {
+            return View();
         }
     }
 }

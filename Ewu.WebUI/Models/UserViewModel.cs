@@ -21,7 +21,7 @@ namespace Ewu.WebUI.Models
         public string Password { get; set; }    //密码
 
         [Required(ErrorMessage = "请再次输入你的登录密码")]
-        [Compare("Password")]
+        [Compare("Password",ErrorMessage = "两次密码输入不同，请检查")]
         public string ConfirmedPassWd { get; set; } //确认密码
 
         public string PhoneNumber { get; set; } //联系方式
@@ -42,8 +42,10 @@ namespace Ewu.WebUI.Models
         public byte[] IDCardImageData { get; set; }
         public string IDCardImageMimeType { get; set; }
 
-        public string CAPTCHA { get; set; }     //验证码
-        public bool IsMatch { get; set; }       //验证码是否通过
+        public string PhoCAPTCHA { get; set; }     //手机验证码
+        public bool PhoIsMatch { get; set; }       //验证码是否通过
+        public string EmailCAPTCHA { get; set; }    //邮箱验证码
+        public bool EmailIsMatch { get; set; }    //邮箱是否通过
     }
 
     /// <summary>

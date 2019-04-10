@@ -2,32 +2,37 @@
 
 
     //短信验证码  
-    var InterValObj; //timer变量，控制时间    
-    var InterValObj2; //timer变量，控制时间    
-    var curCount;//当前剩余秒数  
-    var code = ""; //验证码    
+    var InterValObjPho; //timer变量，控制时间    
+    var InterValObjPho2; //timer变量，控制时间    
+    var InterValObjEmail; //timer变量，控制时间    
+    var InterValObjEmail2; //timer变量，控制时间    
+    var phocurCount;//当前剩余秒数-手机号码
+    var emailcurCount;  //当前剩余秒数-电子邮件
+    var phocode = ""; //手机号码验证码    
+    var emailcode = ""; //邮件验证码
     var codeLength = 4;//验证码长度   
     var errorMsg = "";  //错误信息
 
-    $("#setCode").click(function () {
+    //手机号码验证
+    $("#setPhoCode").click(function () {
 
         //获取输入的手机号码
         var phoNum = $("#PhoneNumber").val();
 
         // 产生随记验证码    
         for (var i = 0; i < codeLength; i++) {
-            code += parseInt(Math.random() * 9).toString();
+            phocode += parseInt(Math.random() * 9).toString();
         }
 
         // 设置按钮显示效果，倒计时   
-        $("#setCode").attr("disabled", "true");
+        $("#setPhoCode").attr("disabled", "true");
 
          //向后台发送处理数据    
         $.ajax({
             type: "POST", // 用POST方式传输    
             dataType: "text", // 数据格式:JSON    
-            url: "/Register/GetCode", // 目标地址    
-            data: { "Code": code, "phoNum": phoNum },
+            url: "/Register/GetPhoCode", // 目标地址    
+            data: { "Code": phocode, "phoNum": phoNum },
             error: function (msg) {
                 alert(msg);
             },
@@ -35,47 +40,115 @@
                 console.log(data);
                 //发送成功，定时60秒
                 if (data == "\"OK\"") {
-                    curCount = 60;
-                    InterValObj = setInterval(SetRemainTime, 1000);
+                    phocurCount = 60;
+                    InterValObjPho = setInterval(SetRemainTimePho, 1000);
                 }
                 //发送失败时，定时10秒
                 else {
                     errorMsg = data;
-                    curCount = 10;
-                    InterValObj2 = setInterval(SetRemainTime2, 1000);
+                    phocurCount = 10;
+                    InterValObjPho2 = setInterval(SetRemainTimePho2, 1000);
                 }
             }
         });
-
     });
 
-    //timer处理函数    
-    function SetRemainTime() {
-        console.log("成功" + curCount);
-        if (curCount == 0) {
-            clearInterval(InterValObj);// 停止计时器    
-            $("#setCode").removeAttr("disabled");// 启用按钮    
-            $("#setCode").val("重新发送验证码");
-            code = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+    //邮箱验证
+    $("#setEmailCode").click(function () {
+
+        //获取输入的电子邮件
+        var email = $("#Email").val();
+
+        // 产生随记验证码    
+        for (var i = 0; i < codeLength; i++) {
+            emailcode += parseInt(Math.random() * 9).toString();
+        }
+
+        // 设置按钮显示效果，倒计时   
+        $("#setEmailCode").attr("disabled", "true");
+
+        //向后台发送处理数据    
+        $.ajax({
+            type: "POST", // 用POST方式传输    
+            dataType: "text", // 数据格式:JSON    
+            url: "/Register/GetEmailCode", // 目标地址    
+            data: { "Code": emailcode, "Email": email },
+            error: function (msg) {
+                alert(msg);
+            },
+            success: function (data) {
+                //发送成功，定时60秒
+                if (data == "\"OK\"") {
+                    emailcurCount = 60;
+                    InterValObjEmail = setInterval(SetRemainTimeEmail, 1000);
+                }
+                //发送失败时，定时10秒
+                else {
+                    errorMsg = data;
+                    emailcurCount = 10;
+                    InterValObjEmail2 = setInterval(SetRemainTimeEmail2, 1000);
+                }
+            }
+        });
+    });
+
+    //timer处理函数pho
+    function SetRemainTimePho() {
+        //console.log("成功" + phocurCount);
+        if (phocurCount == 0) {
+            clearInterval(InterValObjPho);// 停止计时器    
+            $("#setPhoCode").removeAttr("disabled");// 启用按钮    
+            $("#setPhoCode").val("重新发送验证码");
+            phocode = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
         }
         else {
-            curCount--;
-            $("#setCode").val("已发送，" + curCount + "秒后重试");
+            phocurCount--;
+            $("#setPhoCode").val("已发送，" + phocurCount + "秒后重试");
         }
     }
 
-    //timer处理函数2  
-    function SetRemainTime2() {
-        console.log("失败" + curCount);
-        if (curCount == 0) {
-            clearInterval(InterValObj2);// 停止计时器    
-            $("#setCode").removeAttr("disabled");// 启用按钮    
-            $("#setCode").val("重新发送验证码");
-            code = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+    //timer处理函数pho2 
+    function SetRemainTimePho2() {
+        //console.log("失败" + curCount);
+        if (phocurCount == 0) {
+            clearInterval(InterValObjPho2);// 停止计时器    
+            $("#setPhoCode").removeAttr("disabled");// 启用按钮    
+            $("#setPhoCode").val("重新发送验证码");
+            phocode = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
         }
         else {
-            curCount--;
-            $("#setCode").val(errorMsg + "," + curCount + "秒后重试");
+            phocurCount--;
+            $("#setPhoCode").val(errorMsg + "," + phocurCount + "秒后重试");
+        }
+    }
+
+    //timer处理函数email 
+    function SetRemainTimeEmail() {
+        //console.log("失败" + emailcurCount);
+        if (emailcurCount == 0) {
+            clearInterval(InterValObjEmail);// 停止计时器    
+            $("#setEmailCode").removeAttr("disabled");// 启用按钮    
+            $("#setEmailCode").val("重新发送验证码");
+            emailcode = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+        }
+        else {
+            emailcurCount--;
+            $("#setEmailCode").val(errorMsg + "," + emailcurCount + "秒后重试");
+        }
+    }
+
+    //timer处理函数email
+    function SetRemainTimeEmail2() {
+        //console.log("失败" + emailcurCount);
+        if (emailcurCount == 0) {
+            clearInterval(InterValObjEmail2);// 停止计时器    
+            $("#setEmailCode").removeAttr("disabled");// 启用按钮    
+            $("#setEmailCode").val("重新发送验证码");
+            emailcode = ""; // 清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+        }
+        else {
+            emailcurCount--;
+            $("#setEmailCode").val(errorMsg + "," + emailcurCount + "秒后重试");
         }
     }
 
