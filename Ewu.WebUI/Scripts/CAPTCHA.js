@@ -37,7 +37,7 @@
                 alert(msg);
             },
             success: function (data) {
-                console.log(data);
+                var dataStr = JSON.stringify(data);
                 //发送成功，定时60秒
                 if (data == "\"OK\"") {
                     phocurCount = 60;
@@ -45,7 +45,10 @@
                 }
                 //发送失败时，定时10秒
                 else {
-                    errorMsg = data;
+                    errorMsg = "发送失败";
+                    if (dataStr.length >= 6) {
+                        errorMsg = dataStr.substring(3, dataStr.length - 3);
+                    }
                     phocurCount = 10;
                     InterValObjPho2 = setInterval(SetRemainTimePho2, 1000);
                 }
@@ -77,6 +80,7 @@
                 alert(msg);
             },
             success: function (data) {
+                
                 //发送成功，定时60秒
                 if (data == "\"OK\"") {
                     emailcurCount = 60;
@@ -118,7 +122,7 @@
         }
         else {
             phocurCount--;
-            $("#setPhoCode").val(errorMsg + "," + phocurCount + "秒后重试");
+            $("#setPhoCode").val(errorMsg + "，" + phocurCount + "秒后重试");
         }
     }
 
@@ -133,7 +137,7 @@
         }
         else {
             emailcurCount--;
-            $("#setEmailCode").val(errorMsg + "," + emailcurCount + "秒后重试");
+            $("#setEmailCode").val("已发送，" + emailcurCount + "秒后重试");
         }
     }
 

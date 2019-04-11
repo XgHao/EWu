@@ -39,9 +39,28 @@ namespace Ewu.WebUI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 获取邮箱验证码并发送
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetEmailCode()
         {
-            return View();
+            string code = Request["Code"];
+            string email = Request["Email"];
+            //验证邮箱
+            Dictionary<string, string> result = new Identity().ValidEmail(email);
+            if (result["Status"] == "200")
+            {
+                //格式有效，发送邮件
+                new Identity().SendMail(email, code);
+                Session.Add("EmailCode", code);
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                //返回错误信息
+                return Json(result["Msg"], JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

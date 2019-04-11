@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using qcloudsms_csharp;
 using qcloudsms_csharp.json;
 using qcloudsms_csharp.httpclient;
+using System.Net.Mail;
 
 namespace Ewu.WebUI.API
 {
@@ -127,10 +128,6 @@ namespace Ewu.WebUI.API
             return result;
         }
 
-        public static bool CheckValidationResult(object sender,X509Certificate certificate,X509Chain chain,SslPolicyErrors errors)
-        {
-            return true;
-        }
 
         /// <summary>
         /// Http(GET/POST)
@@ -320,5 +317,107 @@ namespace Ewu.WebUI.API
         }
 
         #endregion
+
+        #region 邮箱真实性
+
+        /// <summary>
+        /// 验证邮箱真实性
+        /// </summary>
+        /// <param name="mail">验证的电子邮箱地址</param>
+        /// <returns></returns>
+        public Dictionary<string, string> ValidEmail(string mail)
+        {
+            const string host = "https://emailcert.market.alicloudapi.com";
+            const string path = "/email";
+            const string method = "GET";
+            const string appcode = "4b677fa79cc14896a78936a7dde89445";
+
+            string querys = "email=" + mail;
+            string bodys = "";
+            string url = host + path;
+            HttpWebRequest httpRequest = null;
+            HttpWebResponse httpResponse = null;
+
+            if (0 < querys.Length)
+            {
+                url = url + "?" + querys;
+            }
+
+            if (host.Contains("https://"))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                httpRequest = (HttpWebRequest)WebRequest.CreateDefault(new Uri(url));
+            }
+            else
+            {
+                httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            }
+            httpRequest.Method = method;
+            httpRequest.Headers.Add("Authorization", "APPCODE " + appcode);
+            if (0 < bodys.Length)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(bodys);
+                using (Stream stream = httpRequest.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+            try
+            {
+                httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            }
+            catch (WebException ex)
+            {
+                httpResponse = (HttpWebResponse)ex.Response;
+            }
+
+            Stream st = httpResponse.GetResponseStream();
+            StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
+            JObject emailInfo = JObject.Parse(reader.ReadToEnd());
+            Dictionary<string, string> emailres = new Dictionary<string, string>();
+            emailres.Add("Status", emailInfo["status"].ToString() ?? string.Empty);
+            emailres.Add("Msg", emailInfo["msg"].ToString() ?? string.Empty);
+            return emailres;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 发送邮件
+        /// </summary>
+        /// <param name="email">目标地址</param>
+        /// <param name="code">验证码</param>
+        public void SendMail(string email,string code)
+        {
+            const string EwuEmail = "Admin@YiWu.zxh";
+            const string EwuPd = "526114";
+
+            //实例化一个发送邮件类
+            MailMessage mailMessage = new MailMessage();
+
+            //发件人邮箱地址
+            mailMessage.From = new MailAddress(EwuEmail);
+
+            //收件人
+            mailMessage.To.Add(email);
+
+            //标题
+            mailMessage.Subject = "【易物】验证码";
+
+            //内容
+            mailMessage.Body = "您的验证码为:" + code + "，如不是本人操作，请忽略！";
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "139.199.82.204";
+            client.EnableSsl = false;
+            client.Credentials = new NetworkCredential(EwuEmail, EwuPd);
+            client.Send(mailMessage);
+        }
+
+
+        public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            return true;
+        }
     }
 }
