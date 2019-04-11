@@ -62,5 +62,45 @@ namespace Ewu.WebUI.Controllers
                 return Json(result["Msg"], JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult validCode()
+        {
+            string code = Request["Code"];
+            string type = Request["Type"];
+            string result = string.Empty;
+
+
+
+            //手机验证
+            if (type.Equals("Pho"))
+            {
+                //Session验证码已存在
+                if (Session["PhoCode"] != null)
+                {
+                    result = Session["PhoCode"].ToString() == code ? "OK" : "Fail";
+                }
+                else
+                {
+                    result = "Error";
+                }
+            }
+            //邮箱验证
+            else if(type.Equals("Email")){
+                //Session验证码已存在
+                if (Session["EmailCode"] != null)
+                {
+                    result = Session["EmailCode"].ToString() == code ? "OK" : "Fail";
+                }
+                else
+                {
+                    result = "Error";
+                }
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+
     }
 }
