@@ -143,28 +143,47 @@ namespace Ewu.WebUI.Controllers
         {
             string userName = Request["Name"];
             string passWord = Request["PassWD"];
+            string email = Request["Email"];
+            string returnRes = string.Empty;
 
             AppUser user = new AppUser
             {
                 UserName = userName,
-                Email = "957553851@qq.com"
+                Email = email,
+                BirthDay = DateTime.Now,
+                RegisterTime = DateTime.Now,
             };
 
-            //创建用户，并返回结果
-            IdentityResult result = UserManager.Create(user, passWord);
-            if (result.Succeeded)
+            //邮箱不为空
+            if (email != "")
             {
-
-            }
-            else
-            {
-                //遍历所有错误
-                foreach (string error in result.Errors)
+                try
                 {
-                    
+                    //尝试创建用户，并返回错误结果
+                    IdentityResult result = UserManager.Create(user, passWord);
+                    //如果可以创建，则删除
+                    if (result.Succeeded)
+                    {
+                        UserManager.Delete(user);
+                        returnRes = "OK";
+                    }
+                    //返回错误集合
+                    else
+                    {
+                        //遍历所有错误
+                        foreach (string error in result.Errors)
+                        {
+                            returnRes += error;
+                        }
+                    }
+                    return Json(returnRes, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    throw e;
                 }
             }
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json("Error", JsonRequestBehavior.AllowGet);
         }
 
 

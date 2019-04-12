@@ -186,10 +186,7 @@
                         $("#PhoneNumber").attr("readonly", "true");
                         $("#validPho").attr("disabled", "true");
 
-                        //检查是否双重验证通过
-                        if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
-                            $("#Create").removeAttr("disabled");
-                        }
+                        
 
                     }
                     //验证失败
@@ -239,10 +236,7 @@
                         $("#Email").attr("readonly", "true");
                         $("#validEmail").attr("disabled", "true");
 
-                        //检查是否双重验证通过
-                        if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
-                            $("#Create").removeAttr("disabled");
-                        }
+                        
                     }
                     //验证失败
                     else if (data == "\"Fail\"") {
@@ -318,26 +312,33 @@
         var username = $("#Name").val();
         //获取密码
         var password = $("#Password").val();
+        //获取电子邮件
+        var email = $("#Email").val();
 
         if (username != "") {
             $.ajax({
                 type: "POST",
                 dataType: "text",
                 url: "/Register/ValidCreateUser",
-                data: { "Name": username, "PassWD": password },
+                data: { "Name": username, "PassWD": password, "Email": email },
                 error: function (msg) {
                     alert(msg);
                 },
-                success: function (isExist) {
-                    //存在
-                    if (isExist == "\"YES\"") {
-                        $("#NameIsExist").removeAttr("hidden");
+                success: function (data) {
+                    //可以创建
+                    if (data == "\"OK\"") {
+                        //检查是否双重验证通过
+                        if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
+                            $("#Create").removeAttr("disabled");
+                        }
                     }
-                    //不存在
-                    else if (isExist == "\"NO\"") {
-                        $("#NameIsExist").attr("hidden", "true");
+                    //出错
+                    else if (data == "\"Error\"") {
                     }
-                    else { }
+                    //条件不满足
+                    else {
+                        alert(data);
+                    }
                 }
             });
         }
@@ -346,9 +347,9 @@
 
     //信息提示模块
     //添加提示框
-    $("#Name").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "测试");
-    $("#Password").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "测试");
-    $("#ConfirmedPassWd").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "测试");
+    $("#Name").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "只能由数字和字母组成，长度为3-20字符");
+    $("#Password").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "长度为6-16字符，大小写字母都需至少一个");
+    $("#ConfirmedPassWd").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "再输入一次密码");
 
     $(function () {
         $("[data-toggle='popover']").popover();
