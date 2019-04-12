@@ -10,6 +10,10 @@ using qcloudsms_csharp;
 using qcloudsms_csharp.json;
 using qcloudsms_csharp.httpclient;
 using Newtonsoft.Json.Linq;
+using Ewu.WebUI.Infrastructure.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Ewu.Domain.Entities;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -63,7 +67,11 @@ namespace Ewu.WebUI.Controllers
             }
         }
 
-        public ActionResult validCode()
+        /// <summary>
+        /// 验证手机号和邮箱
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult validCode()
         {
             string code = Request["Code"];
             string type = Request["Type"];
@@ -101,6 +109,78 @@ namespace Ewu.WebUI.Controllers
 
         }
 
+        /// <summary>
+        /// 检查当前电子邮件是否已存在
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult isExistEmail()
+        {
+            string email = Request["Eamil"];
+            AppUser appUser = UserManager.FindByEmail(email);
+            //该邮箱已存在(即appUser不为空)返回NO，否则返回YES
+            string result = appUser != null ? "NO" : "YES";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
+        /// <summary>
+        /// 检查当前用户名是否已存在
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult isExistUserName()
+        {
+            string userName = Request["Name"];
+            AppUser appUser = UserManager.FindByName(userName);
+            //该用户名已存在(即appUser不为空)返回YES，否则返回NO
+            string result = appUser != null ? "YES" : "NO";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 验证当前账号信息
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult ValidCreateUser()
+        {
+            string userName = Request["Name"];
+            string passWord = Request["PassWD"];
+
+            AppUser user = new AppUser
+            {
+                UserName = userName,
+                Email = "957553851@qq.com"
+            };
+
+            //创建用户，并返回结果
+            IdentityResult result = UserManager.Create(user, passWord);
+            if (result.Succeeded)
+            {
+
+            }
+            else
+            {
+                //遍历所有错误
+                foreach (string error in result.Errors)
+                {
+                    
+                }
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        /// <summary>
+        /// 因为在实现不用的管理功能时，会反复使用APpUserManager类。所以定义UserManager以方便
+        /// </summary>
+        private AppUserManager UserManager
+        {
+            get
+            {
+                //Microsoft.Owin.Host.SystemWeb程序集为HttpContext类添加了一些扩展方法，其中之一便是GetOwinContext
+                //GetOwinContext通过IOwinContext对象，将基于请求的上下文对象提供给OWIN API
+                //在这其中有一个扩展方法GetUserManager<T>，可以用来得到用户管理器类实例
+                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+        }
     }
 }

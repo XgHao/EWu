@@ -13,9 +13,7 @@
     var codeLength = 4;//验证码长度   
     var errorMsg = "";  //错误信息
 
-    //先禁用验证按钮
-    //$("#validPho").attr("disabled", "true");
-    //$("#validEmail").attr("disabled", "true");
+    
 
     //手机号码验证
     $("#setPhoCode").click(function () {
@@ -44,7 +42,6 @@
                 var dataStr = JSON.stringify(data);
                 //发送成功，定时60秒
                 if (data == "\"OK\"") {
-                    //$("#validPho").removeAttr("disabled");// 启用按钮 
                     phocurCount = 60;
                     InterValObjPho = setInterval(SetRemainTimePho, 1000);
                 }
@@ -167,38 +164,52 @@
 
         //获取输入框的验证码
         var phoCode = $("#PhoCAPTCHA").val();
-        
-        //向后台发送处理数据    
-        $.ajax({
-            type: "POST", // 用POST方式传输    
-            dataType: "text", // 数据格式:JSON    
-            url: "/Register/validCode", // 目标地址    
-            data: { "Code": phoCode, "Type": "Pho"},
-            error: function (msg) {
-                alert(msg);
-            },
-            success: function (data) {
-                //验证成功
-                if (data == "\"OK\"") {
-                    //验证成功后修改验证样式
-                    $("validPho").attr("class", "btn btn--fullwidth btn-success");
 
-                    //并且禁止修改手机号码
-                    $("#PhoneNumber").attr("readonly", "true");
+        if (phoCode != "") {
+            //向后台发送处理数据    
+            $.ajax({
+                type: "POST", // 用POST方式传输    
+                dataType: "text", // 数据格式:JSON    
+                url: "/Register/validCode", // 目标地址    
+                data: { "Code": phoCode, "Type": "Pho" },
+                error: function (msg) {
+                    alert(msg);
+                },
+                success: function (data) {
+                    //验证成功
+                    if (data == "\"OK\"") {
+                        //验证成功后修改验证样式
+                        $("#validPho").attr("class", "btn btn--fullwidth btn-success");
+                        $("#validPho").val("验证通过");
 
-                    console.log(data + "+验证成功");
-                }
-                //验证失败
-                else if (data == "\"Fail\"") {
+                        //并且禁止修改手机号码
+                        $("#PhoneNumber").attr("readonly", "true");
+                        $("#validPho").attr("disabled", "true");
+
+                        //检查是否双重验证通过
+                        if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
+                            $("#Create").removeAttr("disabled");
+                        }
+
+                    }
                     //验证失败
-                    console.log(data + "+验证失败");
+                    else if (data == "\"Fail\"") {
+                        //验证失败后修改验证样式
+                        $("#validPho").attr("class", "btn btn--fullwidth btn-danger");
+                        $("#validPho").val("验证失败，点击重试");
+                    }
+                    else if (data == "\"Error\"") {
+                        alert("请先获取验证码！");
+                    }
+                    else {
+                    }
                 }
-                else if (data == "\"Error\"") {
-                    //出错，验证码为空
-                    console.log(data + "+验证为空");
-                }
-            }
-        });
+            });
+        }
+        else {
+            //提示输入验证码
+            $("#PhoCAPTCHA").attr("class", "alert-danger");
+        }
     });
 
     //验证按钮-电子邮件
@@ -207,57 +218,139 @@
         //获取输入框的验证码
         var emailCode = $("#EmailCAPTCHA").val();
 
-        //向后台发送处理数据    
-        $.ajax({
-            type: "POST", // 用POST方式传输    
-            dataType: "text", // 数据格式:JSON    
-            url: "/Register/validCode", // 目标地址    
-            data: { "Code": emailCode, "Type": "Email" },
-            error: function (msg) {
-                alert(msg);
-            },
-            success: function (data) {
-                //验证成功
-                if (data == "\"OK\"") {
-                    //验证成功后修改验证样式
-                    $("validEmail").attr("class", "btn btn--fullwidth btn-success");
+        if (emailCode != "") {
+            //向后台发送处理数据    
+            $.ajax({
+                type: "POST", // 用POST方式传输    
+                dataType: "text", // 数据格式:JSON    
+                url: "/Register/validCode", // 目标地址    
+                data: { "Code": emailCode, "Type": "Email" },
+                error: function (msg) {
+                    alert(msg);
+                },
+                success: function (data) {
+                    //验证成功
+                    if (data == "\"OK\"") {
+                        //验证成功后修改验证样式
+                        $("#validEmail").attr("class", "btn btn--fullwidth btn-success");
+                        $("#validEmail").val("验证通过");
 
-                    //并且禁止修改电子邮件
-                    $("#Email").attr("readonly", "true");
+                        //并且禁止修改手机号码
+                        $("#Email").attr("readonly", "true");
+                        $("#validEmail").attr("disabled", "true");
 
-                    alert(data + "+验证成功");
-                }
-                //验证失败
-                else if (data == "\"Fail\"") {
+                        //检查是否双重验证通过
+                        if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
+                            $("#Create").removeAttr("disabled");
+                        }
+                    }
                     //验证失败
-                    alert(data + "+验证失败");
+                    else if (data == "\"Fail\"") {
+                        //验证失败后修改验证样式
+                        $("#validEmail").attr("class", "btn btn--fullwidth btn-danger");
+                        $("#validEmail").val("验证失败，点击重试");
+                    }
+                    else if (data == "\"Error\"") {
+                        //出错，验证码为空
+                        alert("请先获取验证码！");
+                    }
+                    else {}
                 }
-                else if (data == "\"Error\"") {
-                    //出错，验证码为空
-                    alert(data + "+验证为空");
+            });
+        }
+        else {
+            //提示输入验证码
+            $("#EmailCAPTCHA").attr("class", "alert-danger");
+        }
+        
+    });
+
+    //监听验证码框
+    $("#PhoCAPTCHA").change(function () {
+        if ($("#PhoCAPTCHA").val() != "") {
+            $("#PhoCAPTCHA").attr("class", "text_field");
+        } else {
+            $("#PhoCAPTCHA").attr("class", "alert-danger");
+        }
+    });
+
+    //监听验证码框
+    $("#EmailCAPTCHA").change(function () {
+        if ($("#EmailCAPTCHA").val() != "") {
+            $("#EmailCAPTCHA").attr("class", "text_field");
+        } else {
+            $("#EmailCAPTCHA").attr("class", "alert-danger");
+        }
+    });
+
+    //监听用户名-修改后检查是否已存在
+    $("#Name").change(function () {
+        //获取用户名
+        var username = $("#Name").val();
+
+        if (username != "") {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/Register/isExistUserName",
+                data: { "Name": username },
+                error: function (msg) {
+                    alert(msg);
+                },
+                success: function (isExist) {
+                    //存在
+                    if (isExist == "\"YES\"") {
+                        $("#NameIsExist").removeAttr("hidden");
+                    }
+                    //不存在
+                    else if (isExist == "\"NO\"") {
+                        $("#NameIsExist").attr("hidden", "true");
+                    }
+                    else { }
                 }
-            }
-        });
+            });
+        }
+    });
+
+    //监听密码-修改后检查
+    $("#Password").change(function () {
+        //获取用户名
+        var username = $("#Name").val();
+        //获取密码
+        var password = $("#Password").val();
+
+        if (username != "") {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/Register/ValidCreateUser",
+                data: { "Name": username, "PassWD": password },
+                error: function (msg) {
+                    alert(msg);
+                },
+                success: function (isExist) {
+                    //存在
+                    if (isExist == "\"YES\"") {
+                        $("#NameIsExist").removeAttr("hidden");
+                    }
+                    //不存在
+                    else if (isExist == "\"NO\"") {
+                        $("#NameIsExist").attr("hidden", "true");
+                    }
+                    else { }
+                }
+            });
+        }
     });
 
 
-    //提交注册按钮
-    //$("#submit").click(function () {
-    //    var CheckCode = $("#codename").val();
-    //    // 向后台发送处理数据    
-    //    $.ajax({
-    //        url: "/Register/CheckCode",
-    //        data: { "CheckCode": CheckCode },
-    //        type: "POST",
-    //        dataType: "text",
-    //        success: function (data) {
-    //            if (data == "true") {
-    //                $("#codenameTip").html("<font color='#339933'>√</font>");
-    //            } else {
-    //                $("#codenameTip").html("<font color='red'>× 短信验证码有误，请核实后重新填写</font>");
-    //                return;
-    //            }
-    //        }
-    //    });
-    //});
+    //信息提示模块
+    //添加提示框
+    $("#Name").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "测试");
+    $("#Password").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "测试");
+    $("#ConfirmedPassWd").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "测试");
+
+    $(function () {
+        $("[data-toggle='popover']").popover();
+    });
 }

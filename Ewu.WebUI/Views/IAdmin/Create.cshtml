@@ -401,7 +401,7 @@
             {
             <div class="row">
                 <!--1.输入用户信息-->
-                <div class="col-lg-6">
+                <div id="UserInfo" class="col-lg-6">
                     <div class="cardify signup_form">
                         <!--标题-->
                         <div class="login--header">
@@ -414,7 +414,7 @@
                             <div class="form-group">
                                 <span class="lnr lnr-phone-handset"></span>
                                 <label for="phonenum">联系方式</label>
-                                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "text_field", @placeholder = "请输入手机号码", @type = "number" })
+                                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", @placeholder = "请输入手机号码", @type = "number" })
                             </div>
                             <div class="form-group">
                                 <div class="row">
@@ -427,12 +427,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="submit" id="validPho" value="验证" class="btn btn--fullwidth btn-primary"/>
+                                <input type="button" id="validPho" value="验证" class="btn btn--fullwidth btn-primary"/>
                             </div>
                             <div class="form-group">
                                 <span class="lnr lnr-envelope"></span>
                                 <label for="phonenum">电子邮箱</label>
-                                @Html.TextBoxFor(x => x.Email, new { @class = "text_field", @placeholder = "请输入电子邮件" })
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "请输入电子邮件" })
                             </div>
                             <div class="form-group">
                                 <div class="row">
@@ -445,7 +445,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="submit" id="validEmail" value="验证" class="btn btn--fullwidth btn-primary"/>
+                                <input type="button" id="validEmail" value="验证" class="btn btn--fullwidth btn-primary"/>
                             </div>
 
                         </div>
@@ -464,20 +464,21 @@
                             <div class="form-group">
                                 <span class="lnr lnr-user"></span>
                                 <label for="urname">用户名</label>
-                                @Html.TextBoxFor(x => x.Name, new { @class = "text_field", @placeholder = "请输入你的昵称，用于在社交上显示" })
-                                @Html.ValidationMessage("Name", new { @class = "text-danger pull-right" })
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "请输入你的昵称，用于在社交上显示" })
+                                <span hidden="hidden" id="NameIsExist" class="text-danger pull-right">该用户名已存在</span>
+                                @*@Html.ValidationMessage("Name", new { @class = "text-danger pull-right" })*@
                             </div>
                             <div class="form-group">
                                 <span class="lnr lnr-lock"></span>
                                 <label for="urpassword">登录密码</label>
-                                @Html.PasswordFor(x => x.Password, new { @class = "text_field", @placeholder = "请输入你的密码" })
-                                @Html.ValidationMessage("Password", new { @class = "text-danger pull-right" })
+                                @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "请输入你的密码" })
+                                @*@Html.ValidationMessage("Password", new { @class = "text-danger pull-right" })*@
                             </div>
                             <div class="form-group">
                                 <span class="lnr lnr-lock"></span>
                                 <label for="urname">确认密码</label>
-                                @Html.PasswordFor(x => x.ConfirmedPassWd, new { @class = "text_field", @placeholder = "请再输入一次密码" })
-                                @Html.ValidationMessage("ConfirmedPassWd", new { @class = "text-danger pull-right" })
+                                @Html.PasswordFor(x => x.ConfirmedPassWd, new { @class = "form-control", @placeholder = "请再输入一次密码" })
+                                @*@Html.ValidationMessage("ConfirmedPassWd", new { @class = "text-danger pull-right" })*@
                             </div>
                             <div class="form-group">
                                 @Html.ValidationSummary(false)
@@ -503,7 +504,7 @@
                                 }
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn--fullwidth btn-danger" />
+                                <input id="Create" type="submit" value="Create" class="btn btn--fullwidth btn-danger" disabled="disabled" />
                             </div>
                         </div>
                     </div>

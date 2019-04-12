@@ -27,12 +27,7 @@ namespace Ewu.WebUI.Infrastructure.Identity.Validator
         public override async Task<IdentityResult> ValidateAsync(AppUser user)
         {
             IdentityResult result = await base.ValidateAsync(user);
-            if (!user.Email.ToLower().EndsWith("@example.com"))
-            {
-                var errors = result.Errors.ToList();
-                errors.Add("只有@example.com域名的邮箱才能注册");
-                result = new IdentityResult(errors);
-            }
+            
             return result;
         }
     }

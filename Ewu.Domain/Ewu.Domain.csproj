@@ -101,7 +101,6 @@
   <ItemGroup>
     <Compile Include="Abstract\IOrderProcessor.cs" />
     <Compile Include="Abstract\ITreasuresRepository.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Concrete\EFDBContext.cs" />
     <Compile Include="Concrete\EFTreasureRepository.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
