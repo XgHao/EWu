@@ -596,7 +596,7 @@
     <Content Include="images\vpla.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\CAPTCHA.js" />
+    <Content Include="Scripts\Register.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />

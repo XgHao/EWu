@@ -159,6 +159,7 @@
     }
 
 
+
     //验证按钮-手机号码
     $("#validPho").click(function () {
 
@@ -185,7 +186,7 @@
                         //并且禁止修改手机号码
                         $("#PhoneNumber").attr("readonly", "true");
                         $("#validPho").attr("disabled", "true");
-
+                        $("#setPhoCode").attr("disabled", "true");
                         
 
                     }
@@ -232,9 +233,10 @@
                         $("#validEmail").attr("class", "btn btn--fullwidth btn-success");
                         $("#validEmail").val("验证通过");
 
-                        //并且禁止修改手机号码
+                        //并且禁止修改邮箱地址
                         $("#Email").attr("readonly", "true");
                         $("#validEmail").attr("disabled", "true");
+                        $("#setEmailCode").attr("disabled", "true");
 
                         
                     }
@@ -259,7 +261,7 @@
         
     });
 
-    //监听验证码框
+    //监听手机验证码框
     $("#PhoCAPTCHA").change(function () {
         if ($("#PhoCAPTCHA").val() != "") {
             $("#PhoCAPTCHA").attr("class", "text_field");
@@ -268,7 +270,7 @@
         }
     });
 
-    //监听验证码框
+    //监听邮箱验证码框
     $("#EmailCAPTCHA").change(function () {
         if ($("#EmailCAPTCHA").val() != "") {
             $("#EmailCAPTCHA").attr("class", "text_field");
@@ -277,8 +279,34 @@
         }
     });
 
+    //监听邮箱-是否已经注册
+    $("#Email").change(function () {
+        var email = $("#Email").val();
+        if (email != "") {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/Register/isExistEmail",
+                data: { "Email": email },
+                error: function (msg) {
+                    alert(msg);
+                },
+                success: function (data) {
+                    //存在YES
+                    if (data == "\"YES\"") {
+                        alert("该邮箱已被注册，换一个吧");
+                        $("#Email").val("");
+                    }
+                }
+            });
+        }
+    });
+
     //监听用户名-修改后检查是否已存在
     $("#Name").change(function () {
+        //先检查是否验证通过
+        IsValid();
+
         //获取用户名
         var username = $("#Name").val();
 
@@ -294,56 +322,125 @@
                 success: function (isExist) {
                     //存在
                     if (isExist == "\"YES\"") {
-                        $("#NameIsExist").removeAttr("hidden");
+                        $("#NameIsExistValid").removeAttr("hidden");
+                        $("#NameIsExistValid").text("该用户名已存在");
                     }
-                    //不存在
+                    //不存在,可行
                     else if (isExist == "\"NO\"") {
-                        $("#NameIsExist").attr("hidden", "true");
+                        $("#NameIsExistValid").attr("hidden", "true");
+                        $("#NameIsExistValid").text("");
                     }
-                    else { }
+                    //规则不通过
+                    else {
+                        var dataStr = JSON.stringify(isExist);
+                        if (dataStr.length >= 6) {
+                            var errorList = dataStr.substring(3, dataStr.length - 3);
+                        }
+                        $("#NameIsExistValid").removeAttr("hidden");
+                        $("#NameIsExistValid").text(errorList);
+                    }
                 }
             });
+        } else {
+            $("#NameIsExistValid").removeAttr("hidden");
+            $("#NameIsExistValid").text("请输入用户名");
         }
     });
 
     //监听密码-修改后检查
     $("#Password").change(function () {
+        //先检查是否验证通过
+        IsValid();
+
         //获取用户名
         var username = $("#Name").val();
         //获取密码
         var password = $("#Password").val();
+
         //获取电子邮件
         var email = $("#Email").val();
 
-        if (username != "") {
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/Register/ValidCreateUser",
-                data: { "Name": username, "PassWD": password, "Email": email },
-                error: function (msg) {
-                    alert(msg);
-                },
-                success: function (data) {
-                    //可以创建
-                    if (data == "\"OK\"") {
-                        //检查是否双重验证通过
-                        if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
-                            $("#Create").removeAttr("disabled");
-                        }
-                    }
-                    //出错
-                    else if (data == "\"Error\"") {
-                    }
-                    //条件不满足
-                    else {
-                        alert(data);
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: "/Register/ValidCreateUser",
+            data: { "Name": username, "PassWD": password, "Email": email },
+            error: function (msg) {
+                alert(msg);
+            },
+            success: function (data) {
+                //可以创建
+                if (data == "\"OK\"") {
+                    $("#PassWdIsExistValid").attr("hidden", "true");
+                    $("#PassWdIsExistValid").text("");
+
+                    //检查是否双重验证通过
+                    if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
+                        $("#Create").removeAttr("disabled");
                     }
                 }
-            });
+                //出错
+                else if (data == "\"Error\"") {
+                }
+                //条件不满足
+                else {
+                    var dataStr = JSON.stringify(data);
+                    if (dataStr.length >= 6) {
+                        var errorList = dataStr.substring(3, dataStr.length - 3);
+                    }
+                    $("#PassWdIsExistValid").removeAttr("hidden");
+                    $("#PassWdIsExistValid").text(errorList);
+                }
+            }
+        });
+        
+    });
+
+    //监听重复输入密码
+    $("#ConfirmedPassWd").change(function () {
+        //先检查是否验证通过
+        IsValid();
+
+        var passwd = $("#Password").val();
+        var repasswd = $("#ConfirmedPassWd").val();
+        if (repasswd != "") {
+            //验证通过
+            if (repasswd == passwd) {
+                $("#RepeatPassWd").attr("hidden", "true");
+                $("#RepeatPassWd").text("");
+            }
+            else {
+                $("#RepeatPassWd").removeAttr("hidden");
+                $("#RepeatPassWd").text("两次密码不一致");
+            }
+        }
+        else {
+            $("#RepeatPassWd").removeAttr("hidden");
+            $("#RepeatPassWd").text("请再次输入你的密码");
         }
     });
 
+    //监听身份证文件
+    $("#IdCard").change(function (img) {
+
+        var idcard = $("#IdCard").val();
+        alert(idcard);
+        $("#upload-file-info").html(idcard);
+    });
+
+    function IsValid() {
+        //获取手机验证值
+        var PhoIsValid = $("#validPho").val();
+        //获取邮件验证值
+        var EmailIsValid = $("#validEmail").val();
+        //没有验证通过
+        if (PhoIsValid != "验证通过" || EmailIsValid != "验证通过") {
+            $("#Name").val("");
+            $("#Password").val("");
+            $("#ConfirmedPassWd").val("");
+            alert("请先验证手机号码及电子邮箱地址");
+        }
+    }
 
     //信息提示模块
     //添加提示框

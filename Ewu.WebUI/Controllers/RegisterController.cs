@@ -14,6 +14,7 @@ using Ewu.WebUI.Infrastructure.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Ewu.Domain.Entities;
+using System.Text.RegularExpressions;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -115,10 +116,10 @@ namespace Ewu.WebUI.Controllers
         /// <returns></returns>
         public JsonResult isExistEmail()
         {
-            string email = Request["Eamil"];
+            string email = Request["Email"];
             AppUser appUser = UserManager.FindByEmail(email);
-            //该邮箱已存在(即appUser不为空)返回NO，否则返回YES
-            string result = appUser != null ? "NO" : "YES";
+            //该邮箱已存在(即appUser不为空)返回YES，否则返回NO
+            string result = appUser != null ? "YES" : "NO";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -129,9 +130,31 @@ namespace Ewu.WebUI.Controllers
         public JsonResult isExistUserName()
         {
             string userName = Request["Name"];
-            AppUser appUser = UserManager.FindByName(userName);
-            //该用户名已存在(即appUser不为空)返回YES，否则返回NO
-            string result = appUser != null ? "YES" : "NO";
+            string result = "Error";
+
+            //检查长度
+            if (userName.Length >= 3 && userName.Length <= 20)
+            {
+                //检查是否只含数字和字母
+                string pattern = @"^[A-Za-z0-9]+$";
+                Regex regex = new Regex(pattern);
+                
+                //验证通过
+                if (regex.IsMatch(userName))
+                {
+                    AppUser appUser = UserManager.FindByName(userName);
+                    //该用户名已存在(即appUser不为空)返回YES，否则返回NO
+                    result = appUser != null ? "YES" : "NO";
+                }
+                else
+                {
+                    result = "用户名只能包含数字和字母";
+                }
+            }
+            else
+            {
+                result = "用户名必须在3-20个字符";
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -141,7 +164,7 @@ namespace Ewu.WebUI.Controllers
         /// <returns></returns>
         public JsonResult ValidCreateUser()
         {
-            string userName = Request["Name"];
+            string userName = Request["Name"] != "" ? Request["Name"] : "00";
             string passWord = Request["PassWD"];
             string email = Request["Email"];
             string returnRes = string.Empty;
@@ -170,10 +193,16 @@ namespace Ewu.WebUI.Controllers
                     //返回错误集合
                     else
                     {
+                        var ErrorList = result.Errors.FirstOrDefault().Split('。');
+
                         //遍历所有错误
-                        foreach (string error in result.Errors)
+                        foreach (string error in ErrorList)
                         {
-                            returnRes += error;
+                            if (error.Contains("密码"))
+                            {
+                                returnRes = error;
+                                break;
+                            }
                         }
                     }
                     return Json(returnRes, JsonRequestBehavior.AllowGet);
