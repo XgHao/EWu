@@ -15,7 +15,7 @@ namespace Ewu.WebUI.Models
         //基本信息
         public string HeadPortrait { get; set; }    //头像
         [Required]
-        public Gender Gender { get; set; }          //性别
+        public string Gender { get; set; }          //性别
         [Required]
         public string Signature { get; set; }       //个性签名
 

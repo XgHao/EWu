@@ -33,7 +33,7 @@ namespace Ewu.Domain.Entities
         //基本信息
         //public string UserName { get; set; }        //用户名
         public string HeadPortrait { get; set; }    //头像
-        public Gender Gender { get; set; }          //性别
+        public string Gender { get; set; }          //性别
         public string Signature { get; set; }       //个性签名
 
         //个人信息
@@ -66,13 +66,5 @@ namespace Ewu.Domain.Entities
         //身份证照
         public byte[] IDCardImageData { get; set; }
         public string IDCardImageMimeType { get; set; }
-    }
-
-    /// <summary>
-    /// 性别枚举
-    /// </summary>
-    public enum Gender
-    {
-        男,女,保密
     }
 }

@@ -26,9 +26,7 @@
             foreach(AppUser user in Model)
             {
                 <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
+                    <td>@user.ToString()</td>
                     <td>
                         @using (Html.BeginForm(
                                 actionName: "Delete",

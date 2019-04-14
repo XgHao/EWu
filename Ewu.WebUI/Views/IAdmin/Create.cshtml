@@ -485,16 +485,19 @@
                             @*图像上传*@
                         <div class="form-group">
                             <span class="lnr lnr-license"></span>
-                            <label for="idCard">身份证正面照（仅支持.jpg和.png格式）</label>
+                            <label for="idCard">身份证正面照（仅支持大小2MB以内的JPG和PNG图片）</label>
                             <div style="position:relative;">
                                 <a class="lnr lnr-upload" href="javascript:;">
                                     点击上传
                                     <input id="IdCard" type="file" name="idcardImg" size="40"
                                            style="position:absolute; z-index:2;top:0;
                                 left:0;filter: alpha(opacity=0); opacity:0;
-                                background-color:transparent; color:transparent;"/>
+                                background-color:transparent; color:transparent;" />
                                 </a>
-                                <span class="label label-success" id="upload-file-info"></span>
+                                <span id="validIdCardImg" class="text-danger pull-right">请上传文件</span>
+                                <div class="form-group">
+                                    <span class="label label-success" id="upload-file-info"></span>
+                                </div>
                             </div>
                         </div>
                             <div class="form-group">

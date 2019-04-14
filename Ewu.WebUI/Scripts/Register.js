@@ -36,7 +36,7 @@
             url: "/Register/GetPhoCode", // 目标地址    
             data: { "Code": phocode, "phoNum": phoNum },
             error: function (msg) {
-                alert(msg);
+                alert("请求失败，请联系管理员");
             },
             success: function (data) {
                 var dataStr = JSON.stringify(data);
@@ -79,7 +79,7 @@
             url: "/Register/GetEmailCode", // 目标地址    
             data: { "Code": emailcode, "Email": email },
             error: function (msg) {
-                alert(msg);
+                alert("请求失败，请联系管理员");
             },
             success: function (data) {
                 
@@ -174,7 +174,7 @@
                 url: "/Register/validCode", // 目标地址    
                 data: { "Code": phoCode, "Type": "Pho" },
                 error: function (msg) {
-                    alert(msg);
+                    alert("请求失败，请联系管理员");
                 },
                 success: function (data) {
                     //验证成功
@@ -224,7 +224,7 @@
                 url: "/Register/validCode", // 目标地址    
                 data: { "Code": emailCode, "Type": "Email" },
                 error: function (msg) {
-                    alert(msg);
+                    alert("请求失败，请联系管理员");
                 },
                 success: function (data) {
                     //验证成功
@@ -289,7 +289,7 @@
                 url: "/Register/isExistEmail",
                 data: { "Email": email },
                 error: function (msg) {
-                    alert(msg);
+                    alert("请求失败，请联系管理员");
                 },
                 success: function (data) {
                     //存在YES
@@ -317,7 +317,7 @@
                 url: "/Register/isExistUserName",
                 data: { "Name": username },
                 error: function (msg) {
-                    alert(msg);
+                    alert("请求失败，请联系管理员");
                 },
                 success: function (isExist) {
                     //存在
@@ -328,7 +328,7 @@
                     //不存在,可行
                     else if (isExist == "\"NO\"") {
                         $("#NameIsExistValid").attr("hidden", "true");
-                        $("#NameIsExistValid").text("");
+                        $("#NameIsExistValid").text("验证通过");
                     }
                     //规则不通过
                     else {
@@ -345,6 +345,9 @@
             $("#NameIsExistValid").removeAttr("hidden");
             $("#NameIsExistValid").text("请输入用户名");
         }
+
+        //检测条件是否都满足
+        CanCreate();
     });
 
     //监听密码-修改后检查
@@ -366,18 +369,13 @@
             url: "/Register/ValidCreateUser",
             data: { "Name": username, "PassWD": password, "Email": email },
             error: function (msg) {
-                alert(msg);
+                alert("请求失败，请联系管理员");
             },
             success: function (data) {
                 //可以创建
                 if (data == "\"OK\"") {
                     $("#PassWdIsExistValid").attr("hidden", "true");
-                    $("#PassWdIsExistValid").text("");
-
-                    //检查是否双重验证通过
-                    if ($("#validPho").val() == "验证通过" && $("#validEmail").val() == "验证通过") {
-                        $("#Create").removeAttr("disabled");
-                    }
+                    $("#PassWdIsExistValid").text("验证通过");
                 }
                 //出错
                 else if (data == "\"Error\"") {
@@ -393,7 +391,9 @@
                 }
             }
         });
-        
+
+        //检测条件是否都满足
+        CanCreate();
     });
 
     //监听重复输入密码
@@ -407,7 +407,7 @@
             //验证通过
             if (repasswd == passwd) {
                 $("#RepeatPassWd").attr("hidden", "true");
-                $("#RepeatPassWd").text("");
+                $("#RepeatPassWd").text("验证通过");
             }
             else {
                 $("#RepeatPassWd").removeAttr("hidden");
@@ -418,16 +418,40 @@
             $("#RepeatPassWd").removeAttr("hidden");
             $("#RepeatPassWd").text("请再次输入你的密码");
         }
+
+        //检测条件是否都满足
+        CanCreate();
     });
 
     //监听身份证文件
-    $("#IdCard").change(function (img) {
+    $("#IdCard").change(function () {
+        var idcard = $("#IdCard").val();    //文件路径
+        var imgname = idcard.substring(idcard.lastIndexOf("\\") + 1);   //文件名
+        var size = $("#IdCard")[0].files[0].size;   //文件大小
+        var suffix = idcard.substring(idcard.lastIndexOf(".")); //后缀名
+        //先判断后缀名
+        if (suffix.toLowerCase() == ".png" || suffix.toLowerCase() == ".jpg") {
+            //文件最大为2097152个字节(2MB)
+            if (0 < size && size <= 2097152) {
+                $("#upload-file-info").html(imgname);
+                $("#validIdCardImg").text("");
+            }
+            else {
+                $("#IdCard").val("");
+                $("#upload-file-info").html("");
+                $("#validIdCardImg").text("文件大小请保持在2MB以内");
+            }
+        } else {
+            $("#IdCard").val("");
+            $("#upload-file-info").html("");
+            $("#validIdCardImg").text("请上传JPG或PNG图片文件");
+        }
 
-        var idcard = $("#IdCard").val();
-        alert(idcard);
-        $("#upload-file-info").html(idcard);
+        //检测条件是否都满足
+        CanCreate();
     });
 
+    //验证方法-在填写账号信息前，要先验证手机号码和电子邮箱
     function IsValid() {
         //获取手机验证值
         var PhoIsValid = $("#validPho").val();
@@ -442,12 +466,22 @@
         }
     }
 
+    //验证方法-当创建帐号信息条件都满足时Create按钮可用
+    function CanCreate() {
+        if ($("#NameIsExistValid").text() == "验证通过" && $("#PassWdIsExistValid").text() == "验证通过" && $("#RepeatPassWd").text() == "验证通过" && $("#validIdCardImg").text() == "") {
+            $("#Create").removeAttr("disabled");
+        } else {
+            $("#Create").attr("disabled", "true");
+        }
+    }
+
     //信息提示模块
     //添加提示框
     $("#Name").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "只能由数字和字母组成，长度为3-20字符");
     $("#Password").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "长度为6-16字符，大小写字母都需至少一个");
     $("#ConfirmedPassWd").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "再输入一次密码");
 
+    //提示框
     $(function () {
         $("[data-toggle='popover']").popover();
     });

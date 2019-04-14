@@ -91,10 +91,20 @@ namespace Ewu.WebUI.Controllers
                 AppUser user = new AppUser
                 {
                     UserName = model.Name,
-                    //Email = model.Email,
+                    Email = model.Email,
                     Age = model.Age,
                     BirthDay = model.BirthDay,
-
+                    RegisterTime = DateTime.Now,
+                    Gender = model.Gender,
+                    HeadPortrait = @"~\images\usr_avatar.png",
+                    IDCardImageData = model.IDCardImageData,
+                    IDCardImageMimeType = model.IDCardImageMimeType,
+                    IDCardNO = model.IDCardNO,
+                    NativePlace = model.NativePlace,
+                    RealName = model.RealName,
+                    PhoneNumber = model.PhoneNumber,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
                 };
                 //创建用户，并返回结果
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);

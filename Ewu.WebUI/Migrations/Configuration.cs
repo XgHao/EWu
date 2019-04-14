@@ -64,7 +64,7 @@ namespace Ewu.WebUI.Migrations
             //添加属性的默认值
             foreach(AppUser dbUser in userMgr.Users)
             {
-                dbUser.Gender = Gender.保密;
+                dbUser.Gender = "保密";
                 dbUser.Signature = "Ta什么也没留下。";
                 dbUser.RealName = dbUser.UserName + "(用户名临时替代)";
                 dbUser.Age = 0;
