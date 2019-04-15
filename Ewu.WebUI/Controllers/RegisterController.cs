@@ -4,17 +4,23 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ewu.WebUI.API;
+using Ewu.WebUI.Infrastructure.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Ewu.Domain.Entities;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Globalization;
+using Ewu.WebUI.Models;
+using Ewu.Domain.Db;
 
 //腾讯云短信
 using qcloudsms_csharp;
 using qcloudsms_csharp.json;
 using qcloudsms_csharp.httpclient;
 using Newtonsoft.Json.Linq;
-using Ewu.WebUI.Infrastructure.Identity;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Ewu.Domain.Entities;
-using System.Text.RegularExpressions;
+
+
 
 namespace Ewu.WebUI.Controllers
 {
@@ -25,6 +31,136 @@ namespace Ewu.WebUI.Controllers
         {
             return View();
         }
+
+
+        /// <summary>
+        /// 创建新用户页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 创建新用户动作[HttpPost]
+        /// </summary>
+        /// <param name="model">目标用户验证模型</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> Create(CreateModel model, HttpPostedFileBase idcardImg = null)
+        {
+            //验证模型无误
+            if(ModelState.IsValid)
+            {
+                //检查有无上传图片
+                if (idcardImg != null)
+                {
+                    //文件MimeType
+                    model.IDCardImageMimeType = idcardImg.ContentType;
+                    //
+                    model.IDCardImageData = new byte[idcardImg.ContentLength];
+                    //数据以二进制的形势写入到流中
+                    idcardImg.InputStream.Read(model.IDCardImageData, 0, idcardImg.ContentLength);
+
+                    string base64 = Convert.ToBase64String(model.IDCardImageData);
+                    //使用API获取身份证信息
+
+                    Dictionary<string, string> info = new Identity().IdentityORC(base64);
+                    //识别成功
+                    if (info["Status"] == "SUCCESS")
+                    {
+                        //识别成功后，检查改身份证是否已经使用
+                        using (var db = new AspNetUserDataContext())
+                        {
+                            var idcard = db.AspNetUsers.Where(x => x.IDCardNO.ToString() == info["num"]).ToList();
+                            
+                            //改身份证已被注册
+                            if (idcard.Count > 0)
+                            {
+                                model.OCRresult = "该身份证已被注册";
+                                return View("ReUpLoadIdCard", model);
+                            }
+                        }
+
+                        DateTime birth;
+                        //转换时间
+                        if (DateTime.TryParseExact(info["birth"], "yyyyMMdd", null, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AdjustToUniversal, out birth))
+                        {
+                            model.BirthDay = birth;
+                            model.Age = DateTime.Now.Year - birth.Year;
+                        }
+                        model.NativePlace = info["address"];
+                        model.RealName = info["name"];
+                        model.IDCardNO = info["num"];
+                        model.Gender = info["sex"];
+
+                        //根据模型生成对应的用户实例
+                        AppUser user = new AppUser
+                        {
+                            UserName = model.Name,                              //用户名
+                            Email = model.Email,                                //电子邮箱
+                            Age = model.Age,                                    //年龄
+                            BirthDay = model.BirthDay,                          //出生年月
+                            RegisterTime = DateTime.Now,                        //注册时间
+                            Gender = model.Gender,                              //性别
+                            HeadPortrait = @"~\images\usr_avatar.png",          //默认头像
+                            IDCardImageData = model.IDCardImageData,            //身份证照
+                            IDCardImageMimeType = model.IDCardImageMimeType,    //身份证照格式
+                            IDCardNO = model.IDCardNO,                          //身份证号码
+                            NativePlace = model.NativePlace,                    //家庭住址
+                            RealName = model.RealName,                          //真实姓名
+                            PhoneNumber = model.PhoneNumber,                    //手机号码
+                            EmailConfirmed = true,                              //电子邮箱验证是否通过
+                            PhoneNumberConfirmed = true,                        //手机号码验证是否通过
+                        };
+
+
+                        //创建用户，并返回结果
+                        IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                        //成功
+                        if (result.Succeeded)
+                        {
+                            model.OCRresult = "注册成功";
+                            //页面重定向到注册页面
+                            return View("ReUpLoadIdCard", model);
+                        }
+                        //失败
+                        else
+                        {
+                            //添加错误模型
+                            AddErrorsFromResult(result);
+                            //返回Error页面
+                            return View();
+                        }
+                    }
+                    //识别失败，跳转页面重新上传身份证
+                    else if (info["Status"] == "ERROR")
+                    {
+                        model.OCRresult = "识别失败";
+                        return View("ReUpLoadIdCard", model);
+                    }
+                }
+                //无图片
+                else
+                {
+                    model.OCRresult = "图片为空，请下方重新上传";
+                    return View("ReUpLoadIdCard", model);
+                }
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// 身份证识别失败，重新上传
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ReUpLoadIdCard(CreateModel model)
+        {
+
+            return View();
+        }
+
 
         /// <summary>
         /// 获取手机验证码并发送
@@ -43,6 +179,7 @@ namespace Ewu.WebUI.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
 
         /// <summary>
         /// 获取邮箱验证码并发送
@@ -67,6 +204,7 @@ namespace Ewu.WebUI.Controllers
                 return Json(result["Msg"], JsonRequestBehavior.AllowGet);
             }
         }
+
 
         /// <summary>
         /// 验证手机号和邮箱
@@ -110,6 +248,7 @@ namespace Ewu.WebUI.Controllers
 
         }
 
+
         /// <summary>
         /// 检查当前电子邮件是否已存在
         /// </summary>
@@ -122,6 +261,7 @@ namespace Ewu.WebUI.Controllers
             string result = appUser != null ? "YES" : "NO";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
 
         /// <summary>
         /// 检查当前用户名是否已存在
@@ -157,6 +297,7 @@ namespace Ewu.WebUI.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
 
         /// <summary>
         /// 验证当前账号信息
@@ -216,6 +357,21 @@ namespace Ewu.WebUI.Controllers
         }
 
 
+
+
+        /// <summary>
+        /// 添加验证模型的错误集合
+        /// </summary>
+        /// <param name="result">身份操作的结果</param>
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            //遍历所有错误
+            foreach (string error in result.Errors)
+            {
+                //添加错误到错误模型
+                ModelState.AddModelError("", error);
+            }
+        }
 
         /// <summary>
         /// 因为在实现不用的管理功能时，会反复使用APpUserManager类。所以定义UserManager以方便

@@ -9,8 +9,8 @@ using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models;
 using Ewu.Domain.Entities;
 using System.Threading.Tasks;
-using Ewu.WebUI.API;
 using System.Globalization;
+using Ewu.WebUI.API;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -24,104 +24,6 @@ namespace Ewu.WebUI.Controllers
         public ActionResult Index()
         {
             return View(UserManager.Users);
-        }
-
-        /// <summary>
-        /// 创建新用户页面
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// 创建新用户动作[HttpPost]
-        /// </summary>
-        /// <param name="model">目标用户验证模型</param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<ActionResult> Create(CreateModel model, HttpPostedFileBase idcardImg = null)
-        {
-            //验证模型无误
-            if(ModelState.IsValid)
-            {
-                //检查有无上传图片
-                if (idcardImg != null)
-                {
-                    //文件MimeType
-                    model.IDCardImageMimeType = idcardImg.ContentType;
-                    //
-                    model.IDCardImageData = new byte[idcardImg.ContentLength];
-                    //数据以二进制的形势写入到流中
-                    idcardImg.InputStream.Read(model.IDCardImageData, 0, idcardImg.ContentLength);
-
-                    string base64 = Convert.ToBase64String(model.IDCardImageData);
-                    //使用API获取身份证信息
-
-                    Dictionary<string, string> info = new Identity().IdentityORC(base64);
-                    //识别成功
-                    if (info["Status"] == "SUCCESS")
-                    {
-                        DateTime birth;
-                        //转换时间
-                        if(DateTime.TryParseExact(info["birth"],"yyyyMMdd",null,DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AdjustToUniversal,out birth))
-                        {
-                            model.BirthDay = birth;
-                            model.Age = DateTime.Now.Year - birth.Year;
-                        }
-                        model.NativePlace = info["address"];
-                        model.RealName = info["name"];
-                        model.IDCardNO = info["num"];
-                        model.Gender = info["sex"];
-                    }
-                    else if(info["Status"] == "ERROR")
-                    {
-                        return View(model);
-                    }
-                }
-                //无图片
-                else
-                {
-                    ViewBag.Img = "None";
-                    return View(model);
-                }
-
-                //根据模型生成对应的用户实例
-                AppUser user = new AppUser
-                {
-                    UserName = model.Name,
-                    Email = model.Email,
-                    Age = model.Age,
-                    BirthDay = model.BirthDay,
-                    RegisterTime = DateTime.Now,
-                    Gender = model.Gender,
-                    HeadPortrait = @"~\images\usr_avatar.png",
-                    IDCardImageData = model.IDCardImageData,
-                    IDCardImageMimeType = model.IDCardImageMimeType,
-                    IDCardNO = model.IDCardNO,
-                    NativePlace = model.NativePlace,
-                    RealName = model.RealName,
-                    PhoneNumber = model.PhoneNumber,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                };
-                //创建用户，并返回结果
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-                //成功
-                if (result.Succeeded)
-                {
-                    //页面重定向到Index
-                    return RedirectToAction("Index");
-                }
-                //失败
-                else
-                {
-                    //添加错误模型
-                    AddErrorsFromResult(result);
-                }
-            }
-            return View(model);
         }
 
         /// <summary>

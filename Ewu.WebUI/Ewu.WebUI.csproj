@@ -100,6 +100,7 @@
     <Reference Include="qcloudsms_csharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\qcloud.qcloudsms_csharp.0.1.5\lib\net461\qcloudsms_csharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -771,7 +772,6 @@
     <Content Include="Views\Shared\_IdentityLayout.cshtml" />
     <Content Include="Views\Identity\Index.cshtml" />
     <Content Include="Views\IAdmin\Index.cshtml" />
-    <Content Include="Views\IAdmin\Create.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\IAdmin\Edit.cshtml" />
     <Content Include="Views\IAccount\Login.cshtml" />
@@ -779,9 +779,11 @@
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Identity\UserProps.cshtml" />
-    <Content Include="Views\Shared\_EwuLayout.cshtml" />
+    <Content Include="Views\Shared\_RegisterLayout.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\SignUp.cshtml" />
+    <Content Include="Views\Register\ReUpLoadIdCard.cshtml" />
+    <Content Include="Views\Register\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -791,7 +793,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Register\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ewu.Domain\Ewu.Domain.csproj">

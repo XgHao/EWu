@@ -15,6 +15,7 @@ namespace Ewu.WebUI.Models
         [Required(ErrorMessage = "请填写用户名")]
         public string Name { get; set; }        //用户名
 
+        [Required(ErrorMessage ="请填写电子邮箱地址")]
         public string Email { get; set; }       //邮箱
 
         [Required(ErrorMessage = "请设置你的登录密码")]
@@ -24,6 +25,7 @@ namespace Ewu.WebUI.Models
         [Compare("Password",ErrorMessage = "两次密码输入不同，请检查")]
         public string ConfirmedPassWd { get; set; } //确认密码
 
+        [Required]
         public string PhoneNumber { get; set; } //联系方式
 
         public string RealName { get; set; }    //真实姓名
@@ -41,6 +43,7 @@ namespace Ewu.WebUI.Models
         //身份证照
         public byte[] IDCardImageData { get; set; }
         public string IDCardImageMimeType { get; set; }
+        public string OCRresult { get; set; }       //识别结果
 
         public string PhoCAPTCHA { get; set; }     //手机验证码
         public bool PhoIsMatch { get; set; }       //验证码是否通过
