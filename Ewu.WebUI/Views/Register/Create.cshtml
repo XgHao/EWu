@@ -11,8 +11,31 @@
     @Html.Partial("PartialLayout/UserInfo")
 }
 
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">注册</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">Sign up</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
 <!--注册页面-->
-@section signup{
+@section signuporlogin{
     <section class="signup_area section--padding2">
         <div class="container">
             @using (Html.BeginForm("Create", "Register", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -120,6 +143,12 @@
                                 </div>
                                 <div class="form-group">
                                     <input id="Create" type="submit" value="Create" class="btn btn--fullwidth btn-danger" disabled="disabled"/>
+                                </div>
+                                <div class="login_assist">
+                                    <p>
+                                        已有账号？
+                                        @Html.ActionLink("登录", "Login", "IAccount")
+                                    </p>
                                 </div>
                             </div>
                         </div>

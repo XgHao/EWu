@@ -62,7 +62,7 @@ namespace Ewu.WebUI.Controllers
                 //当前分类
                 CurrentCategory = category,
                 //当前用户信息
-                //CurrentUserInfo=
+                CurrentUserInfo= CurrentUser
             };
             return View(model);
         }
@@ -88,6 +88,17 @@ namespace Ewu.WebUI.Controllers
         }
 
 
+
+        /// <summary>
+        /// 获取当前用户
+        /// </summary>
+        private AppUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindByName(HttpContext.User.Identity.Name);
+            }
+        }
 
         /// <summary>
         /// 因为在实现不用的管理功能时，会反复使用APpUserManager类。所以定义UserManager以方便

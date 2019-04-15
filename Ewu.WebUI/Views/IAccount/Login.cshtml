@@ -1,24 +1,72 @@
-﻿@model Ewu.WebUI.Models.LoginModel
+﻿@model Ewu.WebUI.Models.ViewModel.LoginModel
 
 @{
-    ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_IdentityLayout.cshtml";
+    ViewBag.Title = "登录";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
 }
 
-<h2>Log In</h2>
-@Html.ValidationSummary()
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken();
-    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-    <div class="form-group">
-        <label>Name</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-    </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
+<!--用户个人信息-->
+@section UserInfo{
+    @Html.Partial("PartialLayout/UserInfo")
 }
 
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">登录</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">Log in</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!--登录页面-->
+@section signuporlogin{
+    <section class="signup_area section--padding2">
+        <div class="container">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-3">
+                        <div class="cardify signup_form">
+                            <div class="login--header">
+                                <h3>登录</h3>
+                                <p>易物网（Ewu）致力于提供一个简单高效的物物交换平台</p>
+                            </div>
+                            <div class="login--form">
+                                <div class="form-group">
+                                    <span class="lnr lnr-user"></span>
+                                    <label for="urname">登录名</label>
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "请输入你的用户名" })
+                                    @Html.ValidationMessage("Name", new { @class = "text-danger pull-right" })
+                                </div>
+                                <div class="form-group">
+                                    <span class="lnr lnr-lock"></span>
+                                    <label for="passwd">登录口令</label>
+                                    @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "请输入你登录密码" })
+                                    @Html.ValidationMessage("Password", new { @class = "text-danger pull-right" })
+                                </div>
+                                <div class="form-group">
+                                    <input id="Login" type="submit" value="登录" class="btn btn-success btn--fullwidth" />
+                                </div>
+                            </div>
+                        </div>
+                    </div /v>
+                </div>
+            }
+        </div>
+    </section>
+}
