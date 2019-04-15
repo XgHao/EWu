@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Ewu.Domain.Entities;
 
-namespace Ewu.WebUI.Models
+namespace Ewu.WebUI.Models.ViewModel
 {
     /// <summary>
     /// 注册用户验证模型

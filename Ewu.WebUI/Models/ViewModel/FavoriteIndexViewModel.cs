@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Ewu.Domain.Entities;
 
-namespace Ewu.WebUI.Models
+namespace Ewu.WebUI.Models.ViewModel
 {
     /// <summary>
     /// 收藏视图模型详情

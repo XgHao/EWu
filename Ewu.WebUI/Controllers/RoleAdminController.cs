@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.Domain.Entities;
-using Ewu.WebUI.Models;
+using Ewu.WebUI.Models.ViewModel;
 
 namespace Ewu.WebUI.Controllers
 {

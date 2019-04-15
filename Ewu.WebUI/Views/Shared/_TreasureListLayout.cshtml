@@ -5,9 +5,13 @@
 <head>
     @Html.Partial("cssJS/cssHead")
 
+    <!-- ICON -->
+    <link rel="icon" type="image/png" sizes="16*16" href="~/images/favicon.png" />
+
+
     <title>@ViewBag.Title</title>
 </head>
-<body class="preload home1 mutlti-vendor">
+<body class="preload home3">
     <div class="menu-area">
         <!--顶部栏-->
         <div class="top-menu-area">
@@ -33,16 +37,7 @@
                 <div class="col-md-12">
                     <div class="navbar-header">
                         <!--搜索框-->
-                        <div class="mainmenu__search">
-                            <form action="#">
-                                <div class="searc-wrap">
-                                    <input type="text" placeholder="Search product">
-                                    <button type="submit" class="search-wrap__btn">
-                                        <span class="lnr lnr-magnifier"></span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+
                     </div>
 
                     <nav class="navbar navbar-expand-md navbar-light mainmenu__menu">
@@ -402,13 +397,18 @@
         </div>
     </div>
 
-    @RenderSection("signup")
+    <!--搜索框-->
+    @RenderSection("SearchBox")
+
+    <!--物品列表-->
+    @RenderSection("List")
+
 
     <!--页尾底栏-->
     @Html.Partial("PartialLayout/Footer")
 
-
-    <!--JS-->
+    <!-- JS -->
     @Html.Partial("cssJS/jsBody")
+    <!-- END JS -->
 </body>
 </html>

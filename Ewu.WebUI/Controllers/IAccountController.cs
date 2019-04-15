@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
-using Ewu.WebUI.Models;
+using Ewu.WebUI.Models.ViewModel;
 using Ewu.Domain.Entities;
 using Microsoft.Owin.Security;
 using System.Security.Claims;

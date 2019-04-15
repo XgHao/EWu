@@ -736,12 +736,12 @@
       <DependentUpon>201904020817201_IDCardProperty.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ChangeInfoViewModel.cs" />
-    <Compile Include="Models\FavoriteIndexViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModel\ChangeInfoViewModel.cs" />
+    <Compile Include="Models\ViewModel\FavoriteIndexViewModel.cs" />
+    <Compile Include="Models\ViewModel\LoginViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
-    <Compile Include="Models\TreasureListViewModel.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Models\ViewModel\TreasureListViewModel.cs" />
+    <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -784,6 +784,12 @@
     <Content Include="Views\Test\SignUp.cshtml" />
     <Content Include="Views\Register\ReUpLoadIdCard.cshtml" />
     <Content Include="Views\Register\Create.cshtml" />
+    <Content Include="Views\Shared\_TreasureListLayout.cshtml" />
+    <Content Include="Views\Shared\PartialLayout\Footer.cshtml" />
+    <Content Include="Views\Shared\PartialLayout\UserInfo.cshtml" />
+    <Content Include="Views\Shared\cssJS\cssHead.cshtml" />
+    <Content Include="Views\Shared\cssJS\jsBody.cshtml" />
+    <Content Include="Views\Shared\Summary\TreasureSmy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

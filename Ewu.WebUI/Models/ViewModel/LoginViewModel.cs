@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ewu.WebUI.Models
+namespace Ewu.WebUI.Models.ViewModel
 {
     /// <summary>
     /// 登录视图模型

@@ -11,7 +11,7 @@ using Ewu.Domain.Entities;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
-using Ewu.WebUI.Models;
+using Ewu.WebUI.Models.ViewModel;
 using Ewu.Domain.Db;
 
 //腾讯云短信

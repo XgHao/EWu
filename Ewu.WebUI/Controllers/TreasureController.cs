@@ -5,7 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
+using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models;
+using Ewu.WebUI.Models.ViewModel;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -15,7 +19,6 @@ namespace Ewu.WebUI.Controllers
     public class TreasureController : Controller
     {
         private ITreasuresRepository repository;    //定义的物品储存库
-        public int PageSize = 2;                    //每页显示数
 
         /// <summary>
         /// 构造函数
@@ -32,8 +35,11 @@ namespace Ewu.WebUI.Controllers
         /// <param name="category">分类</param>
         /// <param name="page">页码</param>
         /// <returns></returns>
-        public ViewResult List(string category, int page = 1)
+        public ViewResult List(string category, int page = 1, int PageSize = 12)
         {
+            //获取当前用户
+            //UserManager.get
+
             //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
@@ -54,7 +60,9 @@ namespace Ewu.WebUI.Controllers
                                           : repository.Treasures.Where(e => e.TreasureType == category).Count()
                 },
                 //当前分类
-                CurrentCategory = category
+                CurrentCategory = category,
+                //当前用户信息
+                //CurrentUserInfo=
             };
             return View(model);
         }
@@ -76,6 +84,22 @@ namespace Ewu.WebUI.Controllers
             else
             {
                 return null;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 因为在实现不用的管理功能时，会反复使用APpUserManager类。所以定义UserManager以方便
+        /// </summary>
+        private AppUserManager UserManager
+        {
+            get
+            {
+                //Microsoft.Owin.Host.SystemWeb程序集为HttpContext类添加了一些扩展方法，其中之一便是GetOwinContext
+                //GetOwinContext通过IOwinContext对象，将基于请求的上下文对象提供给OWIN API
+                //在这其中有一个扩展方法GetUserManager<T>，可以用来得到用户管理器类实例
+                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
     }

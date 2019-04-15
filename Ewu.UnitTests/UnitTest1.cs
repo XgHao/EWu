@@ -7,8 +7,8 @@ using Moq;
 using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
 using Ewu.WebUI.Controllers;
-using Ewu.WebUI.Models;
 using Ewu.WebUI.HtmlHelpers;
+using Ewu.WebUI.Models;
 
 namespace Ewu.UnitTests
 {

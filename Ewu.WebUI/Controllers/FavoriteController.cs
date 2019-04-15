@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
-using Ewu.WebUI.Models;
+using Ewu.WebUI.Models.ViewModel;
 
 namespace Ewu.WebUI.Controllers
 {
