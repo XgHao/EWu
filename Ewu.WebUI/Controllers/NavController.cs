@@ -28,7 +28,7 @@ namespace Ewu.WebUI.Controllers
         /// </summary>
         /// <param name="category">分类</param>
         /// <returns>分部视图</returns>
-        public PartialViewResult Menu(string category = null)
+        public PartialViewResult Category(string category = null)
         {
             //保存选择的分类
             ViewBag.SelectedCategory = category;
@@ -70,6 +70,40 @@ namespace Ewu.WebUI.Controllers
             IEnumerable<CategoryInfo> AllCateInfos = categoryInfos;
 
             return PartialView(AllCateInfos);
+        }
+
+        /// <summary>
+        /// 排序分部视图
+        /// </summary>
+        /// <param name="orderby"></param>
+        /// <returns></returns>
+        public PartialViewResult Orderby(string orderby = null)
+        {
+            //保存选择的排序
+            ViewBag.SelectedOrderby = orderby;
+
+            //获取所有可供排序显示
+            Dictionary<string, string> orderbys = new Dictionary<string, string>();
+
+            //orderbys.Add("Favorite", "收藏数 ↑") ;
+            //orderbys.Add("Favorite", "收藏数 ↓") ;
+            //orderbys.Add("BrowseNum", "浏览量 ↑") ;
+            //orderbys.Add("BrowseNum", "浏览量 ↓") ;
+            //orderbys.Add("UploadTime", "上传时间 ↑");
+            //orderbys.Add("UploadTime", "上传时间 ↓");
+            //orderbys.Add("UpdateTime", "更新时间 ↑");
+            //orderbys.Add("UpdateTime", "更新时间 ↓");
+
+            orderbys.Add("收藏数（正序）", "↑");
+            orderbys.Add("收藏数（倒序）", "↓");
+            orderbys.Add("浏览量（正序）", "↑");
+            orderbys.Add("浏览量（倒序）", "↓");
+            orderbys.Add("上传时间（正序）", "↑");
+            orderbys.Add("上传时间（倒序）", "↓");
+            orderbys.Add("更新时间（正序）", "↑");
+            orderbys.Add("更新时间（倒序）", "↓");
+
+            return PartialView(orderbys);
         }
     }
 }

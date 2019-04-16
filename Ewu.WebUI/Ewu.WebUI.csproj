@@ -760,7 +760,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\TreasureSummary.cshtml" />
-    <Content Include="Views\Nav\Menu.cshtml" />
+    <Content Include="Views\Nav\Category.cshtml" />
     <Content Include="Views\Favorite\Index.cshtml" />
     <Content Include="Views\Favorite\Summary.cshtml" />
     <Content Include="Views\Favorite\Checkout.cshtml" />
@@ -791,6 +791,7 @@
     <Content Include="Views\Shared\cssJS\jsBody.cshtml" />
     <Content Include="Views\Shared\Summary\TreasureSmy.cshtml" />
     <Content Include="Views\Shared\PartialLayout\NoUserInfo.cshtml" />
+    <Content Include="Views\Nav\Orderby.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -62,32 +62,10 @@
                 <div class="col-md-12">
                     <div class="filter-bar">
                         <!--分类-->
-                        @Html.Action("Menu", "Nav")
+                        @Html.Action("Category", "Nav")
 
                         <!--排序-->
-                        <div class="filter__option filter--dropdown">
-                            <a href="#" id="drop2" class="dropdown-trigger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Filter By
-                                <span class="lnr lnr-chevron-down"></span>
-                            </a>
-                            <ul class="custom_dropdown dropdown-menu" aria-labelledby="drop2">
-                                <li>
-                                    <a href="#">Trending items</a>
-                                </li>
-                                <li>
-                                    <a href="#">Popular items</a>
-                                </li>
-                                <li>
-                                    <a href="#">New items </a>
-                                </li>
-                                <li>
-                                    <a href="#">Best seller </a>
-                                </li>
-                                <li>
-                                    <a href="#">Best rating </a>
-                                </li>
-                            </ul>
-                        </div>
+                        @Html.Action("Orderby", "Nav")
 
                         <!--价格范围-->
                         <div class="filter__option filter--dropdown filter--range">

@@ -1,0 +1,20 @@
+﻿@model Dictionary<string,string>
+
+<!--排序-->
+<div class="filter__option filter--dropdown">
+    <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        排序
+        <span class="lnr lnr-chevron-down"></span>
+    </a>
+    <ul class="custom_dropdown custom_drop2 dropdown-menu" aria-labelledby="drop1">
+        @foreach (var orderby in Model)
+        {
+            <li>
+                <a href="">
+                    @orderby.Key
+                    <span>@orderby.Value</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
