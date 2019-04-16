@@ -56,10 +56,11 @@ namespace Ewu.WebUI.Models.ViewModel
     /// </summary>
     public class LoginModel
     {
-        [Required]
-        public string Name { get; set; }        //用户名
-        [Required]
-        public string Password { get; set; }    //密码
+        [Required(ErrorMessage = "请填写用户名")]
+        public string LoginName { get; set; }        //用户名
+
+        [Required(ErrorMessage = "请填写登录密码")]
+        public string LoginPassword { get; set; }    //密码
     }
 
     /// <summary>

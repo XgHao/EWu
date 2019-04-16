@@ -38,12 +38,11 @@ namespace Ewu.WebUI.HtmlHelpers
                 //当前页时，该页码的样式
                 if (i == pagingInfo.CurrentPage)
                 {
-                    tag.AddCssClass("selected");
-                    tag.AddCssClass("btn-primary");
+                    tag.AddCssClass("current");
                 }
 
                 //其他页码的样式
-                tag.AddCssClass("btn btn-default");
+                tag.AddCssClass("page-numbers");
 
                 //添加标记
                 result.Append(tag.ToString());

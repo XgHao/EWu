@@ -43,19 +43,19 @@ namespace Ewu.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]                //将动作方法默认限制到已认证用户，但又能允许未认证用户登录到应用程序
         [ValidateAntiForgeryToken]      //与Html.AntiForgeryToken辅助器方法联合工作，防止Cross-Site-Request Forgery(CSRF,跨网站请求伪造)
-        public async Task<ActionResult> Login(LoginModel details, string returnUrl)
+        public async Task<ActionResult> Login(LoginModel details, string returnUrl = "/Home/Index")
         {
             //如果验证模型无误
             if (ModelState.IsValid)
             {
                 //根据用户名和密码查找用户，返回结果
-                AppUser user = await UserManager.FindAsync(details.Name, details.Password);
-                //用户不存在
+                AppUser user = await UserManager.FindAsync(details.LoginName, details.LoginPassword);
+                //用户不存在,登录失败
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "用户不存在或密码错误");
+                    ModelState.AddModelError("LoginPassword", "用户不存在或密码错误");
                 }
-                //用户存在
+                //用户存在,登录成功
                 else
                 {
                     //创建一个标识该用户的ClaimsIdentity对象，由用户管理器(AppUserManager)的CreateIdentityAsync方法创建得到

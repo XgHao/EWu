@@ -18,9 +18,28 @@ namespace Ewu.WebUI.Models.ViewModel
         public PagingInfo PagingInfo { get; set; }
 
         //当前分类
-        public string CurrentCategory { get; set; }
+        public string CurrentCate { get; set; }
+
+        //分类信息
+        public IEnumerable<CategoryInfo>  CategoryInfo { get; set; }
 
         //当前用户信息
         public AppUser CurrentUserInfo { get; set; }
+
+        //显示样式
+        public string Display { get; set; }
+    }
+
+    //导航分类
+    public class CategoryInfo
+    {
+        //分类名称
+        public string CateName { get; set; }
+
+        //分类数量
+        public int CateCount { get; set; }
+
+        //分类链接
+        public string CateLink { get; set; }
     }
 }

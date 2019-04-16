@@ -1,5 +1,5 @@
-﻿@*@using Ewu.Domain.Entities;
-@model AppUser*@
+﻿@using Ewu.Domain.Entities;
+@model AppUser
 
 <div class="col-lg-8 offset-lg-1 col-md-9 col-6 v_middle">
         <!--用户区域-->
@@ -308,13 +308,13 @@
             <div class="author-author__info inline has_dropdown">
                 <!--头像-->
                 <div class="author__avatar">
-                    <img src="~/images/usr_avatar.png" alt="user avatar">
+                    <img src=@Model.HeadPortrait alt="user avatar">
                 </div>
 
                 <!--昵称-->
                 <div class="autor__info">
                     <p class="name">
-                        丨背水丨
+                        @Model.UserName
                     </p>
                     <!--金额-->
                     <p class="ammount">$20.45</p>

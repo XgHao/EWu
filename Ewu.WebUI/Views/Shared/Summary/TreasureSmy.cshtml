@@ -1,9 +1,12 @@
-﻿<div class="col-lg-4 col-md-6">
+﻿@using Ewu.Domain.Entities
+@model Treasure
+
+<div class="col-lg-4 col-md-6">
     <div class="product product--card">
         <!--图片缩略图-->
         <div class="product__thumbnail">
             <!--图片-->
-            <img src="~/images/p1.jpg" alt="Product Image">
+            <img src=@Model.DetailPic alt="Product Image">
             <!--悬浮按钮-->
             <div class="prod_btn">
                 <a href="single-product.html" class="transparent btn--sm btn--round">More Info</a>
@@ -15,7 +18,7 @@
         <div class="product-desc">
             <!--标题-->
             <a href="#" class="product_title">
-                <h4>MartPlace Extension Bundle</h4>
+                <h4>@Model.TreasureName</h4>
             </a>
 
             <!--所有者-->
@@ -30,15 +33,14 @@
                 <!--物品分类-->
                 <li class="product_cat">
                     <a href="#">
-                        <span class="lnr lnr-book"></span>Plugin
+                        <span class="lnr lnr-book"></span>@Model.TreasureType
                     </a>
                 </li>
             </ul>
 
             <!--介绍-->
             <p>
-                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                leo quam aliquet congue.
+                @Model.DetailContent
             </p>
         </div>
 
@@ -46,17 +48,17 @@
         <div class="product-purchase">
             <!--价格-->
             <div class="price_love">
-                <span>$10 - $50</span>
+                <span>@Model.UpdateTime.ToShortDateString()</span>
                 <!--收藏数-->
                 <p>
-                    <span class="lnr lnr-heart"></span> 90
+                    <span class="lnr lnr-heart"></span> @Model.Favorite
                 </p>
             </div>
             <!--交易量-->
             <div class="sell">
                 <p>
-                    <span class="lnr lnr-cart"></span>
-                    <span>16</span>
+                    <span class="lnr lnr-eye"></span>
+                    <span>@Model.BrowseNum</span>
                 </p>
             </div>
         </div>

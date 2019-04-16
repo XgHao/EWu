@@ -17,20 +17,20 @@ namespace Ewu.WebUI
             routes.MapRoute(
                 name: null,
                 url: "",
-                //默认值-物品详情第一页，全部分类
+                //默认值-主页
                 defaults: new
                 {
-                    controller = "Treasure",
-                    action = "List",
-                    category = (string)null,
-                    page = 1
+                    controller = "Home",
+                    action = "Index",
+                    //category = (string)null,
+                    //page = 1
                 }
             );
 
             //当URL只有页面参数时
             routes.MapRoute(
                 name: null,
-                url: "Page{page}",
+                url: "Treasure/List/Page{page}",
                 //默认值-物品详情第page页，全部分类
                 defaults: new
                 {
@@ -48,7 +48,7 @@ namespace Ewu.WebUI
             //当URL只有分类的参数时
             routes.MapRoute(
                 name: null,
-                url: "{category}",
+                url: "Treasure/List/{category}",
                 //默认值-category类物品的第一页
                 defaults: new
                 {
@@ -61,7 +61,7 @@ namespace Ewu.WebUI
             //当URL既有分类和分页时
             routes.MapRoute(
                 name: null,
-                url: "{category}/Page{page}",
+                url: "Treasure/List/{category}/Page{page}",
                 //默认值-category类物品的第page页
                 defaults: new
                 {

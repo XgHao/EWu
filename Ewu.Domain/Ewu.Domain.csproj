@@ -111,6 +111,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspNetUser.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Db\Treasure.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Treasure.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Deal.cs" />
@@ -135,6 +140,14 @@
     </None>
     <None Include="Db\AspNetUser.dbml.layout">
       <DependentUpon>AspNetUser.dbml</DependentUpon>
+    </None>
+    <None Include="Db\Treasure.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Treasure.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Db\Treasure.dbml.layout">
+      <DependentUpon>Treasure.dbml</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

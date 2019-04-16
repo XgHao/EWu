@@ -35,11 +35,9 @@ namespace Ewu.WebUI.Controllers
         /// <param name="category">分类</param>
         /// <param name="page">页码</param>
         /// <returns></returns>
-        public ViewResult List(string category, int page = 1, int PageSize = 12)
+        [Authorize]
+        public ViewResult List(string category, int page = 1, int PageSize = 3)
         {
-            //获取当前用户
-            //UserManager.get
-
             //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
@@ -60,9 +58,9 @@ namespace Ewu.WebUI.Controllers
                                           : repository.Treasures.Where(e => e.TreasureType == category).Count()
                 },
                 //当前分类
-                CurrentCategory = category,
+                CurrentCate = category,
                 //当前用户信息
-                CurrentUserInfo= CurrentUser
+                CurrentUserInfo = CurrentUser
             };
             return View(model);
         }

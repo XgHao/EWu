@@ -104,7 +104,7 @@ namespace Ewu.WebUI.Controllers
                             BirthDay = model.BirthDay,                          //出生年月
                             RegisterTime = DateTime.Now,                        //注册时间
                             Gender = model.Gender,                              //性别
-                            HeadPortrait = @"~\images\usr_avatar.png",          //默认头像
+                            HeadPortrait = @"\images\usr_avatar.png",          //默认头像
                             IDCardImageData = model.IDCardImageData,            //身份证照
                             IDCardImageMimeType = model.IDCardImageMimeType,    //身份证照格式
                             IDCardNO = model.IDCardNO,                          //身份证号码

@@ -47,17 +47,21 @@
                                 <p>易物网（Ewu）致力于提供一个简单高效的物物交换平台</p>
                             </div>
                             <div class="login--form">
+                                <!--生成一个隐藏的窗口字段(防伪标记),在提交窗口时将验证此字段-->
+                                @Html.AntiForgeryToken()
+                                <!--返回的链接-->
+                                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
                                 <div class="form-group">
                                     <span class="lnr lnr-user"></span>
                                     <label for="urname">登录名</label>
-                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "请输入你的用户名" })
-                                    @Html.ValidationMessage("Name", new { @class = "text-danger pull-right" })
+                                    @Html.TextBoxFor(x => x.LoginName, new { @class = "form-control", @placeholder = "请输入你的用户名" })
+                                    @Html.ValidationMessage("LoginName", new { @class = "text-danger pull-right" })
                                 </div>
                                 <div class="form-group">
                                     <span class="lnr lnr-lock"></span>
                                     <label for="passwd">登录口令</label>
-                                    @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "请输入你登录密码" })
-                                    @Html.ValidationMessage("Password", new { @class = "text-danger pull-right" })
+                                    @Html.PasswordFor(x => x.LoginPassword, new { @class = "form-control", @placeholder = "请输入你登录密码" })
+                                    @Html.ValidationMessage("LoginPassword", new { @class = "text-danger pull-right" })
                                 </div>
                                 <div class="form-group">
                                     <input id="Login" type="submit" value="登录" class="btn btn-success btn--fullwidth" />

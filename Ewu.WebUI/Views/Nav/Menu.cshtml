@@ -1,33 +1,21 @@
-﻿@model IEnumerable<string>
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<CategoryInfo>
 
-@*生成主页链接按钮*@
-@Html.ActionLink(
-        linkText: "Home",
-        actionName: "List",
-        controllerName: "Treasure",
-        routeValues: null,
-        htmlAttributes: new
+<!--分类-->
+<div class="filter__option filter--dropdown">
+    <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        分类
+        <span class="lnr lnr-chevron-down"></span>
+    </a>
+    <ul class="custom_dropdown custom_drop2 dropdown-menu" aria-labelledby="drop1">
+        @foreach (var cateinfo in Model)
         {
-            @class = "btn btn-block btn-default btn-lg"
+            <li>
+                <a href=@cateinfo.CateLink>
+                    @cateinfo.CateName
+                    <span>@cateinfo.CateCount</span>
+                </a>
+            </li>
         }
-    )
-@*根据分类列表生成对应的链接按钮*@
-@foreach(var link in Model)
-{
-    @Html.RouteLink(
-        linkText: link,
-        routeValues: new
-        {
-            controller = "Treasure",
-            action = "List",
-            category = link,
-            page = 1
-        },
-        htmlAttributes: new
-        {
-            //高亮当前分类
-            @class = "btn btn-block btn-default btn-lg"
-                   + (link == ViewBag.SelectedCategory ? " btn-primary" : "")
-        }
-    )
-}
+    </ul>
+</div>

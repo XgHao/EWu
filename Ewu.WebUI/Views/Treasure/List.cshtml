@@ -8,7 +8,7 @@
 
 <!--用户个人信息-->
 @section UserInfo{
-    @Html.Partial("PartialLayout/UserInfo")
+    @Html.Partial("PartialLayout/UserInfo", Model.CurrentUserInfo);
 }
 
 <!--搜索框-->
@@ -62,50 +62,7 @@
                 <div class="col-md-12">
                     <div class="filter-bar">
                         <!--分类-->
-                        <div class="filter__option filter--dropdown">
-                            <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Categories
-                                <span class="lnr lnr-chevron-down"></span>
-                            </a>
-                            <ul class="custom_dropdown custom_drop2 dropdown-menu" aria-labelledby="drop1">
-                                <li>
-                                    <a href="#">
-                                        Wordpress
-                                        <span>35</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Landing Page
-                                        <span>45</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Psd Template
-                                        <span>13</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Plugins
-                                        <span>08</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        HTML Template
-                                        <span>34</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Components
-                                        <span>78</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        @Html.Action("Menu", "Nav")
 
                         <!--排序-->
                         <div class="filter__option filter--dropdown">
@@ -195,18 +152,10 @@
         <div class="container">
             <!--物品-->
             <div class="row">
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
-                @Html.Partial("Summary/TreasureSmy")
+                @foreach (var treasure in Model.Treasures)
+                {
+                    @Html.Partial("Summary/TreasureSmy", treasure);
+                }
             </div>
             <!--页码-->
             <div class="row">
@@ -214,15 +163,7 @@
                     <div class="pagination-area">
                         <nav class="navigation pagination" role="navigation">
                             <div class="nav-links">
-                                <a class="prev page-numbers" href="#">
-                                    <span class="lnr lnr-arrow-left"></span>
-                                </a>
-                                <a class="page-numbers current" href="#">1</a>
-                                <a class="page-numbers" href="#">2</a>
-                                <a class="page-numbers" href="#">3</a>
-                                <a class="next page-numbers" href="#">
-                                    <span class="lnr lnr-arrow-right"></span>
-                                </a>
+                                @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCate }))
                             </div>
                         </nav>
                     </div>
