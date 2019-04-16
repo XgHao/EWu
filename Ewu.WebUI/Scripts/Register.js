@@ -468,6 +468,7 @@
 
     //验证方法-当创建帐号信息条件都满足时Create按钮可用
     function CanCreate() {
+        //alert("CanCreate");
         if ($("#NameIsExistValid").text() == "验证通过" && $("#PassWdIsExistValid").text() == "验证通过" && $("#RepeatPassWd").text() == "验证通过" && $("#validIdCardImg").text() == "") {
             $("#Create").removeAttr("disabled");
         } else {

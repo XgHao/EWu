@@ -790,6 +790,7 @@
     <Content Include="Views\Shared\cssJS\cssHead.cshtml" />
     <Content Include="Views\Shared\cssJS\jsBody.cshtml" />
     <Content Include="Views\Shared\Summary\TreasureSmy.cshtml" />
+    <Content Include="Views\Shared\PartialLayout\NoUserInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
