@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ewu.Domain.Entities;
 using Ewu.WebUI.Infrastructure.Abstract;
+using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models.ViewModel;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -60,6 +64,50 @@ namespace Ewu.WebUI.Controllers
             else
             {
                 return View();
+            }
+        }
+
+
+        /// <summary>
+        /// 用户信息
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult UserInfo()
+        {
+            if (CurrentUser != null)
+            {
+                return PartialView(CurrentUser);
+            }
+            else
+            {
+                CurrentUser.UserName = "请登录";
+                CurrentUser.HeadPortrait = "";
+                return PartialView(CurrentUser);
+            }
+        }
+
+        /// <summary>
+        /// 获取当前用户
+        /// </summary>
+        private AppUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindByName(HttpContext.User.Identity.Name);
+            }
+        }
+
+        /// <summary>
+        /// 获取用户管理器
+        /// </summary>
+        private AppUserManager UserManager
+        {
+            get
+            {
+                //Microsoft.Owin.Host.SystemWeb程序集为HttpContext类添加了一些扩展方法，其中之一便是GetOwinContext()方法
+                //GetOwinContext通过IOwinContext对象，将基于请求的上下文对象提供给OWIN API
+                //在这其中有一个扩展方法GetUserManager<T>，可以用来得到用户管理器类实例
+                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
     }

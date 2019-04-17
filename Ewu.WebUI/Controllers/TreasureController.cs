@@ -66,6 +66,28 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 发布新的物品
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UploadItem()
+        {
+            #region 物品类别集合
+            IEnumerable<SelectListItem> types = new List<SelectListItem>()
+            {
+                new SelectListItem(){ Text="网络设备",Value="网络设备" },
+                new SelectListItem(){ Text="电脑配件",Value="电脑配件" },
+                new SelectListItem(){ Text="图书画册",Value="图书画册" },
+                new SelectListItem(){ Text="电子产品",Value="电子产品" },
+                new SelectListItem(){ Text="其他",Value="其他",Selected=true }
+            };
+
+            ViewData["Type"] = types;
+            #endregion
+
+            return View();
+        }
+
+        /// <summary>
         /// 获取图片
         /// FileContentResult将二进制文件的内容发送到响应
         /// </summary>

@@ -792,6 +792,9 @@
     <Content Include="Views\Shared\Summary\TreasureSmy.cshtml" />
     <Content Include="Views\Shared\PartialLayout\NoUserInfo.cshtml" />
     <Content Include="Views\Nav\Orderby.cshtml" />
+    <Content Include="Views\Account\UserInfo.cshtml" />
+    <Content Include="Views\Shared\_BasicLayout.cshtml" />
+    <Content Include="Views\Treasure\UploadItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

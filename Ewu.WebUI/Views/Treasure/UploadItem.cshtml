@@ -1,0 +1,165 @@
+﻿@using Ewu.Domain.Entities
+@model Treasure
+
+@{
+    ViewBag.Title = "UploadItem";
+    Layout = "~/Views/Shared/_BasicLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="dashboard.html">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">Upload Item</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">Upload Item</h1>
+                </div>
+            </div>
+        </div>
+    </section>    
+}
+
+<section class="dashboard-area">
+
+    <div class="dashboard_contents">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="dashboard_title_area">
+                        <div class="pull-left">
+                            <div class="dashboard__title">
+                                <h3>上传你的闲物</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!--录入信息-->
+                <div class="col-lg-8 col-md-7">
+                    @using (Html.BeginForm("UploadItem", "Treasure", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="upload_modules">
+                            <div class="modules__title">
+                                <h3>物品名称 & 详细信息</h3>
+                            </div>
+
+                            <div class="modules__content">
+                                <div class="form-group">
+                                    <label for="category">选择闲物的类型</label>
+                                    <div class="select-wrap select-wrap2">
+                                        @Html.DropDownListFor(t => t.TreasureType, ViewData["Type"] as IEnumerable<SelectListItem>, new { @class = "text_field" })
+                                        <span class="lnr lnr-chevron-down"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="product_name">
+                                        闲物名称
+                                        <span>(Max 100 characters)</span>
+                                    </label>
+                                    <input type="text" id="product_name" class="text_field" placeholder="Enter your product name here...">
+                                </div>
+
+                                <div class="form-group no-margin">
+                                    <p class="label">详细信息</p>
+                                    <div id="trumbowyg-demo"></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!--右侧帮助页面-->
+                <div class="col-lg-4 col-md-5">
+                    <aside class="sidebar upload_sidebar">
+                        <div class="sidebar-card">
+                            <div class="card-title">
+                                <h3>Quick Upload Rules</h3>
+                            </div>
+
+                            <div class="card_content">
+                                <div class="card_info">
+                                    <h4>Image Upload</h4>
+                                    <p>
+                                        Nunc placerat mi id nisi interdum mollis. Praesent there pharetra, justo ut sceleris
+                                        que the mattis interdum.
+                                    </p>
+                                </div>
+
+                                <div class="card_info">
+                                    <h4>File Upload</h4>
+                                    <p>
+                                        Nunc placerat mi id nisi interdum mollis. Praesent there pharetra, justo ut sceleris
+                                        que the mattis interdum.
+                                    </p>
+                                </div>
+
+                                <div class="card_info">
+                                    <h4>Vector Upload</h4>
+                                    <p>
+                                        Nunc placerat mi id nisi interdum mollis. Praesent there pharetra, justo ut sceleris
+                                        que the mattis interdum.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <div class="card-title">
+                                <h3>Trouble Uploading?</h3>
+                            </div>
+
+                            <div class="card_content">
+                                <p>
+                                    Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceler isque the
+                                    mattis, leo quam aliquet congue.
+                                </p>
+                                <ul>
+                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
+                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
+                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
+                                    <li>Consectetur elit, sed do eiusmod the</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <div class="card-title">
+                                <h3>More Upload Info</h3>
+                            </div>
+
+                            <div class="card_content">
+                                <p>
+                                    Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceler isque the
+                                    mattis, leo quam aliquet congue.
+                                </p>
+                                <ul>
+                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
+                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
+                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
+                                    <li>Consectetur elit, sed do eiusmod the</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

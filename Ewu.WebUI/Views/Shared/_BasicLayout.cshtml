@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <!--用户个人信息-->
-                    @RenderSection("UserInfo")
+                    @Html.Action("UserInfo", "Account");
                 </div>
             </div>
         </div>
@@ -31,16 +31,12 @@
     <!--导航-->
     @RenderSection("Nav")
 
-
-    <!--登录或者注册卡片-->
-    @RenderSection("signuporlogin")
+    @RenderBody()
 
     <!--页尾底栏-->
     @Html.Partial("PartialLayout/Footer")
 
-
     <!--JS-->
     @Html.Partial("cssJS/jsBody")
-    <script src="~/Scripts/Register.js"></script>
 </body>
 </html>
