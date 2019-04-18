@@ -51,8 +51,9 @@
             <div class="row">
                 <!--录入信息-->
                 <div class="col-lg-8 col-md-7">
-                    @using (Html.BeginForm("UploadItem", "Treasure", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("UploadItem", "Treasure", FormMethod.Post, new { enctype = "multipart/form-data", id = "dropzoneForm" }))
                     {
+                        <!--物品名称-->
                         <div class="upload_modules">
                             <div class="modules__title">
                                 <h3>物品名称 & 详细信息</h3>
@@ -72,14 +73,16 @@
                                         闲物名称
                                         <span>(Max 100 characters)</span>
                                     </label>
-                                    <input type="text" id="product_name" class="text_field" placeholder="Enter your product name here...">
+                                    @Html.TextBoxFor(t => t.TreasureName, new { @class = "text_field", @placeholder = "请填写物品名称" })
                                 </div>
 
                                 <div class="form-group no-margin">
                                     <p class="label">详细信息</p>
-                                    <div id="trumbowyg-demo"></div>
+                                    @Html.TextAreaFor(t => t.DetailContent, new { @class = "text_field", @placeholder = "描述一下你的物品吧" })
                                 </div>
                             </div>
+
+
                         </div>
                     }
                 </div>
@@ -118,45 +121,19 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="sidebar-card">
-                            <div class="card-title">
-                                <h3>Trouble Uploading?</h3>
-                            </div>
-
-                            <div class="card_content">
-                                <p>
-                                    Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceler isque the
-                                    mattis, leo quam aliquet congue.
-                                </p>
-                                <ul>
-                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
-                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
-                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
-                                    <li>Consectetur elit, sed do eiusmod the</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-card">
-                            <div class="card-title">
-                                <h3>More Upload Info</h3>
-                            </div>
-
-                            <div class="card_content">
-                                <p>
-                                    Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceler isque the
-                                    mattis, leo quam aliquet congue.
-                                </p>
-                                <ul>
-                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
-                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
-                                    <li>Consectetur elit, sed do eiusmod the labore et dolore magna.</li>
-                                    <li>Consectetur elit, sed do eiusmod the</li>
-                                </ul>
-                            </div>
-                        </div>
                     </aside>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="dashboard_title_area">
+                        <form action="~/Treasure/SaveUploadedFile" class="dropzone" enctype="multipart/form-data" id="myDropzone" method="post">
+                            @Html.Hidden("hidAlbumId")
+                        </form>
+                        <dic>
+                        </dic>
+                    </div>
                 </div>
             </div>
         </div>

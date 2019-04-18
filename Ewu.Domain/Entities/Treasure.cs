@@ -29,6 +29,7 @@ namespace Ewu.Domain.Entities
         [Required(ErrorMessage = "Please enter a detail")]
         public string DetailContent { get; set; }   //补充说明
 
+        public string Remarks { get; set; }         //备注
         public DateTime UploadTime { get; set; }    //上传时间
         public DateTime UpdateTime { get; set; }    //最后更新时间
         [Range(0,double.MaxValue,ErrorMessage = "please enter a positive num")]

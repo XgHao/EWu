@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -69,6 +70,7 @@ namespace Ewu.WebUI.Controllers
         /// 发布新的物品
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public ActionResult UploadItem()
         {
             #region 物品类别集合
@@ -86,6 +88,9 @@ namespace Ewu.WebUI.Controllers
 
             return View();
         }
+
+
+
 
         /// <summary>
         /// 获取图片
@@ -133,5 +138,27 @@ namespace Ewu.WebUI.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
+
+
+
+
+
+
+
+
+        //public ActionResult SaveUploadedFile()
+        //{
+        //    bool isSavedSuccessfully = true;
+        //    string fName = "";
+        //    foreach(var fileName in Request.Files)
+        //    {
+        //        HttpPostedFileBase file = Request.Files[fileName];
+        //        //保存文件
+        //        fName = file.FileName;
+        //        if (file != null && file.ContentLength > 0)
+        //        {
+        //        }
+        //    }
+        //}
     }
 }

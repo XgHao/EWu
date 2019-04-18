@@ -597,6 +597,15 @@
     <Content Include="images\vpla.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\Dropzone\basic.css" />
+    <Content Include="Content\Dropzone\basic.min.css" />
+    <Content Include="Scripts\Dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\Dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Content\Dropzone\dropzone.css" />
+    <Content Include="Scripts\Dropzone\dropzone.js" />
+    <Content Include="Content\Dropzone\dropzone.min.css" />
+    <Content Include="Scripts\Dropzone\dropzone.min.js" />
+    <Content Include="Scripts\Dropzone\InitDropzone.js" />
     <Content Include="Scripts\Register.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -804,6 +813,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="images\Treasure\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ewu.Domain\Ewu.Domain.csproj">

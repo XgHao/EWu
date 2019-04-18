@@ -4,7 +4,9 @@
 
 <head>
     @Html.Partial("cssJS/cssHead")
-
+    <!--上传文件所需的样式-->
+    <link href="~/Content/Dropzone/basic.min.css" rel="stylesheet" />
+    <link href="~/Content/Dropzone/dropzone.min.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 <body class="preload home1 mutlti-vendor">
@@ -38,5 +40,9 @@
 
     <!--JS-->
     @Html.Partial("cssJS/jsBody")
+    <!--上传文件所需的js-->
+    <script src="~/Scripts/Dropzone/dropzone-amd-module.min.js"></script>
+    <script src="~/Scripts/Dropzone/dropzone.min.js"></script>
+    <script src="~/Scripts/Dropzone/InitDropzone.js"></script>
 </body>
 </html>
