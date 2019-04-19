@@ -7,6 +7,20 @@
     <!--上传文件所需的样式-->
     <link href="~/Content/Dropzone/basic.min.css" rel="stylesheet" />
     <link href="~/Content/Dropzone/dropzone.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .dz-max-files-reached {
+            background-color: darkseagreen;
+        }
+        .dropzone { 
+            border: 2px dashed #0087F7; 
+            border-radius: 5px; 
+            background: white; 
+            height:217px;
+        } 
+    </style>
+    <script src="~/Scripts/Dropzone/dropzone-amd-module.min.js"></script>
+    <script src="~/Scripts/Dropzone/dropzone.min.js"></script>
+    <script src="~/Scripts/Dropzone/InitDropzone.js"></script>
     <title>@ViewBag.Title</title>
 </head>
 <body class="preload home1 mutlti-vendor">
@@ -38,11 +52,9 @@
     <!--页尾底栏-->
     @Html.Partial("PartialLayout/Footer")
 
+
     <!--JS-->
     @Html.Partial("cssJS/jsBody")
     <!--上传文件所需的js-->
-    <script src="~/Scripts/Dropzone/dropzone-amd-module.min.js"></script>
-    <script src="~/Scripts/Dropzone/dropzone.min.js"></script>
-    <script src="~/Scripts/Dropzone/InitDropzone.js"></script>
 </body>
 </html>

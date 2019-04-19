@@ -722,6 +722,7 @@
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\TreasureController.cs" />
+    <Compile Include="Controllers\UpLoadImgController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -814,6 +815,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="images\Treasure\" />
+    <Folder Include="Views\UpLoadImg\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ewu.Domain\Ewu.Domain.csproj">
