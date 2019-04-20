@@ -143,19 +143,24 @@
                         <label>封面</label>
                         <div class="form-group no-margin">
                             <form action="~/UpLoadImg/Cover" class="dropzone needsclick dz-clickable" enctype="multipart/form-data" id="CoverDropzone" method="post">
+                                @Html.Hidden("TreasureUID", Model.TreasureUID)
+                                @Html.Hidden("UserUID", Model.HolderID)
                             </form>
                         </div>
                         <div class="form-group no-margin">
-                            <button type="submit" class="btn btn-danger" id="submit-all" disabled="disabled">上传</button>
+                            <button type="submit" class="btn btn-danger" id="CoverBtn" disabled="disabled">上传</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="dashboard_title_area">
                         <label>细节图</label>
-                        <form action="~/UpLoadImg/DetailImg" class="dropzone" enctype="multipart/form-data" id="DetailImgDropzone" method="post"></form>
+                        <form action="~/UpLoadImg/DetailImg" class="dropzone" enctype="multipart/form-data" id="DetailImgDropzone" method="post">
+                            @Html.Hidden("TreasureUID", Model.TreasureUID)
+                            @Html.Hidden("UserUID", Model.HolderID)
+                        </form>
                         <div>
-                            <input type="button" class="btn btn-danger" id="DetailImgBtn" value="上传" />
+                            <button type="submit" class="btn btn-danger" id="DetailImgBtn" disabled="disabled">上传</button>
                         </div>
                     </div>
                 </div>

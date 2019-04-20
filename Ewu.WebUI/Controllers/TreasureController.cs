@@ -8,6 +8,7 @@ using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models;
+using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Models.ViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -20,14 +21,15 @@ namespace Ewu.WebUI.Controllers
     public class TreasureController : Controller
     {
         private ITreasuresRepository repository;    //定义的物品储存库
-
+        private IAuthProvider authProvider;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="treasuresRepository">传入储存库</param>
-        public TreasureController(ITreasuresRepository treasuresRepository)
+        public TreasureController(ITreasuresRepository treasuresRepository,IAuthProvider auth)
         {
             repository = treasuresRepository;
+            authProvider = auth;
         }
 
         /// <summary>
@@ -85,8 +87,12 @@ namespace Ewu.WebUI.Controllers
 
             ViewData["Type"] = types;
             #endregion
-
-            return View();
+            Treasure treasure = new Treasure()
+            {
+                TreasureUID = Guid.NewGuid(),
+                HolderID = CurrentUser.Id,
+            };
+            return View(treasure);
         }
 
 
