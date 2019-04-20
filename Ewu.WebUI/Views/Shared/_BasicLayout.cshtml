@@ -7,13 +7,15 @@
     <!--上传文件所需的样式-->
     <link href="~/Content/Dropzone/basic.min.css" rel="stylesheet" />
     <link href="~/Content/Dropzone/dropzone.min.css" rel="stylesheet" />
+    <!--城市选择样式-->
+    <link href="~/Content/back.css" rel="stylesheet" />
     <style type="text/css">
-        .dropzone { 
-            border: 2px dashed #0087F7; 
-            border-radius: 5px; 
-            background: white; 
-            height:217px;
-        } 
+        .dropzone {
+            border: 2px dashed #0087F7;
+            border-radius: 5px;
+            background: white;
+            height: 217px;
+        }
     </style>
     <script src="~/Scripts/Dropzone/dropzone-amd-module.min.js"></script>
     <script src="~/Scripts/Dropzone/dropzone.min.js"></script>
@@ -53,5 +55,9 @@
     <!--JS-->
     @Html.Partial("cssJS/jsBody")
     <!--上传文件所需的js-->
+    <script src="~/Scripts/citydata.js"></script>
+    <script src="~/Scripts/cityPicker-1.0.0.js"></script>
+    <script src="~/Scripts/cityDropList.js"></script>
+    <script src="~/Scripts/UploadItem.js"></script>
 </body>
 </html>

@@ -29,6 +29,8 @@ namespace Ewu.Domain.Entities
         [Required(ErrorMessage = "Please enter a detail")]
         public string DetailContent { get; set; }   //补充说明
 
+        public string Location { get; set; }        //地点
+
         public string Remarks { get; set; }         //备注
         public DateTime UploadTime { get; set; }    //上传时间
         public DateTime UpdateTime { get; set; }    //最后更新时间

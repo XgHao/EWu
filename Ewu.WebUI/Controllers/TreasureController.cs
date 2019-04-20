@@ -85,8 +85,38 @@ namespace Ewu.WebUI.Controllers
                 new SelectListItem(){ Text="其他",Value="其他",Selected=true }
             };
 
-            ViewData["Type"] = types;
+            ViewData["Types"] = types;
             #endregion
+
+            #region 物品成色集合
+            IEnumerable<SelectListItem> damageDegree = new List<SelectListItem>()
+            {
+                new SelectListItem(){ Text="完好",Value="网络设备",Selected=true },
+                new SelectListItem(){ Text="九五新",Value="九五新" },
+                new SelectListItem(){ Text="九成新",Value="九成新" },
+                new SelectListItem(){ Text="八五新",Value="八五新" },
+                new SelectListItem(){ Text="八成新",Value="八成新" },
+                new SelectListItem(){ Text="七五新",Value="七五新" },
+                new SelectListItem(){ Text="七成新",Value="七成新" },
+                new SelectListItem(){ Text="六成及以下",Value="六成及以下" },
+            };
+
+            ViewData["DamageDegrees"] = damageDegree;
+            #endregion
+
+            #region 物品交易范围集合
+            IEnumerable<SelectListItem> tradeRange = new List<SelectListItem>()
+            {
+                new SelectListItem(){ Text="市内",Value="市内" },
+                new SelectListItem(){ Text="省内",Value="省内" },
+                new SelectListItem(){ Text="临近省",Value="临近省" },
+                new SelectListItem(){ Text="全国(港澳台除外)",Value="全国" },
+                new SelectListItem(){ Text="不限",Value="不限",Selected=true }
+            };
+
+            ViewData["TradeRanges"] = tradeRange;
+            #endregion
+
             Treasure treasure = new Treasure()
             {
                 TreasureUID = Guid.NewGuid(),
@@ -95,7 +125,11 @@ namespace Ewu.WebUI.Controllers
             return View(treasure);
         }
 
-
+        [HttpPost]
+        public ActionResult UploadItem(Treasure treasure)
+        {
+            return View();
+        }
 
 
         /// <summary>

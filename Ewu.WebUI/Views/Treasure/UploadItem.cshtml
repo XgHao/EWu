@@ -63,7 +63,7 @@
                                 <div class="form-group">
                                     <label for="category">选择闲物的类型</label>
                                     <div class="select-wrap select-wrap2">
-                                        @Html.DropDownListFor(t => t.TreasureType, ViewData["Type"] as IEnumerable<SelectListItem>, new { @class = "text_field" })
+                                        @Html.DropDownListFor(t => t.TreasureType, ViewData["Types"] as IEnumerable<SelectListItem>, new { @class = "text_field" })
                                         <span class="lnr lnr-chevron-down"></span>
                                     </div>
                                 </div>
@@ -76,13 +76,72 @@
                                     @Html.TextBoxFor(t => t.TreasureName, new { @class = "text_field", @placeholder = "请填写物品名称" })
                                 </div>
 
-                                <div class="form-group no-margin">
+                                <div class="form-group">
                                     <p class="label">详细信息</p>
                                     @Html.TextAreaFor(t => t.DetailContent, new { @class = "text_field", @placeholder = "描述一下你的物品吧" })
                                 </div>
+
+                                <div class="form-group no-margin">
+                                    <p class="label">所在地区</p>
+                                    <div class="city-picker-selector" id="city-picker-search">
+                                        <div class="selector-item storey province">
+                                            <a href="javascript:;" class="selector-name reveal df-color ">请选择省份</a>
+                                            <input type="hidden" name="userProvinceId" class="input-price val-error" value="" data-required="userProvinceId">
+                                            <div class="selector-list listing hide">
+                                                <div class="selector-search">
+                                                    <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
+                                                </div>
+                                                <ul>
+                                                    <li>北京市</li>
+                                                    <li>天津市</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="selector-item storey city">
+                                            <a href="javascript:;" class="selector-name reveal df-color forbid">请选择城市</a>
+                                            <input type="hidden" name="userCityId" class="input-price val-error" value="" data-required="userCityId">
+                                            <div class="selector-list listing hide">
+                                                <div class="selector-search">
+                                                    <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
+                                                </div>
+                                                <ul></ul>
+                                            </div>
+                                        </div>
+                                        <div class="selector-item storey district">
+                                            <a href="javascript:;" class="selector-name reveal df-color forbid">请选择区县</a>
+                                            <input type="hidden" name="userDistrictId" class="input-price val-error" value="" data-required="userDistrictId">
+                                            <div class="selector-list listing hide">
+                                                <div class="selector-search">
+                                                    <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
+                                                </div>
+                                                <ul></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @Html.HiddenFor(t => t.Location)
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>交易范围</label>
+                                            @Html.DropDownListFor(t => t.TradeRange, ViewData["TradeRanges"] as IEnumerable<SelectListItem>, new { multiple = true, @class = "text_field" })
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>物品成色</label>
+                                            @Html.DropDownListFor(t=>t.DamageDegree,ViewData["DamageDegrees"] as IEnumerable<SelectListItem>, new { multiple = true, @class = "text_field" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>备注</label>
+                                    @Html.TextAreaFor(t => t.Remarks, new { @class = "text_field", @placeholder = "添加一些备注信息" })
+                                </div>
+                                <div class="form-group">
+                                    <input id="SubmitForm" type="submit" class="btn btn-success btn--fullwidth" value="确定" />
+                                </div>
                             </div>
-
-
                         </div>
                     }
                 </div>
@@ -124,6 +183,11 @@
                     </aside>
                 </div>
             </div>
+
+            <div class="row">
+                
+            </div>
+
 
             <div class="row">
                 <div class="col-md-12">

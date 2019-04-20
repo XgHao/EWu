@@ -147,11 +147,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
+    <Content Include="Content\back.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\city-picker.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fontello.css" />
@@ -163,6 +165,7 @@
     <Content Include="Content\slick.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\trumbowyg.min.css" />
+    <Content Include="Scripts\UploadItem.js" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontello.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -599,6 +602,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\Dropzone\basic.css" />
     <Content Include="Content\Dropzone\basic.min.css" />
+    <Content Include="Scripts\citydata.js" />
+    <Content Include="Scripts\cityDropList.js" />
+    <Content Include="Scripts\cityPicker-1.0.0.js" />
     <Content Include="Scripts\Dropzone\dropzone-amd-module.js" />
     <Content Include="Scripts\Dropzone\dropzone-amd-module.min.js" />
     <Content Include="Content\Dropzone\dropzone.css" />
