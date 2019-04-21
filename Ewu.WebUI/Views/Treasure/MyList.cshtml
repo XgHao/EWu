@@ -1,0 +1,152 @@
+﻿@using Ewu.WebUI.Models.ViewModel;
+@model TreasureListViewModel
+
+@{
+    ViewBag.Title = "我的物品";
+    Layout = "~/Views/Shared/_TreasureListLayout.cshtml";
+}
+
+
+<!--搜索框-->
+@section SearchBox{
+    <section class="search-wrapper">
+        <div class="search-area2 bgimage">
+            <div class="bg_image_holder">
+                <img src="~/images/search.jpg" alt="">
+            </div>
+            <div class="container content_above">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="search">
+                            <div class="search__title">
+                                <h3>
+                                    目前为止已有<span>35,270</span>件物品加入了交换的行列
+                                </h3>
+                            </div>
+                            <div class="search__field">
+                                <form action="#">
+                                    <div class="field-wrapper">
+                                        <input class="relative-field rounded" type="text" placeholder="Search your products">
+                                        <button class="btn btn--round" type="submit">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="breadcrumb">
+                                <ul>
+                                    <li>
+                                        <a href="#">主页</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#">所有物品</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!--物品列表-->
+@section List{
+    <!--筛选-->
+    <div class="filter-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="filter-bar">
+                        <!--分类-->
+                        @Html.Action("Category", "Nav")
+
+                        <!--排序-->
+                        @Html.Action("Orderby", "Nav")
+
+                        <!--价格范围-->
+                        <div class="filter__option filter--dropdown filter--range">
+                            <a href="#" id="drop3" class="dropdown-trigger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Price Range
+                                <span class="lnr lnr-chevron-down"></span>
+                            </a>
+                            <div class="custom_dropdown dropdown-menu" aria-labelledby="drop3">
+                                <div class="range-slider price-range"></div>
+
+                                <div class="price-ranges">
+                                    <span class="from rounded">$30</span>
+                                    <span class="to rounded">$300</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--价格排序-->
+                        <div class="filter__option filter--select">
+                            <div class="select-wrap">
+                                <select name="price">
+                                    <option value="low">Price : Low to High</option>
+                                    <option value="high">Price : High to low</option>
+                                </select>
+                                <span class="lnr lnr-chevron-down"></span>
+                            </div>
+                        </div>
+
+                        <!--每页项-->
+                        <div class="filter__option filter--select">
+                            <div class="select-wrap">
+                                <select name="price">
+                                    <option value="12">12 Items per page</option>
+                                    <option value="15">15 Items per page</option>
+                                    <option value="25">25 Items per page</option>
+                                </select>
+                                <span class="lnr lnr-chevron-down"></span>
+                            </div>
+                        </div>
+
+                        <!--显示样式-->
+                        <div class="filter__option filter--layout">
+                            <a href="all-products.html">
+                                <div class="svg-icon">
+                                    <img class="svg" src="~/images/svg/grid.svg" alt="it's just a layout control folks!">
+                                </div>
+                            </a>
+                            <a href="all-products-list.html">
+                                <div class="svg-icon">
+                                    <img class="svg" src="~/images/svg/list.svg" alt="it's just a layout control folks!">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--物品-->
+    <section class="products  section--padding2">
+        <div class="container">
+            <!--物品-->
+            <div class="row">
+                <div class="col-md-12">
+                    @foreach (var treasure in Model.Treasures)
+                    {
+                        @Html.Partial("Summary/MyTreasureSmy", treasure);
+                    }
+                </div>
+            </div>
+            <!--页码-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pagination-area">
+                        <nav class="navigation pagination" role="navigation">
+                            <div class="nav-links">
+                                @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCate }))
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+

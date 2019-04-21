@@ -1,0 +1,64 @@
+﻿@using Ewu.Domain.Entities
+@model Treasure
+
+<div class="product product--list">
+    <!--图片缩略图-->
+    <div class="product__thumbnail">
+        <img src=@Model.Cover width="290" height="224" alt="Product Image">
+        <div class="prod_btn">
+            <div class="prod_btn__wrap">
+                <a href="single-product.html" class="transparent btn--sm btn--round">More Info</a>
+            </div>
+            <div class="prod_btn__wrap">
+                <a href="single-product.html" class="transparent btn--sm btn--round">Live Demo</a>
+            </div>
+        </div>
+    </div>
+
+    <!--物品详情-->
+    <div class="product__details">
+        <div class="product-desc">
+            <a href="#" class="product_title">
+                <h4>@Model.TreasureName</h4>
+            </a>
+            <p>
+                @Model.DetailContent
+            </p>
+
+            <ul class="titlebtm">
+                <li class="product_cat">
+                    <a href=@("/Treasure/MyList/"+Model.TreasureType)>
+                        <span class="lnr lnr-book"></span>@Model.TreasureType
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!--物品信息-->
+        <div class="product-meta">
+            <!--浏览量和收藏-->
+            <div class="love-comments">
+                <p>
+                    <span class="lnr lnr-heart"></span> @Model.Favorite 收藏
+                </p>
+                <p>
+                    <span class="lnr lnr-bubble"></span> @Model.BrowseNum 浏览
+                </p>
+            </div>
+            <div class="product-tags">
+                <input type="button" class="btn btn-info btn--fullwidth" value="编辑" />
+            </div>
+        </div>
+
+        <div class="product-purchase">
+            <div class="price_love">
+                <span>上传时间</span>
+                <a href="#">@Model.UploadTime.ToShortDateString()</a>
+            </div>
+            <div class="price_love">
+                <span>更新时间</span>
+                <a href="#">@Model.UpdateTime.ToShortDateString()</a>
+            </div>
+        </div>
+    </div>
+</div>

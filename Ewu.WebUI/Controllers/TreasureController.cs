@@ -69,6 +69,40 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 个人物品页面
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult MyList(string category, int page = 1, int PageSize = 3)
+        {
+            //生成一个具体的列表视图模型
+            TreasureListViewModel model = new TreasureListViewModel
+            {
+                //根据页码以及分类来确定具体要显示的物品列表
+                Treasures = repository.Treasures
+                                    .Where(t => category == null || t.TreasureType == category)
+                                    .OrderBy(t => t.TreasureName)
+                                    .Skip((page - 1) * PageSize)
+                                    .Take(PageSize),
+                //分页信息
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    //总页数，无选择分类这全部，否则按当前的分类
+                    TotalItem = category == null
+                                          ? repository.Treasures.Count()
+                                          : repository.Treasures.Where(e => e.TreasureType == category).Count()
+                },
+                //当前分类
+                CurrentCate = category,
+                //当前用户信息
+                CurrentUserInfo = CurrentUser
+            };
+            return View(model);
+        }
+
+        /// <summary>
         /// 发布新的物品
         /// </summary>
         /// <returns></returns>
