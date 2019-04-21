@@ -41,7 +41,7 @@
                     <div class="dashboard_title_area">
                         <div class="pull-left">
                             <div class="dashboard__title">
-                                <h3>上传你的闲物</h3>
+                                <h2>上传你的闲物</h2>
                             </div>
                         </div>
                     </div>
@@ -60,29 +60,35 @@
                             </div>
 
                             <div class="modules__content">
-                                <div class="form-group">
-                                    <label for="category">选择闲物的类型</label>
-                                    <div class="select-wrap select-wrap2">
-                                        @Html.DropDownListFor(t => t.TreasureType, ViewData["Types"] as IEnumerable<SelectListItem>, new { @class = "text_field" })
-                                        <span class="lnr lnr-chevron-down"></span>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="text-info font-weight-bold" for="category">闲物类型</label>
+                                            <div class="select-wrap">
+                                                @Html.DropDownListFor(t => t.TreasureType, Session["Types"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                                                <span class="lnr lnr-chevron-down"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="text-primary font-weight-bold">备注</label>
+                                            @Html.TextBoxFor(t => t.Remarks, new { @class = "form-control", @placeholder = "添加一些备注信息" })
+                                        </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="product_name">
+                                    <label class="text-info font-weight-bold" for="product_name">
                                         闲物名称
-                                        <span>(Max 100 characters)</span>
+                                        <span class="text-black-50 font-weight-light">(Max 100 characters)</span>
                                     </label>
-                                    @Html.TextBoxFor(t => t.TreasureName, new { @class = "text_field", @placeholder = "请填写物品名称" })
+                                    @Html.TextBoxFor(t => t.TreasureName, new { @class = "form-control", @placeholder = "请填写物品名称" })
+                                    <span id="TreasureNameVaild" class="text-danger pull-right">请填写名称</span>
                                 </div>
+
 
                                 <div class="form-group">
-                                    <p class="label">详细信息</p>
-                                    @Html.TextAreaFor(t => t.DetailContent, new { @class = "text_field", @placeholder = "描述一下你的物品吧" })
-                                </div>
-
-                                <div class="form-group no-margin">
-                                    <p class="label">所在地区</p>
+                                    <label class="text-info font-weight-bold">所在地区</label>
                                     <div class="city-picker-selector" id="city-picker-search">
                                         <div class="selector-item storey province">
                                             <a href="javascript:;" class="selector-name reveal df-color ">请选择省份</a>
@@ -119,64 +125,141 @@
                                         </div>
                                     </div>
                                     @Html.HiddenFor(t => t.Location)
+                                    @Html.HiddenFor(t => t.TreasureUID, new { value = Model.TreasureUID })
+                                    @Html.HiddenFor(t => t.HolderID, new { value = Model.HolderID })
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>交易范围</label>
-                                            @Html.DropDownListFor(t => t.TradeRange, ViewData["TradeRanges"] as IEnumerable<SelectListItem>, new { multiple = true, @class = "text_field" })
+                                            <label class="text-info font-weight-bold">交易范围</label>
+                                            @Html.DropDownListFor(t => t.TradeRange, Session["TradeRanges"] as IEnumerable<SelectListItem>, new { multiple = true, @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>物品成色</label>
-                                            @Html.DropDownListFor(t=>t.DamageDegree,ViewData["DamageDegrees"] as IEnumerable<SelectListItem>, new { multiple = true, @class = "text_field" })
+                                            <label class="text-info font-weight-bold">物品成色</label>
+                                            @Html.DropDownListFor(t => t.DamageDegree, Session["DamageDegrees"] as IEnumerable<SelectListItem>, new { multiple = true, @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>备注</label>
-                                    @Html.TextAreaFor(t => t.Remarks, new { @class = "text_field", @placeholder = "添加一些备注信息" })
+                                    <label class="text-info font-weight-bold">详细信息</label>
+                                    @Html.TextAreaFor(t => t.DetailContent, new { @class = "form-control", @placeholder = "描述一下你的物品吧" })
+                                    <span id="DetailContentVaild" class="text-danger pull-right">请填写物品描述信息</span>
                                 </div>
+
                                 <div class="form-group">
-                                    <input id="SubmitForm" type="submit" class="btn btn-success btn--fullwidth" value="确定" />
+                                    <input id="VaildForm" type="button" class="btn btn-success btn--fullwidth" value="确定"/>
+                                    <input id="SubmitForm" type="submit" hidden="hidden" class="btn btn-success btn--fullwidth" value="确定" />
                                 </div>
+                                @Html.ValidationSummary(false)
                             </div>
                         </div>
                     }
                 </div>
-
                 <!--右侧帮助页面-->
                 <div class="col-lg-4 col-md-5">
                     <aside class="sidebar upload_sidebar">
                         <div class="sidebar-card">
                             <div class="card-title">
-                                <h3>Quick Upload Rules</h3>
+                                <h3>
+                                    <span class="text-warning">帮助</span> & 
+                                    <span class="text-danger">注意事项</span>
+                                </h3>
                             </div>
-
                             <div class="card_content">
                                 <div class="card_info">
-                                    <h4>Image Upload</h4>
-                                    <p>
-                                        Nunc placerat mi id nisi interdum mollis. Praesent there pharetra, justo ut sceleris
-                                        que the mattis interdum.
+                                    <h4 class="text-danger">物品类型</h4>
+                                    <p class="text-black-50">
+                                        如果在给定的类型中没有对应的类型或者自己不清楚对物品的分类，则建议选择其他，
+                                        然后在备注栏，填写一些说明信息
+                                    </p>
+                                </div>
+                                <div class="card_info">
+                                    <h4 class="text-danger">物品命名</h4>
+                                    <p class="text-black-50">
+                                        考虑到名称的多样，命名规则支持数字、字母、文字及特殊字符，但是长度不应该超过30个字符
+                                        <span class="text-danger font-weight-bold small">(一个汉字等于两个字符)</span>
                                     </p>
                                 </div>
 
                                 <div class="card_info">
-                                    <h4>File Upload</h4>
-                                    <p>
-                                        Nunc placerat mi id nisi interdum mollis. Praesent there pharetra, justo ut sceleris
-                                        que the mattis interdum.
+                                    <h4 class="text-warning">地区选择</h4>
+                                    <p class="text-black-50">
+                                        即物品所在地，最好选择发货地
                                     </p>
                                 </div>
-
                                 <div class="card_info">
-                                    <h4>Vector Upload</h4>
-                                    <p>
-                                        Nunc placerat mi id nisi interdum mollis. Praesent there pharetra, justo ut sceleris
-                                        que the mattis interdum.
+                                    <h4 class="text-warning">交易范围</h4>
+                                    <p class="text-black-50">
+                                        交易范围只是一个标注，具体情况由双方决定
                                     </p>
+                                </div>
+                                <div class="card_info">
+                                    <h4 class="text-info">
+                                        成色定义
+                                        <span class="text-info small font-weight-light">(点击相应项查看定义)</span>
+                                    </h4>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="全新务必要是卖方自货到手以来完全保持拿到货时的状态,即完全没有使用过的经历,这样的物品一般都有完好的包装(如果包装有一定程度的损毁则不能算是全新)总之一点,全新的概念就是自出厂以来(不包括厂内调试)完全没有任何使用迹象的物品,请卖方注意,不要声称所谓的几乎全新,在形容自己的商品同时要对商品进行全面的阐述,若符合全新的标准即写明全新即可.要求保修卡完全未填">
+                                                全&nbsp;&nbsp;&nbsp;&nbsp;新
+                                            </button>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="这类商品的定义概念是包装有损毁,货没有使用迹象,或者包装完好,物品有试用的迹象,但要注意,九八新的物品上是不能留有使用痕迹的(如划痕,碰痕等)如不符合标准则不能算作九八新,在保修期内">
+                                                九八新
+                                            </button>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="这类商品的定义是包装及配件全在,且商品又极短暂的使用经历,表面可有完全不明显的轻微划痕,无任何故障的商品..如符合以上条件则可定义为九五新,同样要在保修期内,不可以有维修史">
+                                                九五新
+                                            </button>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="这类商品的定义主要在于使用时间和本体上,使用时间在1个月(如保养有到则何以放宽到3个月或者更长..)以内,无任何故障,表面的比较明显的划痕不能超过3条则可定义为九新">
+                                                九成新
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="八五新的商品要求能完全正常使用,使用时间不超过1年..且表面较明显划痕在8条左右,可以有轻微的摩擦痕迹,不可有掉色现象">
+                                                八五新
+                                            </button>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="八新的商品同样要求能正常使用,使用时间不超过两年.表面较明显划痕在10条以上,可有3处以内的摩擦痕迹和轻微的小面积掉色">
+                                                八成新
+                                            </button>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="使用时间在5年以内,表面有多处较长较明显划痕,但使用正常,可有5处以上的摩擦痕迹,允许小面积掉色4处左右(四角..)有陈旧感">
+                                                七成新
+                                            </button>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info" 
+                                                    data-container="body" data-toggle="popover" data-placement="right"
+                                                    data-content="只能保证正常使用">
+                                                七以下
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

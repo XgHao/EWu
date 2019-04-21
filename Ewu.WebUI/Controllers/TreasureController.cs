@@ -85,7 +85,7 @@ namespace Ewu.WebUI.Controllers
                 new SelectListItem(){ Text="其他",Value="其他",Selected=true }
             };
 
-            ViewData["Types"] = types;
+            Session["Types"] = types;
             #endregion
 
             #region 物品成色集合
@@ -101,7 +101,7 @@ namespace Ewu.WebUI.Controllers
                 new SelectListItem(){ Text="六成及以下",Value="六成及以下" },
             };
 
-            ViewData["DamageDegrees"] = damageDegree;
+            Session["DamageDegrees"] = damageDegree;
             #endregion
 
             #region 物品交易范围集合
@@ -114,7 +114,7 @@ namespace Ewu.WebUI.Controllers
                 new SelectListItem(){ Text="不限",Value="不限",Selected=true }
             };
 
-            ViewData["TradeRanges"] = tradeRange;
+            Session["TradeRanges"] = tradeRange;
             #endregion
 
             Treasure treasure = new Treasure()
@@ -128,7 +128,12 @@ namespace Ewu.WebUI.Controllers
         [HttpPost]
         public ActionResult UploadItem(Treasure treasure)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                //保存数据库
+
+            }
+            return View(treasure);
         }
 
 

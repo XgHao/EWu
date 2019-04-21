@@ -16,7 +16,8 @@ namespace Ewu.Domain.Entities
 
         public string HolderID { get; set; }        //所有者ID
 
-        [Required(ErrorMessage = "Please enter a treasure name")]
+
+        [Required(ErrorMessage = "请填写物品名称")]
         public string TreasureName { get; set; }    //物品名称
 
         public string TreasureType { get; set; }    //物品类别
@@ -26,9 +27,10 @@ namespace Ewu.Domain.Entities
         public string DetailPic { get; set; }       //补充图片
 
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Please enter a detail")]
+        [Required(ErrorMessage = "请说明一下你的物品")]
         public string DetailContent { get; set; }   //补充说明
 
+        [Required(ErrorMessage = "请选择所在地")]
         public string Location { get; set; }        //地点
 
         public string Remarks { get; set; }         //备注
