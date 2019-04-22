@@ -10,6 +10,7 @@ using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models;
 using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Models.ViewModel;
+using Ewu.WebUI.HtmlHelpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -22,6 +23,7 @@ namespace Ewu.WebUI.Controllers
     {
         private ITreasuresRepository repository;    //定义的物品储存库
         private IAuthProvider authProvider;
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -80,7 +82,7 @@ namespace Ewu.WebUI.Controllers
             {
                 //根据页码以及分类来确定具体要显示的物品列表
                 Treasures = repository.Treasures
-                                    .Where(t => category == null || t.TreasureType == category)
+                                    .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id)
                                     .OrderBy(t => t.TreasureName)
                                     .Skip((page - 1) * PageSize)
                                     .Take(PageSize),
@@ -116,25 +118,25 @@ namespace Ewu.WebUI.Controllers
                 new SelectListItem(){ Text="电脑配件",Value="电脑配件" },
                 new SelectListItem(){ Text="图书画册",Value="图书画册" },
                 new SelectListItem(){ Text="电子产品",Value="电子产品" },
-                new SelectListItem(){ Text="其他",Value="其他",Selected=true }
+                new SelectListItem(){ Text="其他",Value="其他" }
             };
-
+            types = DropListHelper.SetDefault(types, "其他");
             Session["Types"] = types;
             #endregion
 
             #region 物品成色集合
             IEnumerable<SelectListItem> damageDegree = new List<SelectListItem>()
             {
-                new SelectListItem(){ Text="完好",Value="网络设备",Selected=true },
+                new SelectListItem(){ Text="全新",Value="全新" },
+                new SelectListItem(){ Text="九八新",Value="九八新" },
                 new SelectListItem(){ Text="九五新",Value="九五新" },
                 new SelectListItem(){ Text="九成新",Value="九成新" },
                 new SelectListItem(){ Text="八五新",Value="八五新" },
                 new SelectListItem(){ Text="八成新",Value="八成新" },
-                new SelectListItem(){ Text="七五新",Value="七五新" },
                 new SelectListItem(){ Text="七成新",Value="七成新" },
-                new SelectListItem(){ Text="六成及以下",Value="六成及以下" },
+                new SelectListItem(){ Text="七成及以下",Value="七成及以下" },
             };
-
+            damageDegree = DropListHelper.SetDefault(damageDegree, "全新");
             Session["DamageDegrees"] = damageDegree;
             #endregion
 
@@ -145,9 +147,9 @@ namespace Ewu.WebUI.Controllers
                 new SelectListItem(){ Text="省内",Value="省内" },
                 new SelectListItem(){ Text="临近省",Value="临近省" },
                 new SelectListItem(){ Text="全国(港澳台除外)",Value="全国" },
-                new SelectListItem(){ Text="不限",Value="不限",Selected=true }
+                new SelectListItem(){ Text="不限",Value="不限" }
             };
-
+            tradeRange = DropListHelper.SetDefault(tradeRange, "不限");
             Session["TradeRanges"] = tradeRange;
             #endregion
 
@@ -159,17 +161,40 @@ namespace Ewu.WebUI.Controllers
             return View(treasure);
         }
 
+        /// <summary>
+        /// 发布新的物品[HttpPost]
+        /// </summary>
+        /// <param name="treasure"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult UploadItem(Treasure treasure)
         {
             if (ModelState.IsValid)
             {
-                //保存数据库
-
+                #region 数据初始化
+                treasure.BrowseNum = 0;
+                treasure.Favorite = 0;
+                treasure.UpdateTime = DateTime.Now;
+                treasure.UploadTime = DateTime.Now;
+                if (string.IsNullOrEmpty(treasure.Remarks))
+                {
+                    treasure.Remarks = "无";
+                }
+                #endregion
+                repository.SaveTreasure(treasure);
+                return View("UpLoadImg");
             }
             return View(treasure);
         }
 
+        /// <summary>
+        /// 上传图片
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UpLoadImg()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 获取图片
@@ -190,7 +215,6 @@ namespace Ewu.WebUI.Controllers
                 return null;
             }
         }
-
 
 
         /// <summary>

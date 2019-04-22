@@ -65,7 +65,6 @@ namespace Ewu.WebUI.Controllers
                     image.InputStream.Read(treasure.ImageData, 0, image.ContentLength);
                 }
 
-                //保存数据
                 repository.SaveTreasure(treasure);
                 //临时数据(TempData)保存消息，在HTTP请求结束后会被删除
                 //ViewBag不能用于跨请求情况下控制器与视图之间的数据传递，因为这里用的是重定向

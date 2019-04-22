@@ -732,6 +732,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\DropListHelper.cs" />
     <Compile Include="HtmlHelpers\IdentityHelpers.cs" />
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
@@ -813,6 +814,7 @@
     <Content Include="Views\Treasure\UploadItem.cshtml" />
     <Content Include="Views\Treasure\MyList.cshtml" />
     <Content Include="Views\Shared\Summary\MyTreasureSmy.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

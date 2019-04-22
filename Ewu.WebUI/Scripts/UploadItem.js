@@ -20,7 +20,9 @@ window.onload = function () {
             if (Line2 != "" && Line3 != "") {
                 var location = Line1 + Line2 + Line3;
                 alert(location);
-                $("#Location").text(location);
+                $("#LocationProvince").val(Line1);
+                $("#LocationCity").val(Line2);
+                $("#LocationDistrict").val(Line3);
             }
 
             //触发提交按钮

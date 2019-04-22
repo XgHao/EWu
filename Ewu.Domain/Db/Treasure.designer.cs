@@ -98,6 +98,12 @@ namespace Ewu.Domain.Db
 		
 		private string _DetailContent;
 		
+		private string _LocationProvince;
+		
+		private string _LocationCity;
+		
+		private string _LocationDistrict;
+		
 		private System.DateTime _UploadTime;
 		
 		private System.DateTime _UpdateTime;
@@ -107,6 +113,8 @@ namespace Ewu.Domain.Db
 		private string _Link;
 		
 		private int _BrowseNum;
+		
+		private string _Remarks;
 		
 		private System.Data.Linq.Binary _ImageData;
 		
@@ -134,6 +142,12 @@ namespace Ewu.Domain.Db
     partial void OnDetailPicChanged();
     partial void OnDetailContentChanging(string value);
     partial void OnDetailContentChanged();
+    partial void OnLocationProvinceChanging(string value);
+    partial void OnLocationProvinceChanged();
+    partial void OnLocationCityChanging(string value);
+    partial void OnLocationCityChanged();
+    partial void OnLocationDistrictChanging(string value);
+    partial void OnLocationDistrictChanged();
     partial void OnUploadTimeChanging(System.DateTime value);
     partial void OnUploadTimeChanged();
     partial void OnUpdateTimeChanging(System.DateTime value);
@@ -144,6 +158,8 @@ namespace Ewu.Domain.Db
     partial void OnLinkChanged();
     partial void OnBrowseNumChanging(int value);
     partial void OnBrowseNumChanged();
+    partial void OnRemarksChanging(string value);
+    partial void OnRemarksChanged();
     partial void OnImageDataChanging(System.Data.Linq.Binary value);
     partial void OnImageDataChanged();
     partial void OnImageMimeTypeChanging(string value);
@@ -295,7 +311,7 @@ namespace Ewu.Domain.Db
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DetailPic", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DetailPic", DbType="NVarChar(MAX)")]
 		public string DetailPic
 		{
 			get
@@ -331,6 +347,66 @@ namespace Ewu.Domain.Db
 					this._DetailContent = value;
 					this.SendPropertyChanged("DetailContent");
 					this.OnDetailContentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationProvince", DbType="NVarChar(50)")]
+		public string LocationProvince
+		{
+			get
+			{
+				return this._LocationProvince;
+			}
+			set
+			{
+				if ((this._LocationProvince != value))
+				{
+					this.OnLocationProvinceChanging(value);
+					this.SendPropertyChanging();
+					this._LocationProvince = value;
+					this.SendPropertyChanged("LocationProvince");
+					this.OnLocationProvinceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationCity", DbType="NVarChar(50)")]
+		public string LocationCity
+		{
+			get
+			{
+				return this._LocationCity;
+			}
+			set
+			{
+				if ((this._LocationCity != value))
+				{
+					this.OnLocationCityChanging(value);
+					this.SendPropertyChanging();
+					this._LocationCity = value;
+					this.SendPropertyChanged("LocationCity");
+					this.OnLocationCityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationDistrict", DbType="NVarChar(50)")]
+		public string LocationDistrict
+		{
+			get
+			{
+				return this._LocationDistrict;
+			}
+			set
+			{
+				if ((this._LocationDistrict != value))
+				{
+					this.OnLocationDistrictChanging(value);
+					this.SendPropertyChanging();
+					this._LocationDistrict = value;
+					this.SendPropertyChanged("LocationDistrict");
+					this.OnLocationDistrictChanged();
 				}
 			}
 		}
@@ -431,6 +507,26 @@ namespace Ewu.Domain.Db
 					this._BrowseNum = value;
 					this.SendPropertyChanged("BrowseNum");
 					this.OnBrowseNumChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(MAX)")]
+		public string Remarks
+		{
+			get
+			{
+				return this._Remarks;
+			}
+			set
+			{
+				if ((this._Remarks != value))
+				{
+					this.OnRemarksChanging(value);
+					this.SendPropertyChanging();
+					this._Remarks = value;
+					this.SendPropertyChanged("Remarks");
+					this.OnRemarksChanged();
 				}
 			}
 		}

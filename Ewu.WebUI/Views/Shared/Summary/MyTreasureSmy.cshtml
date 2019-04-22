@@ -5,14 +5,6 @@
     <!--图片缩略图-->
     <div class="product__thumbnail">
         <img src=@Model.Cover width="290" height="224" alt="Product Image">
-        <div class="prod_btn">
-            <div class="prod_btn__wrap">
-                <a href="single-product.html" class="transparent btn--sm btn--round">More Info</a>
-            </div>
-            <div class="prod_btn__wrap">
-                <a href="single-product.html" class="transparent btn--sm btn--round">Live Demo</a>
-            </div>
-        </div>
     </div>
 
     <!--物品详情-->
@@ -42,11 +34,14 @@
                     <span class="lnr lnr-heart"></span> @Model.Favorite 收藏
                 </p>
                 <p>
-                    <span class="lnr lnr-bubble"></span> @Model.BrowseNum 浏览
+                    <span class="lnr lnr-eye"></span> @Model.BrowseNum 浏览
                 </p>
             </div>
             <div class="product-tags">
-                <input type="button" class="btn btn-info btn--fullwidth" value="编辑" />
+                @Html.ActionLink("编辑", "Edit", "Account", new { TreasureUID = Model.TreasureUID }, new { @class = "btn btn-info btn--fullwidth" })
+            </div>
+            <div class="product-tags">
+                @Html.ActionLink("下架", "Delete", "Account", new { TreasureUID = Model.TreasureUID }, new { @class = "btn btn-danger btn--fullwidth" })
             </div>
         </div>
 

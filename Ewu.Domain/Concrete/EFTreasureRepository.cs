@@ -47,13 +47,17 @@ namespace Ewu.Domain.Concrete
         /// <summary>
         /// 保存物品
         /// </summary>
-        /// <param name="treasure">操作的物品对象</param>
+        /// <param name="treasure">物品对象</param>
         public void SaveTreasure(Treasure treasure)
         {
-            //如果当前物品对象的GUID位空，则新建
-            if (treasure.TreasureUID == Guid.Empty)
+            bool isExist = Treasures
+                                    .Where(t => t.TreasureUID == treasure.TreasureUID)
+                                    .FirstOrDefault() == null
+                                    ? false : true;
+
+            //如果当前物品的GUID不存在，则新建
+            if (isExist)
             {
-                treasure.TreasureUID = Guid.NewGuid();
                 context.Treasures.Add(treasure);
             }
             //否则就更新数据
@@ -65,13 +69,16 @@ namespace Ewu.Domain.Concrete
                 //当前对象不为空，更新操作
                 if (dbEntry != null)
                 {
-                    dbEntry.TreasureName = treasure.TreasureName;
-                    dbEntry.DetailContent = treasure.DetailContent;
-                    dbEntry.BrowseNum = treasure.BrowseNum;
-                    dbEntry.Favorite = treasure.Favorite;
-                    //图片保存
-                    dbEntry.ImageData = treasure.ImageData;
-                    dbEntry.ImageMimeType = treasure.ImageMimeType;
+                    dbEntry.TreasureName = treasure.TreasureName ?? dbEntry.TreasureName;
+                    dbEntry.DetailContent = treasure.DetailContent ?? dbEntry.DetailContent;
+                    dbEntry.UpdateTime = DateTime.Now;
+                    dbEntry.TreasureType = treasure.TreasureType ?? dbEntry.TreasureType;
+                    dbEntry.TradeRange = treasure.TradeRange ?? dbEntry.TradeRange;
+                    dbEntry.Remarks = treasure.Remarks ?? dbEntry.Remarks;
+                    dbEntry.LocationProvince = treasure.LocationProvince ?? dbEntry.LocationProvince;
+                    dbEntry.LocationDistrict = treasure.LocationDistrict ?? dbEntry.LocationDistrict;
+                    dbEntry.LocationCity = treasure.LocationCity ?? dbEntry.LocationCity;
+                    dbEntry.DamageDegree = treasure.DamageDegree ?? dbEntry.DamageDegree;
                 }
             }
 

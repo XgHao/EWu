@@ -30,18 +30,17 @@ namespace Ewu.Domain.Entities
         [Required(ErrorMessage = "请说明一下你的物品")]
         public string DetailContent { get; set; }   //补充说明
 
-        [Required(ErrorMessage = "请选择所在地")]
-        public string Location { get; set; }        //地点
+        public string LocationProvince { get; set; }        //地点-省
+        public string LocationCity { get; set; }        //地点-城市
+        public string LocationDistrict { get; set; }        //地点-地区
 
         public string Remarks { get; set; }         //备注
         public DateTime UploadTime { get; set; }    //上传时间
         public DateTime UpdateTime { get; set; }    //最后更新时间
-        [Range(0,double.MaxValue,ErrorMessage = "please enter a positive num")]
         public int Favorite { get; set; }           //收藏数
 
         public string Link { get; set; }            //物品的详情页
 
-        [Range(0, double.MaxValue, ErrorMessage = "please enter a positive num")]
         public int BrowseNum { get; set; }          //物品的浏览量
 
         //图像上传测试

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
 using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models.ViewModel;
+using Ewu.WebUI.HtmlHelpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -17,12 +19,15 @@ namespace Ewu.WebUI.Controllers
     /// </summary>
     public class AccountController : Controller
     {
+        //物品存储库
+        private ITreasuresRepository repository;
         //验证接口
         IAuthProvider authProvider;
 
         //构造函数
-        public AccountController(IAuthProvider auth)
+        public AccountController(ITreasuresRepository repo,IAuthProvider auth)
         {
+            repository = repo;
             authProvider = auth;
         }
 
@@ -85,6 +90,86 @@ namespace Ewu.WebUI.Controllers
                 return PartialView(CurrentUser);
             }
         }
+
+        /// <summary>
+        /// 编辑物品
+        /// </summary>
+        /// <param name="TreasureUID">物品UID</param>
+        /// <param name="HolderID">物品所属人UID</param>
+        /// <returns></returns>
+        public ViewResult Edit(Guid TreasureUID)
+        {
+            //获取当前用户的UID
+            string HolderID = CurrentUser.Id;
+            //验证用户UID，确保该物品是所属人在操作
+            Treasure treasure = repository.Treasures.FirstOrDefault(t => t.TreasureUID == TreasureUID && t.HolderID == HolderID);
+            //如果存在，转入编辑页面
+            if (treasure != null)
+            {
+                #region 物品类别集合
+                IEnumerable<SelectListItem> types = new List<SelectListItem>()
+                {
+                    new SelectListItem(){ Text="网络设备",Value="网络设备" },
+                    new SelectListItem(){ Text="电脑配件",Value="电脑配件" },
+                    new SelectListItem(){ Text="图书画册",Value="图书画册" },
+                    new SelectListItem(){ Text="电子产品",Value="电子产品" },
+                    new SelectListItem(){ Text="其他",Value="其他" }
+                };
+                types = DropListHelper.SetDefault(types, treasure.TreasureType);
+                Session["Types"] = types;
+                #endregion
+
+                #region 物品成色集合
+                IEnumerable<SelectListItem> damageDegree = new List<SelectListItem>()
+                {
+                    new SelectListItem(){ Text="完好",Value="网络设备" },
+                    new SelectListItem(){ Text="九五新",Value="九五新" },
+                    new SelectListItem(){ Text="九成新",Value="九成新" },
+                    new SelectListItem(){ Text="八五新",Value="八五新" },
+                    new SelectListItem(){ Text="八成新",Value="八成新" },
+                    new SelectListItem(){ Text="七五新",Value="七五新" },
+                    new SelectListItem(){ Text="七成新",Value="七成新" },
+                    new SelectListItem(){ Text="六成及以下",Value="六成及以下" },
+                };
+                damageDegree = DropListHelper.SetDefault(damageDegree, treasure.DamageDegree);
+                Session["DamageDegrees"] = damageDegree;
+                #endregion
+
+                #region 物品交易范围集合
+                IEnumerable<SelectListItem> tradeRange = new List<SelectListItem>()
+                {
+                    new SelectListItem(){ Text="市内",Value="市内" },
+                    new SelectListItem(){ Text="省内",Value="省内" },
+                    new SelectListItem(){ Text="临近省",Value="临近省" },
+                    new SelectListItem(){ Text="全国(港澳台除外)",Value="全国" },
+                    new SelectListItem(){ Text="不限",Value="不限" }
+                };
+                tradeRange = DropListHelper.SetDefault(tradeRange, treasure.TradeRange);
+                Session["TradeRanges"] = tradeRange;
+                #endregion
+
+                return View(treasure);
+            }
+            return View("Error");
+        }
+
+        /// <summary>
+        /// 编辑物品[HttpPost]
+        /// </summary>
+        /// <param name="treasure">编辑物品对象</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ViewResult Edit(Treasure treasure)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveTreasure(treasure);
+            }
+            return View();
+        }
+
+
+
 
         /// <summary>
         /// 获取当前用户
