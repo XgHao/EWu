@@ -108,6 +108,8 @@ namespace Ewu.Domain.Db
 		
 		private System.DateTime _UpdateTime;
 		
+		private System.Nullable<int> _EditCount;
+		
 		private int _Favorite;
 		
 		private string _Link;
@@ -152,6 +154,8 @@ namespace Ewu.Domain.Db
     partial void OnUploadTimeChanged();
     partial void OnUpdateTimeChanging(System.DateTime value);
     partial void OnUpdateTimeChanged();
+    partial void OnEditCountChanging(System.Nullable<int> value);
+    partial void OnEditCountChanged();
     partial void OnFavoriteChanging(int value);
     partial void OnFavoriteChanged();
     partial void OnLinkChanging(string value);
@@ -291,7 +295,7 @@ namespace Ewu.Domain.Db
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cover", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cover", DbType="NVarChar(MAX)")]
 		public string Cover
 		{
 			get
@@ -451,6 +455,26 @@ namespace Ewu.Domain.Db
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EditCount", DbType="Int")]
+		public System.Nullable<int> EditCount
+		{
+			get
+			{
+				return this._EditCount;
+			}
+			set
+			{
+				if ((this._EditCount != value))
+				{
+					this.OnEditCountChanging(value);
+					this.SendPropertyChanging();
+					this._EditCount = value;
+					this.SendPropertyChanged("EditCount");
+					this.OnEditCountChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Favorite", DbType="Int NOT NULL")]
 		public int Favorite
 		{
@@ -471,7 +495,7 @@ namespace Ewu.Domain.Db
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="VarChar(MAX)")]
 		public string Link
 		{
 			get

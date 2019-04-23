@@ -3,6 +3,7 @@
 });
 
 window.onload = function () {
+
     //验证提交按钮
     $("#VaildForm").click(function () {
         alert("Your Click VaildForm");
@@ -18,8 +19,6 @@ window.onload = function () {
             var Line2 = $("#userCityId").val();         //市
             var Line3 = $("#userDistrictId").val();     //区、县
             if (Line2 != "" && Line3 != "") {
-                var location = Line1 + Line2 + Line3;
-                alert(location);
                 $("#LocationProvince").val(Line1);
                 $("#LocationCity").val(Line2);
                 $("#LocationDistrict").val(Line3);
@@ -65,6 +64,18 @@ window.onload = function () {
             $("#DetailContentVaild").attr("hidden", "true");
             $("#DetailContentVaild").text("验证通过");
         }
+    });
+
+    //下一步按钮
+    $("#ToDetail").click(function () {
+        $("#Cover").attr("hidden", "hidden");
+        $("#Detail").removeAttr("hidden");
+    });
+
+    //完成按钮
+    $("#Success").click(function () {
+        //跳转页面
+
     });
 }
 

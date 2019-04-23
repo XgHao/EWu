@@ -815,6 +815,7 @@
     <Content Include="Views\Treasure\MyList.cshtml" />
     <Content Include="Views\Shared\Summary\MyTreasureSmy.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Treasure\UpLoadImg.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -50,22 +50,16 @@ namespace Ewu.Domain.Concrete
         /// <param name="treasure">物品对象</param>
         public void SaveTreasure(Treasure treasure)
         {
-            bool isExist = Treasures
-                                    .Where(t => t.TreasureUID == treasure.TreasureUID)
-                                    .FirstOrDefault() == null
-                                    ? false : true;
-
+            //获取当前操作的物品对象
+            var dbEntry = context.Treasures.Find(treasure.TreasureUID);
             //如果当前物品的GUID不存在，则新建
-            if (isExist)
+            if (dbEntry == null) 
             {
                 context.Treasures.Add(treasure);
             }
             //否则就更新数据
             else
             {
-                //获取当前操作的物品对象
-                Treasure dbEntry = context.Treasures.Find(treasure.TreasureUID);
-
                 //当前对象不为空，更新操作
                 if (dbEntry != null)
                 {

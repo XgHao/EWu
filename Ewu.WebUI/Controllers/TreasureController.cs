@@ -166,6 +166,7 @@ namespace Ewu.WebUI.Controllers
         /// </summary>
         /// <param name="treasure"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         public ActionResult UploadItem(Treasure treasure)
         {
@@ -176,13 +177,19 @@ namespace Ewu.WebUI.Controllers
                 treasure.Favorite = 0;
                 treasure.UpdateTime = DateTime.Now;
                 treasure.UploadTime = DateTime.Now;
+                treasure.EditCount = 0;
                 if (string.IsNullOrEmpty(treasure.Remarks))
                 {
                     treasure.Remarks = "无";
                 }
                 #endregion
                 repository.SaveTreasure(treasure);
-                return View("UpLoadImg");
+                UploadImgs uploadImgs = new UploadImgs
+                {
+                    TreasureUID = treasure.TreasureUID.ToString(),
+                    UserID = treasure.HolderID
+                };
+                return View("UpLoadImg", uploadImgs);
             }
             return View(treasure);
         }
@@ -191,9 +198,15 @@ namespace Ewu.WebUI.Controllers
         /// 上传图片
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public ActionResult UpLoadImg()
         {
-            return View();
+            UploadImgs uploadImgs = new UploadImgs
+            {
+                TreasureUID = "591b35aa-426c-4546-ae4b-27eb2775eb49",
+                UserID = "56b52e9b-2d83-47ad-805e-9e0feb1875d9"
+            };
+            return View(uploadImgs);
         }
 
         /// <summary>

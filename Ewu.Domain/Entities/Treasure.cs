@@ -37,6 +37,8 @@ namespace Ewu.Domain.Entities
         public string Remarks { get; set; }         //备注
         public DateTime UploadTime { get; set; }    //上传时间
         public DateTime UpdateTime { get; set; }    //最后更新时间
+
+        public int EditCount { get; set; }          //编辑次数
         public int Favorite { get; set; }           //收藏数
 
         public string Link { get; set; }            //物品的详情页

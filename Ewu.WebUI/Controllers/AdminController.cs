@@ -35,6 +35,7 @@ namespace Ewu.WebUI.Controllers
         /// </summary>
         /// <param name="treasureUID">物品的UID</param>
         /// <returns></returns>
+        [Authorize]
         public ViewResult Edit(Guid treasureUID)
         {
             //根据UID获取物品对象

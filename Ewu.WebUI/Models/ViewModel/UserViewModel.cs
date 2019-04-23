@@ -84,6 +84,15 @@ namespace Ewu.WebUI.Models.ViewModel
         public string[] IdsToDelete { get; set; }               //要删除的角色名集合
     }
 
+    /// <summary>
+    /// 上传图片模型
+    /// </summary>
+    public class UploadImgs
+    {
+        public string TreasureUID { get; set; }
+        public string UserID { get; set; }
+    }
+
     public class UserViewModel
     {
     }

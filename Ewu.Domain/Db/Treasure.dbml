@@ -8,7 +8,7 @@
       <Column Name="TreasureType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="DamageDegree" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="TradeRange" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Cover" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Cover" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="DetailPic" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="DetailContent" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="LocationProvince" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
@@ -16,8 +16,9 @@
       <Column Name="LocationDistrict" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="UploadTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EditCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Favorite" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Link" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Link" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="BrowseNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Remarks" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="ImageData" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
