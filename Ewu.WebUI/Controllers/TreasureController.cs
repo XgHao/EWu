@@ -107,6 +107,17 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 物品详情页
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public  ActionResult TreasureInfo()
+        {
+            return View();
+        }
+
+
+        /// <summary>
         /// 发布新的物品
         /// </summary>
         /// <returns></returns>
@@ -257,26 +268,5 @@ namespace Ewu.WebUI.Controllers
             }
         }
 
-
-
-
-
-
-
-
-        //public ActionResult SaveUploadedFile()
-        //{
-        //    bool isSavedSuccessfully = true;
-        //    string fName = "";
-        //    foreach(var fileName in Request.Files)
-        //    {
-        //        HttpPostedFileBase file = Request.Files[fileName];
-        //        //保存文件
-        //        fName = file.FileName;
-        //        if (file != null && file.ContentLength > 0)
-        //        {
-        //        }
-        //    }
-        //}
     }
 }
