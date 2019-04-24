@@ -51,7 +51,7 @@
             <div class="row">
                 <!--录入信息-->
                 <div class="col-lg-8 col-md-7">
-                    @using (Html.BeginForm("UploadItem", "Treasure", FormMethod.Post, new { enctype = "multipart/form-data", id = "dropzoneForm" }))
+                    @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { enctype = "multipart/form-data", id = "dropzoneForm" }))
                     {
                         <!--物品名称-->
                         <div class="upload_modules">
@@ -90,7 +90,7 @@
                                     <label class="text-info font-weight-bold">所在地区</label>
                                     <div class="city-picker-selector" id="city-picker-search">
                                         <div class="selector-item storey province">
-                                            <a href="javascript:;" class="selector-name reveal df-color ">@(Model.LocationProvince ?? "请选择省份")</a>
+                                            <a href="javascript:;" class="selector-name reveal df-color "></a>
                                             <input type="hidden" name="userProvinceId" class="input-price val-error" value="" data-required="userProvinceId">
                                             <div class="selector-list listing hide">
                                                 <div class="selector-search">
@@ -103,7 +103,7 @@
                                             </div>
                                         </div>
                                         <div class="selector-item storey city">
-                                            <a href="javascript:;" class="selector-name reveal df-color forbid">@(Model.LocationCity ?? "请选择城市")</a>
+                                            <a href="javascript:;" class="selector-name reveal df-color forbid"></a>
                                             <input type="hidden" name="userCityId" class="input-price val-error" value="" data-required="userCityId">
                                             <div class="selector-list listing hide">
                                                 <div class="selector-search">
@@ -113,7 +113,7 @@
                                             </div>
                                         </div>
                                         <div class="selector-item storey district">
-                                            <a href="javascript:;" class="selector-name reveal df-color forbid">@(Model.LocationDistrict ?? "请选择区县")</a>
+                                            <a href="javascript:;" class="selector-name reveal df-color forbid"></a>
                                             <input type="hidden" name="userDistrictId" class="input-price val-error" value="" data-required="userDistrictId">
                                             <div class="selector-list listing hide">
                                                 <div class="selector-search">
@@ -126,6 +126,11 @@
                                     @Html.HiddenFor(t => t.LocationProvince)
                                     @Html.HiddenFor(t => t.LocationCity)
                                     @Html.HiddenFor(t => t.LocationDistrict)
+
+                                    @Html.Hidden("NowProvince", Model.LocationProvince ?? "请你选择省份")
+                                    @Html.Hidden("NowCity", Model.LocationCity ?? "请你选择城市")
+                                    @Html.Hidden("NowDistrict", Model.LocationDistrict ?? "请你选择地区")
+
                                     @Html.HiddenFor(t => t.TreasureUID, new { value = Model.TreasureUID })
                                     @Html.HiddenFor(t => t.HolderID, new { value = Model.HolderID })
                                 </div>
@@ -145,7 +150,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="text-info font-weight-bold">详细信息</label>
-                                    @Html.TextAreaFor(t => t.DetailContent, new { @class = "form-control", @placeholder = "描述一下你的物品吧" })
+                                    @Html.TextAreaFor(t => t.DetailContent, new { @class = "form-control", @placeholder = "描述一下你的物品吧", Value = Model.DetailContent ?? "" })
                                 </div>
 
                                 <div class="form-group">

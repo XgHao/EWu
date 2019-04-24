@@ -73,6 +73,7 @@ namespace Ewu.Domain.Concrete
                     dbEntry.LocationDistrict = treasure.LocationDistrict ?? dbEntry.LocationDistrict;
                     dbEntry.LocationCity = treasure.LocationCity ?? dbEntry.LocationCity;
                     dbEntry.DamageDegree = treasure.DamageDegree ?? dbEntry.DamageDegree;
+                    dbEntry.EditCount += 1;
                 }
             }
 

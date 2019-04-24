@@ -41,14 +41,15 @@ namespace Ewu.WebUI.Controllers
         /// <param name="page">页码</param>
         /// <returns></returns>
         [Authorize]
-        public ViewResult List(string category, int page = 1, int PageSize = 3)
+        public ViewResult List(string category, int page = 1, int PageSize = 12)
         {
             //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
                 //根据页码以及分类来确定具体要显示的物品列表
                 Treasures = repository.Treasures
-                                    .Where(t => category == null || t.TreasureType == category)
+                                    //筛选-1.当前类或者类型为空的 2.不能选择图片为空的(图片为空当作未完成项)
+                                    .Where(t => (category == null || t.TreasureType == category) && (t.Cover != null && t.DetailPic != null))
                                     .OrderBy(t => t.TreasureName)
                                     .Skip((page - 1) * PageSize)
                                     .Take(PageSize),
@@ -75,14 +76,15 @@ namespace Ewu.WebUI.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public ActionResult MyList(string category, int page = 1, int PageSize = 3)
+        public ActionResult MyList(string category, int page = 1, int PageSize = 6)
         {
             //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
                 //根据页码以及分类来确定具体要显示的物品列表
                 Treasures = repository.Treasures
-                                    .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id)
+                                    //筛选-1.类型为空或者当前类 2.是当前登录用户的物品 3.图片为空不显示
+                                    .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id && (t.Cover != null && t.DetailPic != null))
                                     .OrderBy(t => t.TreasureName)
                                     .Skip((page - 1) * PageSize)
                                     .Take(PageSize),

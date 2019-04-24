@@ -21,17 +21,18 @@
     var grade = ['province', 'city', 'district'];
     var defaults = {
         dataJson: null,
-        selectpattern: [{
+        selectpattern: [
+            {
                 field: 'userProvinceId',
-                placeholder: '请选择省份'
+                placeholder: $("#NowProvince").val()
             },
             {
                 field: 'userCityId',
-                placeholder: '请选择城市'
+                placeholder: $("#NowCity").val()
             },
             {
                 field: 'userDistrictId',
-                placeholder: '请选择区县'
+                placeholder: $("#NowDistrict").val()
             }
         ],
         shorthand: false,

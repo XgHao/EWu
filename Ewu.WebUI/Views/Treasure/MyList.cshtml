@@ -139,7 +139,7 @@
                     <div class="pagination-area">
                         <nav class="navigation pagination" role="navigation">
                             <div class="nav-links">
-                                @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCate }))
+                                @Html.PageLinks(Model.PagingInfo, x => Url.Action("MyList", new { page = x, category = Model.CurrentCate }))
                             </div>
                         </nav>
                     </div>

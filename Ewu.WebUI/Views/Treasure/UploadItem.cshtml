@@ -127,6 +127,11 @@
                                     @Html.HiddenFor(t => t.LocationProvince)
                                     @Html.HiddenFor(t => t.LocationCity)
                                     @Html.HiddenFor(t => t.LocationDistrict)
+
+                                    @Html.Hidden("NowProvince", Model.LocationProvince ?? "请你选择省份")
+                                    @Html.Hidden("NowCity", Model.LocationCity ?? "请你选择城市")
+                                    @Html.Hidden("NowDistrict", Model.LocationDistrict ?? "请你选择地区")
+
                                     @Html.HiddenFor(t => t.TreasureUID, new { value = Model.TreasureUID })
                                     @Html.HiddenFor(t => t.HolderID, new { value = Model.HolderID })
                                 </div>

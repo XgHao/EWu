@@ -97,6 +97,7 @@ namespace Ewu.WebUI.Controllers
         /// <param name="TreasureUID">物品UID</param>
         /// <param name="HolderID">物品所属人UID</param>
         /// <returns></returns>
+        [Authorize]
         public ViewResult Edit(Guid TreasureUID)
         {
             //获取当前用户的UID
@@ -122,14 +123,14 @@ namespace Ewu.WebUI.Controllers
                 #region 物品成色集合
                 IEnumerable<SelectListItem> damageDegree = new List<SelectListItem>()
                 {
-                    new SelectListItem(){ Text="完好",Value="网络设备" },
+                    new SelectListItem(){ Text="全新",Value="全新" },
+                    new SelectListItem(){ Text="九八新",Value="九八新" },
                     new SelectListItem(){ Text="九五新",Value="九五新" },
                     new SelectListItem(){ Text="九成新",Value="九成新" },
                     new SelectListItem(){ Text="八五新",Value="八五新" },
                     new SelectListItem(){ Text="八成新",Value="八成新" },
-                    new SelectListItem(){ Text="七五新",Value="七五新" },
                     new SelectListItem(){ Text="七成新",Value="七成新" },
-                    new SelectListItem(){ Text="六成及以下",Value="六成及以下" },
+                    new SelectListItem(){ Text="七成及以下",Value="七成及以下" },
                 };
                 damageDegree = DropListHelper.SetDefault(damageDegree, treasure.DamageDegree);
                 Session["DamageDegrees"] = damageDegree;
@@ -159,13 +160,14 @@ namespace Ewu.WebUI.Controllers
         /// <param name="treasure">编辑物品对象</param>
         /// <returns></returns>
         [HttpPost]
-        public ViewResult Edit(Treasure treasure)
+        public ActionResult Edit(Treasure treasure)
         {
             if (ModelState.IsValid)
             {
                 repository.SaveTreasure(treasure);
+                return RedirectToAction("MyList", "Treasure");
             }
-            return View();
+            return View(treasure);
         }
 
 

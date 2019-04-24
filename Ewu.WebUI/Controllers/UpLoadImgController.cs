@@ -53,7 +53,7 @@ namespace Ewu.WebUI.Controllers
                         var fileFullName = Path.GetFileName(file.FileName);
 
                         //组成相对路径，用于存入数据库显现图片
-                        ImageSrc = "~/images/Treasure" + "/" + userID + "/" + treasureUID + "/" + fileFullName;
+                        ImageSrc = "/images/Treasure" + "/" + userID + "/" + treasureUID + "/" + fileFullName;
 
                         //获取该路径是否已经存在
                         bool isExists = Directory.Exists(pathString);
@@ -137,15 +137,7 @@ namespace Ewu.WebUI.Controllers
                         var fileFullName = Path.GetFileName(file.FileName);
 
                         //组成相对路径，用于存于数据库显示图片
-                        //如果不为空
-                        if (string.IsNullOrEmpty(DetailImgSrc))
-                        {
-                            DetailImgSrc += "~/images/Treasure" + "/" + userID + "/" + treasureUID + "/" + fileFullName;
-                        }
-                        else
-                        {
-                            DetailImgSrc += "|||~/images/Treasure" + "/" + userID + "/" + treasureUID + "/" + fileFullName;
-                        }
+                        DetailImgSrc += "|/images/Treasure" + "/" + userID + "/" + treasureUID + "/" + fileFullName;
 
                         //获取该路径是否已经存在
                         bool isExists = Directory.Exists(pathString);

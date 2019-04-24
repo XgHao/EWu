@@ -6,7 +6,6 @@ window.onload = function () {
 
     //验证提交按钮
     $("#VaildForm").click(function () {
-        alert("Your Click VaildForm");
         //获取名称
         var Name = $("#TreasureName").val();
         //获取地址
@@ -15,7 +14,7 @@ window.onload = function () {
         var DetailInfo = $("#DetailContent").val();
 
         //信息填写完成后才可提交
-        if (Line1 != null && Line1 != "" && Name != "" && DetailInfo != "") {
+        if ((Line1 != null && Line1 != "" && Name != "" && DetailInfo != "") || $("#NowDistrict").val() != "") {
             var Line2 = $("#userCityId").val();         //市
             var Line3 = $("#userDistrictId").val();     //区、县
             if (Line2 != "" && Line3 != "") {
