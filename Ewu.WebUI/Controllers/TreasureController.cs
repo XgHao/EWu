@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
+using Ewu.Domain.Db;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models;
 using Ewu.WebUI.Infrastructure.Abstract;
@@ -43,16 +44,33 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ViewResult List(string category, int page = 1, int PageSize = 12)
         {
+            //1.首先获取当前条件下的所有物品集合
+            var Treasures = repository.Treasures
+                                //筛选-1.当前类或者类型为空的 2.不能选择图片为空的(图片为空当作未完成项)
+                                .Where(t => (category == null || t.TreasureType == category) && (t.Cover != null && t.DetailPic != null))
+                                .OrderBy(t => t.TreasureName)
+                                .Skip((page - 1) * PageSize)
+                                .Take(PageSize);
+
+            //新建一个List
+            List<TreasureAndHolderInfo> treasureAndHolders = new List<TreasureAndHolderInfo>();
+            //遍历物品集合，填充数据
+            foreach (var trea in Treasures)
+            {
+                AppUser holder = UserManager.FindById(trea.HolderID);
+                treasureAndHolders.Add(new TreasureAndHolderInfo
+                {
+                    Treasure = trea,
+                    Holder = holder
+                });
+            }
+
+
             //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
-                //根据页码以及分类来确定具体要显示的物品列表
-                Treasures = repository.Treasures
-                                    //筛选-1.当前类或者类型为空的 2.不能选择图片为空的(图片为空当作未完成项)
-                                    .Where(t => (category == null || t.TreasureType == category) && (t.Cover != null && t.DetailPic != null))
-                                    .OrderBy(t => t.TreasureName)
-                                    .Skip((page - 1) * PageSize)
-                                    .Take(PageSize),
+                //物品用户信息
+                TreasureAndHolderInfos = treasureAndHolders,
                 //分页信息
                 PagingInfo = new PagingInfo
                 {
@@ -78,16 +96,31 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult MyList(string category, int page = 1, int PageSize = 6)
         {
+            //根据页码以及分类来确定具体要显示的物品列表
+            var Treasures = repository.Treasures
+                                //筛选-1.类型为空或者当前类 2.是当前登录用户的物品 3.图片为空不显示
+                                .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id && (t.Cover != null && t.DetailPic != null))
+                                .OrderBy(t => t.TreasureName)
+                                .Skip((page - 1) * PageSize)
+                                .Take(PageSize);
+
+            //新建一个List
+            List<TreasureAndHolderInfo> treasureAndHolders = new List<TreasureAndHolderInfo>();
+            //遍历物品集合，填充数据
+            foreach (var trea in Treasures)
+            {
+                AppUser holder = UserManager.FindById(trea.HolderID);
+                treasureAndHolders.Add(new TreasureAndHolderInfo
+                {
+                    Treasure = trea,
+                    Holder = holder
+                });
+            }
+
             //生成一个具体的列表视图模型
             TreasureListViewModel model = new TreasureListViewModel
             {
-                //根据页码以及分类来确定具体要显示的物品列表
-                Treasures = repository.Treasures
-                                    //筛选-1.类型为空或者当前类 2.是当前登录用户的物品 3.图片为空不显示
-                                    .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id && (t.Cover != null && t.DetailPic != null))
-                                    .OrderBy(t => t.TreasureName)
-                                    .Skip((page - 1) * PageSize)
-                                    .Take(PageSize),
+                TreasureAndHolderInfos = treasureAndHolders,
                 //分页信息
                 PagingInfo = new PagingInfo
                 {
@@ -111,9 +144,28 @@ namespace Ewu.WebUI.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public  ActionResult TreasureInfo()
+        public ActionResult TreasureInfo(string TreasureUID = "")
         {
-            return View();
+            if (!string.IsNullOrEmpty(TreasureUID))
+            {
+                Guid Treasureguid = Guid.Parse(TreasureUID);
+                Treasure treasure = repository.Treasures.Where(t => t.TreasureUID == Treasureguid).FirstOrDefault();
+                var imgs = treasure.DetailPic.Split('|');
+                if (treasure != null)
+                {
+                    //定义一个视图模型
+                    TreaInfo treaInfo = new TreaInfo
+                    {
+                        HolderInfo = GetLoginUserInfo(treasure.HolderID),
+                        LoginUserInfo = CurrentUser,
+                        treasureInfo = treasure,
+                        //108是生成图片路径的固定的长度
+                        DetailImgs = imgs.Where(t => t.Length == 108)
+                    };
+                    return View(treaInfo);
+                }
+            }
+            return View("Error");
         }
 
 
@@ -191,6 +243,7 @@ namespace Ewu.WebUI.Controllers
                 treasure.UpdateTime = DateTime.Now;
                 treasure.UploadTime = DateTime.Now;
                 treasure.EditCount = 0;
+                treasure.Link = "/Treasure/TreasureInfo?TreasureUID=" + treasure.TreasureUID.ToString();
                 if (string.IsNullOrEmpty(treasure.Remarks))
                 {
                     treasure.Remarks = "无";
@@ -242,6 +295,15 @@ namespace Ewu.WebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// 获取物品所有者用户信息
+        /// </summary>
+        /// <param name="holderid">用户ID</param>
+        /// <returns></returns>
+        public AppUser GetLoginUserInfo(string holderid)
+        {
+            return UserManager.FindById(holderid);
+        }
 
         /// <summary>
         /// 获取当前用户
@@ -250,6 +312,7 @@ namespace Ewu.WebUI.Controllers
         {
             get
             {
+                var q = UserManager.FindById("");
                 return UserManager.FindByName(HttpContext.User.Identity.Name);
             }
         }
@@ -267,6 +330,8 @@ namespace Ewu.WebUI.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
+
+
 
     }
 }

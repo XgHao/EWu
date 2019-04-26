@@ -98,8 +98,15 @@ namespace Ewu.WebUI.Models.ViewModel
     /// </summary>
     public class TreaInfo
     {
+        //物品信息
         public Treasure treasureInfo { get; set; }
-        public AppUser userInfo { get; set; }
+        //所有人信息
+        public AppUser HolderInfo { get; set; }
+        //当前登录人信息
+        public AppUser LoginUserInfo { get; set; }
+        //图片集合
+        public IEnumerable<string> DetailImgs { get; set; }
+        
     }
 
     public class UserViewModel

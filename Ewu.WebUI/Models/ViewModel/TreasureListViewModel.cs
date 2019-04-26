@@ -11,8 +11,8 @@ namespace Ewu.WebUI.Models.ViewModel
     /// </summary>
     public class TreasureListViewModel
     {
-        //物品信息
-        public IEnumerable<Treasure> Treasures { get; set; }
+        //物品信息及对应所属人信息
+        public IEnumerable<TreasureAndHolderInfo> TreasureAndHolderInfos { get; set; }
 
         //分页信息
         public PagingInfo PagingInfo { get; set; }
@@ -41,5 +41,14 @@ namespace Ewu.WebUI.Models.ViewModel
 
         //分类链接
         public string CateLink { get; set; }
+    }
+
+    /// <summary>
+    /// 物品信息及对应所属人信息
+    /// </summary>
+    public class TreasureAndHolderInfo
+    {
+        public Treasure Treasure { get; set; }
+        public AppUser Holder { get; set; }
     }
 }

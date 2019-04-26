@@ -24,8 +24,8 @@
                             </li>
                         </ul>
                     </div>
-                    <h1 class="page-title">@*@Model.treasureInfo.TreasureName*@</h1>
-                    <h1 class="page-title">TreasureName</h1>
+                    <h1 class="page-title"></h1>
+                    <h1 class="page-title">@Model.treasureInfo.TreasureName</h1>
                 </div>
             </div>
         </div>
@@ -42,11 +42,10 @@
                             <div class="a-content">
                                 <div class="carousel-content">
                                     <ul class="carousel">
-                                        <li><img src="~/images/test/pic1.png"></li>
-                                        <li><img src="~/images/test/pic2.png"></li>
-                                        <li><img src="~/images/test/pic3.png"></li>
-                                        <li><img src="~/images/test/pic4.png"></li>
-                                        <li><img src="~/images/test/pic5.png"></li>
+                                        @foreach (var img in Model.DetailImgs)
+                                        {
+                                            <li><img src=@img></li>
+                                        }
                                     </ul>
                                     <ul class="img-index"></ul>
                                     <div class="carousel-prev"><img src="~/images/test/left1.png"></div>
@@ -70,10 +69,11 @@
                         <div class="thread thread_review">
                             <ul class="media-list thread-list">
                                 <li class="single-thread">
+                                    <!--备注信息-->
                                     <div class="media">
                                         <div class="media-left">
                                             <a href="#">
-                                                <img class="media-object" src="~/images/m1.png" alt="Commentator Avatar">
+                                                <img class="media-object" width="70" height="70" src=@Model.HolderInfo.HeadPortrait alt="Commentator Avatar">
                                             </a>
                                         </div>
                                         <div class="media-body">
@@ -81,7 +81,7 @@
                                                 <div class="pull-left">
                                                     <div class="media-heading">
                                                         <a href="author.html">
-                                                            <h4 class="font-weight-bold">Themexylum</h4>
+                                                            <h4 class="font-weight-bold">@Model.HolderInfo.UserName</h4>
                                                         </a>
                                                     </div>
                                                     <div class="rating product--rating">
@@ -106,7 +106,8 @@
                                                 </div>
                                             </div>
                                             <p class="text-black-50">
-                                                他什么也没留下
+                                                <i class="font-weight-bold">备注</i>
+                                                @(Model.treasureInfo.Remarks ?? "")
                                             </p>
                                         </div>
                                     </div>
@@ -241,57 +242,50 @@
                         <!--具体信息-->
                         <ul class="infos">
                             <li>
-                                <p class="data-label">物品全称</p>
-                                <p class="info">1.2</p>
+                                <p class="data-label font-weight-bold">物品全称</p>
+                                <p class="info">@Model.treasureInfo.TreasureName</p>
                             </li>
                             <li>
-                                <p class="data-label">物品类型</p>
-                                <p class="info">Corporate & Business</p>
-                            </li>
-                            <li>
-                                <p class="data-label">物品成色</p>
-                                <p class="info">Responsive</p>
-                            </li>
-                            <li>
-                                <p class="data-label">所在地区</p>
-                                <p class="info">No</p>
-                            </li>
-                            <li>
-                                <p class="data-label">交易范围</p>
-                                <p class="info">Html, CSS, JavaScript</p>
-                            </li>
-                            <li>
-                                <p class="data-label">收藏数</p>
-                                <p class="info">IE10, IE11, Firefox, Safari, Opera, Chrome5</p>
-                            </li>
-                            <li>
-                                <p class="data-label">浏览量</p>
-                                <p class="info">Bootstrap 4</p>
-                            </li>
-                            <li>
-                                <p class="data-label">上传时间</p>
-                                <p class="info">28 July 2016 </p>
-                            </li>
-                            <li>
-                                <p class="data-label">信息更新时间</p>
-                                <p class="info">16 June 2015</p>
-                            </li>
-                            <li>
-                                <p class="data-label">编辑次数</p>
-                                <p class="info">16</p>
-                            </li>
-                            <li>
-                                <p class="data-label">Tags</p>
+                                <p class="data-label font-weight-bold">物品类型</p>
                                 <p class="info">
-                                    <a href="#">business</a>,
-                                    <a href="#">template</a>,
-                                    <a href="#">onepage</a>,
-                                    <a href="#">creative</a>,
-                                    <a href="#">responsive</a>,
-                                    <a href="#">corporate</a>,
-                                    <a href="#">Bootstrap3</a>,
-                                    <a href="#">html5</a>
+                                    <a href="#">@Model.treasureInfo.TreasureType</a>
                                 </p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">物品成色</p>
+                                <p class="info">@Model.treasureInfo.DamageDegree</p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">所在地区</p>
+                                <p class="info">@(Model.treasureInfo.LocationProvince+" "+Model.treasureInfo.LocationCity+" "+Model.treasureInfo.LocationDistrict)</p>  
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">交易范围</p>
+                                <p class="info">@Model.treasureInfo.TradeRange</p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">收藏数</p>
+                                <p class="info">@Model.treasureInfo.Favorite</p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">浏览量</p>
+                                <p class="info">@Model.treasureInfo.BrowseNum</p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">上传时间</p>
+                                <p class="info">
+                                    <button class="btn btn-success">@Model.treasureInfo.UploadTime</button>
+                                </p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">信息更新时间</p>
+                                <p class="info">
+                                    <button class="btn btn-danger">@Model.treasureInfo.UpdateTime</button>
+                                </p>
+                            </li>
+                            <li>
+                                <p class="data-label font-weight-bold">编辑次数</p>
+                                <p class="info">@Model.treasureInfo.EditCount</p>
                             </li>
                         </ul>
                     </div>
@@ -304,40 +298,51 @@
                         <!--头像-->
                         <div class="author-infos">
                             <div class="author_avatar">
-                                <img src="~/images/author-avatar.jpg" alt="Presenting the broken author avatar :D">
+                                <img width="100" height="100" src=@Model.HolderInfo.HeadPortrait alt="Presenting the broken author avatar :D">
                             </div>
                             <!--名称-->
                             <div class="author">
-                                <h4>AazzTech</h4>
+                                <h4>@Model.HolderInfo.UserName</h4>
                                 <!--个人签名-->
-                                <p>萤烛之火，也敢于日月争辉？！</p>
+                                <p>@(Model.HolderInfo.Signature ?? "")</p>
                             </div>
                             <!--社交信息-->
                             <div class="social">
                                 <ul>
                                     <li>
                                         <a href="#" class="btn btn--sm btn--color1 btn--icon">
-                                            <span class="fa fa-mars"></span>男
+                                            @if (Model.HolderInfo.Gender.IndexOf("男") >= 0)
+                                            {
+                                                <span class="fa fa-mars"></span><text>男</text>
+                                            }
+                                            else if (Model.HolderInfo.Gender.IndexOf("女") >= 0)
+                                            {
+                                                <span class="fa fa-venus"></span><text>女</text>
+                                            }
+                                            else
+                                            {
+                                                <span class="fa fa-genderless"></span><text>未知</text>
+                                            }
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="btn btn--sm btn--color2 btn--icon">
-                                            <span class="fa fa-birthday-cake"></span>1997/08/01
+                                            <span class="fa fa-birthday-cake"></span>@Model.HolderInfo.BirthDay.ToShortDateString()
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="btn btn--sm btn--color3 btn--icon">
-                                            <span class="fa fa-qq"></span>957553851
+                                            <span class="fa fa-qq"></span>@(Model.HolderInfo.OICQ ?? "未知")
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="btn btn--sm btn--color4 btn--icon">
-                                            <span class="fa fa-wechat"></span>zhengxinghao6114
+                                            <span class="fa fa-wechat"></span>@(Model.HolderInfo.WeChat ?? "未知")
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="btn btn--sm btn--color5 btn--icon">
-                                            <span class="fa fa-briefcase"></span>开发工程师
+                                            <span class="fa fa-briefcase"></span>@(Model.HolderInfo.Job ?? "未知")
                                         </a>
                                     </li>
                                 </ul>

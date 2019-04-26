@@ -126,9 +126,9 @@
         <div class="container">
             <!--物品-->
             <div class="row">
-                @foreach (var treasure in Model.Treasures)
+                @foreach (var treasureAndHolder in Model.TreasureAndHolderInfos)
                 {
-                    @Html.Partial("Summary/TreasureSmy", treasure);
+                    @Html.Partial("Summary/TreasureSmy", treasureAndHolder);
                 }
             </div>
             <!--页码-->

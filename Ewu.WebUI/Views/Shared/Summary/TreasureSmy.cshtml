@@ -1,46 +1,46 @@
-﻿@using Ewu.Domain.Entities
-@model Treasure
+﻿@using Ewu.WebUI.Models.ViewModel
+@model TreasureAndHolderInfo
 
 <div class="col-lg-4 col-md-6">
     <div class="product product--card">
         <!--图片缩略图-->
         <div class="product__thumbnail">
             <!--图片-->
-            <img src=@Model.Cover alt="Product Image">
+            <img height="480" width="350" src=@Model.Treasure.Cover alt="Product Image">
             <!--悬浮按钮-->
             <div class="prod_btn">
-                <a href="single-product.html" class="transparent btn--sm btn--round">More Info</a>
-                <a href="single-product.html" class="transparent btn--sm btn--round">Live Demo</a>
+                <a href=@Model.Treasure.Link class="transparent btn--sm btn--round">More Info</a>
+                <a href=@Model.Treasure.Link class="transparent btn--sm btn--round">Live Demo</a>
             </div>
         </div>
 
         <!--物品详情-->
         <div class="product-desc">
             <!--标题-->
-            <a href="#" class="product_title">
-                <h4>@Model.TreasureName</h4>
+            <a href=@Model.Treasure.Link class="product_title">
+                <h4>@Model.Treasure.TreasureName</h4>
             </a>
 
             <!--所有者-->
             <ul class="titlebtm">
                 <!--所有者-->
                 <li>
-                    <img class="auth-img" src="~/images/auth.jpg" alt="author image">
+                    <img class="auth-img" src=@Model.Holder.HeadPortrait alt="author image">
                     <p>
-                        <a href="#">AazzTech</a>
+                        <a href="#">@Model.Holder.UserName</a>
                     </p>
                 </li>
                 <!--物品分类-->
                 <li class="product_cat">
-                    <a href=@("/Treasure/List/"+Model.TreasureType)>
-                        <span class="lnr lnr-book"></span>@Model.TreasureType
+                    <a href=@("/Treasure/List/"+Model.Treasure.TreasureType)>
+                        <span class="lnr lnr-book"></span>@Model.Treasure.TreasureType
                     </a>
                 </li>
             </ul>
 
             <!--介绍-->
             <p>
-                @Model.DetailContent
+                @Model.Treasure.DetailContent
             </p>
         </div>
 
@@ -48,17 +48,17 @@
         <div class="product-purchase">
             <!--价格-->
             <div class="price_love">
-                <span>@Model.UpdateTime.ToShortDateString()</span>
+                <span>@Model.Treasure.UpdateTime.ToShortDateString()</span>
                 <!--收藏数-->
                 <p>
-                    <span class="lnr lnr-heart"></span> @Model.Favorite
+                    <span class="lnr lnr-heart"></span> @Model.Treasure.Favorite
                 </p>
             </div>
             <!--交易量-->
             <div class="sell">
                 <p>
                     <span class="lnr lnr-eye"></span>
-                    <span>@Model.BrowseNum</span>
+                    <span>@Model.Treasure.BrowseNum</span>
                 </p>
             </div>
         </div>

@@ -127,9 +127,9 @@
             <!--物品-->
             <div class="row">
                 <div class="col-md-12">
-                    @foreach (var treasure in Model.Treasures)
+                    @foreach (var treasureAndHolder in Model.TreasureAndHolderInfos)
                     {
-                        @Html.Partial("Summary/MyTreasureSmy", treasure);
+                        @Html.Partial("Summary/MyTreasureSmy", treasureAndHolder);
                     }
                 </div>
             </div>
