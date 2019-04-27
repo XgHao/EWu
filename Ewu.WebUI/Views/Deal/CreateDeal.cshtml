@@ -1,0 +1,185 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model DealInfo
+
+@{
+    ViewBag.Title = "CreateDeal";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--用户个人信息-->
+@section UserInfo{
+    @Html.Partial("PartialLayout/NoUserInfo")
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">物品</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">交易</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">Deal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="bgcolor section--padding">
+    <div class="shortcode_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="shortcode_module_title">
+                        <div class="dashboard__title">
+                            <h3>
+                                想要交换得到的
+                                <a href=@Model.DealTreasure.Link>@Model.DealTreasure.TreasureName</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="">
+                        <!--所有人-->
+                        <div class="single_speaker">
+                            <div class="speaker__thumbnail">
+                                <img width="263" height="263" src=@Model.Holder.HeadPortrait alt="">
+                            </div>
+
+                            <div class="speaker__detail">
+                                <h4>@Model.Holder.UserName</h4>
+                                <span class="ocuup">@Model.Holder.RegisterTime.ToShortDateString()</span>
+                                <p>
+                                    @Model.Holder.Signature
+                                </p>
+
+                                <div class="speaker_social">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-facebook"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-twitter"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-google-plus"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-pinterest"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--物品信息-->
+                        <div class="">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="product product--card product--card2">
+
+                                        <div class="product__thumbnail">
+                                            <img src="~/images/p1.jpg" alt="Product Image">
+                                        </div>
+
+                                        <div class="product-desc">
+                                            <a href="#" class="product_title">
+                                                <h4>@Model.DealTreasure.TreasureName</h4>
+                                            </a>
+
+                                            <p>
+                                                @Model.DealTreasure.DetailContent
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <aside class="sidebar sidebar--single-product">
+                                        <!--物品信息-->
+                                        <div class="sidebar-card card--product-infos">
+                                            <!--具体信息-->
+                                            <ul class="infos">
+                                                <li>
+                                                    <p class="data-label font-weight-bold">物品类型</p>
+                                                    <p class="info">
+                                                        <a href="#">@Model.DealTreasure.TreasureType</a>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="data-label font-weight-bold">物品成色</p>
+                                                    <p class="info">@Model.DealTreasure.DamageDegree</p>
+                                                </li>
+                                                <li>
+                                                    <p class="data-label font-weight-bold">所在地区</p>
+                                                    <p class="info">@(Model.DealTreasure.LocationProvince+""+Model.DealTreasure.LocationCity+""+Model.DealTreasure.LocationDistrict)</p>
+                                                </li>
+                                                <li>
+                                                    <p class="data-label font-weight-bold">交易范围</p>
+                                                    <p class="info">@Model.DealTreasure.TradeRange</p>
+                                                </li>
+                                                <li>
+                                                    <p class="data-label font-weight-bold">收藏数</p>
+                                                    <p class="info">@Model.DealTreasure.Favorite</p>
+                                                </li>
+                                                <li>
+                                                    <p class="data-label font-weight-bold">浏览量</p>
+                                                    <p class="info">@Model.DealTreasure.BrowseNum</p>
+                                                </li>
+                                                <li>
+                                                    <p class="data-label font-weight-bold">上传日期</p>
+                                                    <p class="info">@Model.DealTreasure.UploadTime.ToString("YYYY-MM-dd")</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </aside>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="shortcode_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="shortcode_module_title">
+                        <div class="dashboard__title">
+                            <h3>选择交换的物品</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @foreach(var dmtm in Model.DealMyTreasureModels)
+                {
+                    @Html.Partial("Summary/DealMyTreasure", dmtm)
+                }
+            </div>
+        </div>
+    </div>
+</section>

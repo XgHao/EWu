@@ -9,22 +9,55 @@ namespace Ewu.Domain.Entities
 {
     public class Deal
     {
+        /// <summary>
+        /// 交易唯一标识
+        /// </summary>
         [Key]
-        public Guid DLogUID { get; set; }             //交易唯一标识
+        public Guid DLogUID { get; set; }
 
-        //交易双方及交易物 
-        public string TraderSponsorID { get; set; }     //交易发起者ID
-        public string TreasureSponsorID { get; set; }   //发起者物品ID
-        public string TraderRecipientID { get; set; }   //交易接受者ID
-        public string TreasureRecipientID { get; set; } //接受者物品ID
+        #region 交易双方及交易物
+        /// <summary>
+        /// 交易发起者UID
+        /// </summary>
+        public string TraderSponsorID { get; set; }     
+        /// <summary>
+        /// 发起者物品UID
+        /// </summary>
+        public string TreasureSponsorID { get; set; }   
+        /// <summary>
+        /// 交易接受者UID
+        /// </summary>
+        public string TraderRecipientID { get; set; }   
+        /// <summary>
+        /// 接受者物品UID
+        /// </summary>
+        public string TreasureRecipientID { get; set; }
+        #endregion
 
-        //交易订单
-        public DateTime DealBeginTime { get; set; }     //交易开始时间
-        public DateTime DealEndTime { get; set; }       //交易结束时间
-        public string DealStatus { get; set; }          //交易状态
-        
-        //评价
-        public decimal ScoreSToR { get; set; }          //发起者评分
-        public decimal ScoreRToS { get; set; }          //接受者评分
+        #region 交易订单
+        /// <summary>
+        /// 交易开始时间
+        /// </summary>
+        public DateTime DealBeginTime { get; set; }     
+        /// <summary>
+        /// 交易结束时间
+        /// </summary>
+        public DateTime DealEndTime { get; set; }       
+        /// <summary>
+        /// 交易状态
+        /// </summary>
+        public string DealStatus { get; set; }
+        #endregion
+
+        #region 评价
+        /// <summary>
+        /// 发起者评分
+        /// </summary>
+        public decimal ScoreSToR { get; set; }          
+        /// <summary>
+        /// 接受者评分
+        /// </summary>
+        public decimal ScoreRToS { get; set; }
+        #endregion
     }
 }

@@ -9,14 +9,35 @@ namespace Ewu.Domain.Entities
 {
     public class Notice
     {
+        /// <summary>
+        /// 唯一通知标识
+        /// </summary>
         [Key]
-        public Guid NoticeUID { get; set; }           //通知唯一标识
+        public Guid NoticeUID { get; set; }           
 
-        public string RecipientID { get; set; }         //接收人ID
-        public string SponsorID { get; set; }           //发起人ID
-        public string NoticeObject { get; set; }        //通知主题
-        public string NoticeContent { get; set; }       //通知内容
-        public DateTime NoticeTime { get; set; }        //通知时间
-        public bool IsRead { get; set; }             //是否已读
+        /// <summary>
+        /// 接收人UID
+        /// </summary>
+        public string RecipientID { get; set; }         
+        /// <summary>
+        /// 发起人UID
+        /// </summary>
+        public string SponsorID { get; set; }           
+        /// <summary>
+        /// 通知主题
+        /// </summary>
+        public string NoticeObject { get; set; }       
+        /// <summary>
+        /// 通知内容
+        /// </summary>
+        public string NoticeContent { get; set; }      
+        /// <summary>
+        /// 通知时间
+        /// </summary>
+        public DateTime NoticeTime { get; set; }        
+        /// <summary>
+        /// 是否已读
+        /// </summary>
+        public bool IsRead { get; set; }           
     }
 }

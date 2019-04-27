@@ -243,7 +243,7 @@ namespace Ewu.WebUI.Controllers
                 treasure.UpdateTime = DateTime.Now;
                 treasure.UploadTime = DateTime.Now;
                 treasure.EditCount = 0;
-                treasure.Link = "/Treasure/TreasureInfo?TreasureUID=" + treasure.TreasureUID.ToString();
+                treasure.Link = "/Treasure/CreateDeal?TreasureUID=" + treasure.TreasureUID.ToString();
                 if (string.IsNullOrEmpty(treasure.Remarks))
                 {
                     treasure.Remarks = "无";
@@ -303,6 +303,15 @@ namespace Ewu.WebUI.Controllers
         public AppUser GetLoginUserInfo(string holderid)
         {
             return UserManager.FindById(holderid);
+        }
+
+        /// <summary>
+        /// 错误视图
+        /// </summary>
+        /// <returns></returns>
+        public ViewResult Error()
+        {
+            return View();
         }
 
         /// <summary>

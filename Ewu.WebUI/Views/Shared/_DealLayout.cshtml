@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    @Html.Partial("cssJS/cssHead")
+
+    <title>@ViewBag.Title</title>
+</head>
+<body class="preload home1 mutlti-vendor">
+    <div class="menu-area">
+        <!--顶部栏-->
+        <div class="top-menu-area">
+            <div class="container">
+                <div class="row">
+                    <!--Logo-->
+                    <div class="col-lg-3 col-md-3 col-6 v_middle">
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="~/images/logo.png" alt="logo image" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                    <!--用户个人信息-->
+                    @RenderSection("UserInfo")
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--导航-->
+    @RenderSection("Nav")
+
+
+    @RenderBody()
+
+
+    <!--页尾底栏-->
+    @Html.Partial("PartialLayout/Footer")
+    <!--JS-->
+    @Html.Partial("cssJS/jsBody")
+    <script src="~/Scripts/Register.js"></script>
+</body>
+</html>

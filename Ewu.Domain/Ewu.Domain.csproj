@@ -111,6 +111,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspNetUser.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Db\LogDeal.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogDeal.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Db\Treasure.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -140,6 +145,14 @@
     </None>
     <None Include="Db\AspNetUser.dbml.layout">
       <DependentUpon>AspNetUser.dbml</DependentUpon>
+    </None>
+    <None Include="Db\LogDeal.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>LogDeal.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Db\LogDeal.dbml.layout">
+      <DependentUpon>LogDeal.dbml</DependentUpon>
     </None>
     <None Include="Db\Treasure.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

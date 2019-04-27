@@ -57,9 +57,14 @@
                     <div class="item__preview-thumb">
                         <div class="item-action">
                             <div class="action-btns">
-                                <a href="#" class="btn btn--round btn--lg btn--icon">
-                                    <span class="fa fa-hand-paper"></span>发起交易
-                                </a>
+                                @if (Model.HolderInfo.Id != Model.LoginUserInfo.Id)
+                                {
+                                    <text>
+                                    <a href=@("/Deal/CreateDeal?TreasureUID="+Model.treasureInfo.TreasureUID) class="btn btn--round btn--lg btn--icon">
+                                        <span class="fa fa-hand-paper"></span>发起交易
+                                    </a>
+                                    </text>
+                                }
                                 <a href="#" class="btn btn--round btn--lg btn--icon">
                                     <span class="fa fa-heart"></span>添加收藏
                                 </a>
@@ -107,7 +112,7 @@
                                             </div>
                                             <p class="text-black-50">
                                                 <i class="font-weight-bold">备注</i>
-                                                @(Model.treasureInfo.Remarks ?? "")
+                                                @(Model.treasureInfo.Remarks ?? "他什么也没留下")
                                             </p>
                                         </div>
                                     </div>
@@ -217,13 +222,8 @@
                             <!--详情信息-->
                             <div class="fade tab-pane product-tab" id="product-details">
                                 <div class="tab-content-wrapper">
-                                    <h1>Landing Page Details</h1>
-                                    <p>
-                                        Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the
-                                        mattis, leo quam aliquet congue placerat mi id nisi interdum mollis. Praesent pharetra,
-                                        justo ut scel erisque the mattis, leo quam aliquet congue justo ut scelerisque. Praesent
-                                        pharetra, justo ut scelerisque the mattis, leo quam aliquet congue justo ut scelerisque.
-                                    </p>
+                                    <h1>@Model.treasureInfo.TreasureName</h1>
+                                    <p>@Model.treasureInfo.DetailContent</p>
                                 </div>
                             </div>
 

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LinJiaoFengJu" Class="LogDealDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=139.199.82.204;Initial Catalog=LinJiaoFengJu;Persist Security Info=True;User ID=zxh;MultipleActiveResultSets=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.LogDeal" Member="LogDeal">
+    <Type Name="LogDeal">
+      <Column Name="DLogUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TraderSponsorID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TreasureSponsorID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TraderRecipientID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TreasureRecipientID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DealBeginTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DealEndTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DealStatus" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="ScoreSToR" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ScoreRToS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,31 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model DealMyTreasureModel
+
+<div class="col-lg-3 col-md-4">
+    <div class="single_team_member">
+        <figure>
+            <img src="~/images/team1.jpg" alt="Team Member">
+            <figcaption>
+                <div class="name_desig">
+                    <h4>@Model.UserTreasure.TreasureName</h4>
+                    <p>@Model.UserTreasure.TreasureType</p>
+                </div>
+                <div class="social">
+                    <ul>
+                        <li>
+                            @Html.ActionLink("确定", "MakeDeal", "Deal", new { TreasuUID = "11" }, new { @class="btn" })
+                            @using (Html.BeginForm())
+                            {
+                                //接受物品UID
+                                @Html.HiddenFor(t => t.DealTreasureGuid)
+                                //拿去交换的物品UID
+                                @Html.HiddenFor(t=>t.UserTreasure.TreasureUID)
+                                <input class="btn btn-info btn--fullwidth" type="submit" value="确定" />
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </figcaption>
+        </figure>
+    </div>
+</div>

@@ -30,41 +30,115 @@ namespace Ewu.Domain.Entities
         //AccessFailedCount-记录用户登录失败的次数
         #endregion
 
-        //基本信息
-        //public string UserName { get; set; }        //用户名
-        public string HeadPortrait { get; set; }    //头像
-        public string Gender { get; set; }          //性别
-        public string Signature { get; set; }       //个性签名
 
-        //个人信息
-        public string RealName { get; set; }        //真实姓名
-        public DateTime BirthDay { get; set; }      //出生年月
-        public int Age { get; set; }                //年龄
-        public string IDCardNO { get; set; }        //身份证号码
-        public string NativePlace { get; set; }     //籍贯
+        #region 基本信息
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string HeadPortrait { get; set; }
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public string Gender { get; set; }          
+        /// <summary>
+        /// 个性签名
+        /// </summary>
+        public string Signature { get; set; }       
+        #endregion
+
+
+        #region 个人信息
+        /// <summary>
+        /// 真实姓名
+        /// </summary>
+        public string RealName { get; set; }       
+        /// <summary>
+        /// 出生年月
+        /// </summary>
+        public DateTime BirthDay { get; set; }      
+        /// <summary>
+        /// 年龄
+        /// </summary>
+        public int Age { get; set; }              
+        /// <summary>
+        /// 身份号码
+        /// </summary>
+        public string IDCardNO { get; set; }        
+        /// <summary>
+        /// 籍贯
+        /// </summary>
+        public string NativePlace { get; set; }     
         //public string PhoneNumber { get; set; }     //联系方式
         //public string EMail { get; set; }            //邮箱
         //public string PasswordHash { get; set; }        //登录密码
-        public string OICQ { get; set; }            //QQ
-        public string WeChat { get; set; }          //微信
-        public string Job { get; set; }             //工作职业
+        /// <summary>
+        /// QQ
+        /// </summary>
+        public string OICQ { get; set; }           
+        /// <summary>
+        /// 微信
+        /// </summary>
+        public string WeChat { get; set; }         
+        /// <summary>
+        /// 工作职业
+        /// </summary>
+        public string Job { get; set; }            
+        #endregion
 
-        //个人设置
-        public DateTime RegisterTime { get; set; }  //注册时间
-        public string IsShowInfo { get; set; }      //是否显示个人信息
 
-        //信誉值
-        public decimal CreditWorthiness { get; set; }   //信誉值
-        public decimal TempDeductionValue { get; set; } //临时扣除值(默认值0)
-        public decimal MultipleDeduct { get; set; }     //减分的倍数(默认值1)
-        public int PenaltyTime { get; set; }            //临时扣除的天数
+        #region 个人设置
+        /// <summary>
+        /// 注册时间
+        /// </summary>
+        public DateTime RegisterTime { get; set; }  
+        /// <summary>
+        /// 是否显示个人信息
+        /// </summary>
+        public string IsShowInfo { get; set; }     
+        #endregion
 
-        //社交
-        public int Notice { get; set; }             //未读的通知数
-        public int Favorite { get; set; }           //收藏数
 
-        //身份证照
+        #region 信誉值
+        /// <summary>
+        /// 信誉值
+        /// </summary>
+        public decimal CreditWorthiness { get; set; }  
+        /// <summary>
+        /// 临时扣除值(默认值为0)
+        /// </summary>
+        public decimal TempDeductionValue { get; set; } 
+        /// <summary>
+        /// 减分的倍数(默认值为1)
+        /// </summary>
+        public decimal MultipleDeduct { get; set; }     
+        /// <summary>
+        /// 临时扣除的天数
+        /// </summary>
+        public int PenaltyTime { get; set; }          
+        #endregion
+
+
+        #region 社交
+        /// <summary>
+        /// 未读的通知数
+        /// </summary>
+        public int Notice { get; set; }            
+        /// <summary>
+        /// 收藏数
+        /// </summary>
+        public int Favorite { get; set; }         
+        #endregion
+
+
+        #region 身份证照
+        /// <summary>
+        /// 身份证数据
+        /// </summary>
         public byte[] IDCardImageData { get; set; }
+        /// <summary>
+        /// 身份证格式
+        /// </summary>
         public string IDCardImageMimeType { get; set; }
+        #endregion
     }
 }

@@ -109,6 +109,34 @@ namespace Ewu.WebUI.Models.ViewModel
         
     }
 
+    /// <summary>
+    /// 交易模型
+    /// </summary>
+    public class DealInfo
+    {
+        //持有人
+        public AppUser Holder { get; set; }
+        
+        //交易的物品对象
+        public Treasure DealTreasure { get; set; }
+
+        //当前用户的物品集合
+        public IEnumerable<DealMyTreasureModel> DealMyTreasureModels { get; set; }
+    }
+
+    /// <summary>
+    /// 用户物品模型
+    /// </summary>
+    public class DealMyTreasureModel
+    {
+        //交易物品ID
+        public Guid DealTreasureGuid { get; set; }
+        //用户物品模型集合
+        public Treasure UserTreasure { get; set; }
+
+    }
+        
+
     public class UserViewModel
     {
     }
