@@ -121,7 +121,7 @@ namespace Ewu.WebUI.Models.ViewModel
         public Treasure DealTreasure { get; set; }
 
         //当前用户的物品集合
-        public IEnumerable<DealMyTreasureModel> DealMyTreasureModels { get; set; }
+        public DealMyTreasureModel DealMyTreasureModel { get; set; }
     }
 
     /// <summary>
@@ -131,8 +131,8 @@ namespace Ewu.WebUI.Models.ViewModel
     {
         //交易物品ID
         public Guid DealTreasureGuid { get; set; }
-        //用户物品模型集合
-        public Treasure UserTreasure { get; set; }
+        //当前登录用户物品模型集合
+        public IEnumerable<Treasure> UserTreasures { get; set; }
 
     }
         

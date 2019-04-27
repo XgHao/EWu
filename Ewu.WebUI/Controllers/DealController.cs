@@ -9,6 +9,7 @@ using Ewu.Domain.Db;
 using Ewu.Domain.Entities;
 using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Infrastructure.Identity;
+using Ewu.WebUI.Models.ViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -34,11 +35,39 @@ namespace Ewu.WebUI.Controllers
         /// 创建交易
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public ActionResult CreateDeal(string TreasureUID = "")
         {
+            //根据id生成对象的GUID
+            Guid TreasureGuid = Guid.Parse(TreasureUID);
+
             if (!string.IsNullOrEmpty(TreasureUID))
             {
+                //获取当前选择物品的所属人
+                string holderid= repository.Treasures
+                                        .Where(t => t.TreasureUID == TreasureGuid)
+                                        .FirstOrDefault().HolderID;
 
+                if (!string.IsNullOrEmpty(holderid))
+                {
+                    var userTrea = repository.Treasures.Where(t => t.HolderID == CurrentUser.Id);
+
+                    //生成对应视图模型
+                    DealInfo dealInfo = new DealInfo
+                    {
+                        //当前物品的所属人对象
+                        Holder = UserManager.FindById(holderid),
+                        //当前物品对象
+                        DealTreasure = repository.Treasures.FirstOrDefault(),
+                        //交易-当前登录用户物品集合-模型
+                        DealMyTreasureModel = new DealMyTreasureModel
+                        {
+                            DealTreasureGuid = TreasureGuid,
+                            UserTreasures = userTrea
+                        }
+                    };
+                    return View(dealInfo);
+                }
             }
             return View();
         }
@@ -51,7 +80,8 @@ namespace Ewu.WebUI.Controllers
         /// <param name="TreasureSponsorID">发起人物品UID</param>
         /// <param name="TreasureRecipientID">接收人物品UID</param>
         /// <returns></returns>
-        public ActionResult MakeDeal(string TreasureSponsorID,string TreasureRecipientID)
+        [Authorize]
+        public ActionResult MakeDeal(string TreasureSponsorID, string TreasureRecipientID)
         {
             //发起人id-当前登录人
             string TraderSponsorID = CurrentUser.Id;
@@ -64,7 +94,7 @@ namespace Ewu.WebUI.Controllers
             #region 数据初始化
             deal.DealBeginTime = DateTime.Now;
             deal.DealStatus = "发起";
-            deal.DLogUID = new Guid();
+            deal.DLogUID = Guid.NewGuid();
             deal.TraderRecipientID = TraderRecipientID;
             deal.TraderSponsorID = TraderSponsorID;
             deal.TreasureRecipientID = TreasureRecipientID;

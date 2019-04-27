@@ -149,7 +149,7 @@
                                                 </li>
                                                 <li>
                                                     <p class="data-label font-weight-bold">上传日期</p>
-                                                    <p class="info">@Model.DealTreasure.UploadTime.ToString("YYYY-MM-dd")</p>
+                                                    <p class="info">@Model.DealTreasure.UploadTime.ToString("yyyy-MM-dd")</p>
                                                 </li>
                                             </ul>
                                         </div>
@@ -175,10 +175,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach(var dmtm in Model.DealMyTreasureModels)
-                {
-                    @Html.Partial("Summary/DealMyTreasure", dmtm)
-                }
+                @Html.Partial("Summary/DealMyTreasure", Model.DealMyTreasureModel)
             </div>
         </div>
     </div>

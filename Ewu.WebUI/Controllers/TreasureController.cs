@@ -243,7 +243,7 @@ namespace Ewu.WebUI.Controllers
                 treasure.UpdateTime = DateTime.Now;
                 treasure.UploadTime = DateTime.Now;
                 treasure.EditCount = 0;
-                treasure.Link = "/Treasure/CreateDeal?TreasureUID=" + treasure.TreasureUID.ToString();
+                treasure.Link = "/Treasure/TreasureInfo?TreasureUID=" + treasure.TreasureUID.ToString();
                 if (string.IsNullOrEmpty(treasure.Remarks))
                 {
                     treasure.Remarks = "无";
