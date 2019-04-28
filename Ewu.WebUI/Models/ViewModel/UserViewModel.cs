@@ -136,6 +136,31 @@ namespace Ewu.WebUI.Models.ViewModel
 
     }
         
+    /// <summary>
+    /// 生成交易订单视图模型
+    /// </summary>
+    public class DealLogCreate
+    {
+        /// <summary>
+        /// 换入物品
+        /// </summary>
+        public Treasure DealInTreasure { get; set; }
+
+        /// <summary>
+        /// 换出物品
+        /// </summary>
+        public Treasure DealOutTreasure { get; set; }
+
+        #region 联系方式
+        public string Email { get; set; }
+        public string PhoneNum { get; set; }
+        public string WeChat { get; set; }
+        public string QQ { get; set; }
+        #endregion
+
+        public string Remark { get; set; }
+
+    }
 
     public class UserViewModel
     {

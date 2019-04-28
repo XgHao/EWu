@@ -49,6 +49,17 @@ namespace Ewu.Domain.Entities
         public string DealStatus { get; set; }
         #endregion
 
+        #region 备注
+        /// <summary>
+        /// 发起人对接收人的备注信息
+        /// </summary>
+        public string RemarkSToR { get; set; }
+        /// <summary>
+        /// 接收人对发起人的备注信息
+        /// </summary>
+        public string RemarkRToS { get; set; }
+        #endregion
+
         #region 评价
         /// <summary>
         /// 发起者评分

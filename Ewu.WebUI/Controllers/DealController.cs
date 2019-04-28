@@ -83,51 +83,87 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult MakeDeal(string TreasureSponsorID, string TreasureRecipientID)
         {
-            //发起人id-当前登录人
-            string TraderSponsorID = CurrentUser.Id;
-            //接收人id-从物品获取
-            string TraderRecipientID = repository.Treasures
-                                                .Where(t => t.TreasureUID == Guid.Parse(TreasureRecipientID))
-                                                .FirstOrDefault().HolderID;
-            Deal deal = new Deal();
-
-            #region 数据初始化
-            deal.DealBeginTime = DateTime.Now;
-            deal.DealStatus = "发起";
-            deal.DLogUID = Guid.NewGuid();
-            deal.TraderRecipientID = TraderRecipientID;
-            deal.TraderSponsorID = TraderSponsorID;
-            deal.TreasureRecipientID = TreasureRecipientID;
-            deal.TreasureSponsorID = TreasureSponsorID;
-            #endregion
-
-            //插入数据库
-            using (var db = new LogDealDataContext())
+            if (string.IsNullOrEmpty(TreasureSponsorID) || string.IsNullOrEmpty(TreasureRecipientID))
             {
-                LogDeal logDeal = new LogDeal
-                {
-                    DealBeginTime = deal.DealBeginTime,
-                    DealStatus = deal.DealStatus,
-                    DLogUID = deal.DLogUID,
-                    TraderRecipientID = deal.TraderRecipientID,
-                    TraderSponsorID = deal.TraderSponsorID,
-                    TreasureRecipientID = deal.TreasureRecipientID,
-                    TreasureSponsorID = deal.TreasureSponsorID
-                };
-                db.LogDeal.InsertOnSubmit(logDeal);
-                //保存操作
-                db.SubmitChanges();
+                return View();
             }
-            return View();
+            //当前登录用户UID
+            string CurId = CurrentUser.Id;
+
+            //这里验证当前发起人的物品是当前用户的，并且验证接收人的物品不是当前用户的
+            var treaS = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(TreasureSponsorID)).FirstOrDefault();
+            var treaR = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(TreasureRecipientID)).FirstOrDefault();
+            if (treaR != null & treaS != null)
+            {
+                //确保发起物品是登录用户的，接受物品不是当前用户的
+                if(treaS.HolderID == CurId && treaR.HolderID != CurId)
+                {
+                    //发起人id-当前登录人
+                    string TraderSponsorID = CurId;
+                    //接收人id-从物品获取
+                    string TraderRecipientID = repository.Treasures
+                                                        .Where(t => t.TreasureUID == Guid.Parse(TreasureRecipientID))
+                                                        .FirstOrDefault().HolderID;
+                    DealLogCreate dealLog = new DealLogCreate();
+
+                    #region 生成视图模型
+                    dealLog.DealInTreasure = treaR;
+                    dealLog.DealOutTreasure = treaS;
+                    dealLog.QQ = (string.IsNullOrEmpty(CurrentUser.OICQ)) ? "TA没有完善该信息" : CurrentUser.OICQ;
+                    dealLog.WeChat = (string.IsNullOrEmpty(CurrentUser.WeChat)) ? "TA没有完善该信息" : CurrentUser.WeChat;
+                    dealLog.Email = CurrentUser.Email;
+                    dealLog.PhoneNum = CurrentUser.PhoneNumber;
+                    #endregion
+
+                    return View(dealLog);
+                }
+            }
+            return View("Error");
         }
 
-        // GET: Deal
-        public ActionResult Index()
+        /// <summary>
+        /// 生成交易记录[HttpPost]
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult MakeDeal(DealLogCreate dealLogCreate)
         {
-            return View();
+            //验证不为空
+            if (string.IsNullOrEmpty(dealLogCreate.DealInTreasure.TreasureUID.ToString()) || string.IsNullOrEmpty(dealLogCreate.DealOutTreasure.TreasureUID.ToString()))
+            {
+                return View("Error");
+            }
+            else
+            {
+                //插入数据库
+                using (var db = new LogDealDataContext())
+                {
+                    LogDeal logDeal = new LogDeal
+                    {
+                        DealBeginTime = DateTime.Now,
+                        DealStatus = "发起",
+                        DLogUID = Guid.NewGuid(),
+                        //备注-发起人对接收人
+                        RemarkSToR = dealLogCreate.Remark,
+                        //交易接收人ID
+                        TraderRecipientID = dealLogCreate.DealInTreasure.HolderID,
+                        //交易发起人ID
+                        TraderSponsorID = dealLogCreate.DealOutTreasure.HolderID,
+                        //交易给出物品ID
+                        TreasureSponsorID = dealLogCreate.DealOutTreasure.TreasureUID.ToString(),
+                        //交易接受物品ID
+                        TreasureRecipientID = dealLogCreate.DealInTreasure.TreasureUID.ToString()
+                    };
+                    db.LogDeal.InsertOnSubmit(logDeal);
+                    //保存操作
+                    db.SubmitChanges();
+                }
+                return View();
+            }
         }
-
-
 
         /// <summary>
         /// 获取当前用户

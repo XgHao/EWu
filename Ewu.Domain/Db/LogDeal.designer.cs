@@ -96,6 +96,10 @@ namespace Ewu.Domain.Db
 		
 		private string _DealStatus;
 		
+		private string _RemarkSToR;
+		
+		private string _RemarkRToS;
+		
 		private System.Nullable<int> _ScoreSToR;
 		
 		private System.Nullable<int> _ScoreRToS;
@@ -120,6 +124,10 @@ namespace Ewu.Domain.Db
     partial void OnDealEndTimeChanged();
     partial void OnDealStatusChanging(string value);
     partial void OnDealStatusChanged();
+    partial void OnRemarkSToRChanging(string value);
+    partial void OnRemarkSToRChanged();
+    partial void OnRemarkRToSChanging(string value);
+    partial void OnRemarkRToSChanged();
     partial void OnScoreSToRChanging(System.Nullable<int> value);
     partial void OnScoreSToRChanged();
     partial void OnScoreRToSChanging(System.Nullable<int> value);
@@ -287,6 +295,46 @@ namespace Ewu.Domain.Db
 					this._DealStatus = value;
 					this.SendPropertyChanged("DealStatus");
 					this.OnDealStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkSToR", DbType="NVarChar(MAX)")]
+		public string RemarkSToR
+		{
+			get
+			{
+				return this._RemarkSToR;
+			}
+			set
+			{
+				if ((this._RemarkSToR != value))
+				{
+					this.OnRemarkSToRChanging(value);
+					this.SendPropertyChanging();
+					this._RemarkSToR = value;
+					this.SendPropertyChanged("RemarkSToR");
+					this.OnRemarkSToRChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkRToS", DbType="NVarChar(MAX)")]
+		public string RemarkRToS
+		{
+			get
+			{
+				return this._RemarkRToS;
+			}
+			set
+			{
+				if ((this._RemarkRToS != value))
+				{
+					this.OnRemarkRToSChanging(value);
+					this.SendPropertyChanging();
+					this._RemarkRToS = value;
+					this.SendPropertyChanged("RemarkRToS");
+					this.OnRemarkRToSChanged();
 				}
 			}
 		}
