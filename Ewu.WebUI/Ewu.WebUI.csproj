@@ -839,6 +839,7 @@
     <Content Include="Views\Deal\CreateDeal.cshtml" />
     <Content Include="Views\Shared\Summary\DealMyTreasure.cshtml" />
     <Content Include="Views\Deal\MakeDeal.cshtml" />
+    <Content Include="Views\Account\EditImg.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

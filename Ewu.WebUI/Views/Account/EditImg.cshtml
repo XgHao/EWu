@@ -2,7 +2,7 @@
 @model UploadImgs
 
 @{
-    ViewBag.Title = "上传图片";
+    ViewBag.Title = "EditImg";
     Layout = "~/Views/Shared/_BasicLayout.cshtml";
 }
 
@@ -18,17 +18,17 @@
                                 <a href="index.html">主页</a>
                             </li>
                             <li>
-                                <a href="dashboard.html">个人</a>
+                                <a href="dashboard.html">我的物品</a>
                             </li>
                             <li>
-                                <a href="dashboard.html">上传物品</a>
+                                <a href="dashboard.html">@Model.TreasureName</a>
                             </li>
                             <li class="active">
-                                <a href="#">上传图片</a>
+                                <a href="#">修改图片</a>
                             </li>
                         </ul>
                     </div>
-                    <h1 class="page-title">Upload Images</h1>
+                    <h1 class="page-title">Change Images</h1>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-lg-8 col-md-7">
                     <div class="upload_modules" id="Cover">
@@ -69,7 +69,7 @@
                                 <input type="button" id="ToDetail" class="btn btn-danger btn--fullwidth" hidden="hidden" value="点击继续上传物品细节图片" />
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="upload_modules" id="Detail" hidden="hidden">
                         <div class="modules__title">
@@ -96,7 +96,7 @@
                         <div class="sidebar-card">
                             <div class="card-title">
                                 <h3>
-                                    <span class="text-warning">帮助</span> & 
+                                    <span class="text-warning">帮助</span> &
                                     <span class="text-danger">注意事项</span>
                                 </h3>
                             </div>

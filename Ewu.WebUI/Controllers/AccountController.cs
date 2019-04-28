@@ -98,8 +98,12 @@ namespace Ewu.WebUI.Controllers
         /// <param name="HolderID">物品所属人UID</param>
         /// <returns></returns>
         [Authorize]
-        public ViewResult Edit(Guid TreasureUID)
+        public ActionResult Edit(Guid TreasureUID)
         {
+            if (string.IsNullOrEmpty(TreasureUID.ToString()))
+            {
+                return RedirectToAction("MyList", "Treasure");
+            }
             //获取当前用户的UID
             string HolderID = CurrentUser.Id;
             //验证用户UID，确保该物品是所属人在操作
@@ -170,7 +174,24 @@ namespace Ewu.WebUI.Controllers
             return View(treasure);
         }
 
-
+        /// <summary>
+        /// 修改图片
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditImg(string TreasureUID)
+        {
+            //清空图片
+            if (DropListHelper.DeletePic(Guid.Parse(TreasureUID)))
+            {
+                Treasure treasure = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(TreasureUID)).FirstOrDefault();
+                return View(new UploadImgs
+                {
+                    TreasureUID = TreasureUID,
+                    UserID = treasure.HolderID
+                });
+            }
+            return View("Error");
+        }
 
 
         /// <summary>

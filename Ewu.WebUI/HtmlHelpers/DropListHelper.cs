@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Ewu.Domain.Db;
 using System.Web.Mvc;
 
 namespace Ewu.WebUI.HtmlHelpers
@@ -25,6 +26,34 @@ namespace Ewu.WebUI.HtmlHelpers
                 }
             }
             return selectListItems;
+        }
+
+        /// <summary>
+        /// 清空封面图和细节图
+        /// </summary>
+        /// <param name="treaguid"></param>
+        /// <returns>True代表删除成功</returns>
+        public static bool DeletePic(Guid treaguid)
+        {
+            using (var db = new TreasureDataContext())
+            {
+                var treasure = db.Treasures.Where(t => t.TreasureUID == treaguid).FirstOrDefault();
+                if (treasure != null)
+                {
+                    try
+                    {
+                        treasure.Cover = "";
+                        treasure.DetailPic = "";
+                        db.SubmitChanges();
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+                return false;
+            }
         }
     }
 }

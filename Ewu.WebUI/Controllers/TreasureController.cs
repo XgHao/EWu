@@ -255,7 +255,12 @@ namespace Ewu.WebUI.Controllers
                     TreasureUID = treasure.TreasureUID.ToString(),
                     UserID = treasure.HolderID
                 };
-                return View("UpLoadImg", uploadImgs);
+
+                //再跳转到上传图片页面前，要先清空原来的图片路径
+                if (DropListHelper.DeletePic(treasure.TreasureUID))
+                {
+                    return View("UpLoadImg", uploadImgs);
+                }
             }
             return View(treasure);
         }
@@ -267,12 +272,7 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult UpLoadImg()
         {
-            UploadImgs uploadImgs = new UploadImgs
-            {
-                TreasureUID = "591b35aa-426c-4546-ae4b-27eb2775eb49",
-                UserID = "56b52e9b-2d83-47ad-805e-9e0feb1875d9"
-            };
-            return View(uploadImgs);
+            return View();
         }
 
         /// <summary>

@@ -33,7 +33,6 @@
 }
 
 <section class="dashboard-area">
-
     <div class="dashboard_contents">
         <div class="container">
             <div class="row">
@@ -266,55 +265,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card_info">
+                                    <h4 class="text-warning">修改图片</h4>
+                                    <p class="text-black-50">
+                                        若要修改该物品的图片信息
+                                        @Html.ActionLink("点击这里","EditImg",new { @TreasureUID=Model.TreasureUID },new { })
+                                        <br>
+                                        <span class="text-danger font-weight-bolder">注意：修改图片会清空原来的图片信息</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </aside>
-                </div>
-            </div>
-
-            <div class="row">
-
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="dashboard_title_area">
-                        <div class="pull-left">
-                            <div class="dashboard__title">
-                                <h3>上传图片</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="dashboard_title_area">
-                        <label>封面</label>
-                        <div class="form-group no-margin">
-                            <form action="~/UpLoadImg/Cover" class="dropzone needsclick dz-clickable" enctype="multipart/form-data" id="CoverDropzone" method="post">
-                                @Html.Hidden("TreasureUID", Model.TreasureUID)
-                                @Html.Hidden("UserUID", Model.HolderID)
-                            </form>
-                        </div>
-                        <div class="form-group no-margin">
-                            <button type="submit" class="btn btn-danger" id="CoverBtn" disabled="disabled">上传</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="dashboard_title_area">
-                        <label>细节图</label>
-                        <form action="~/UpLoadImg/DetailImg" class="dropzone" enctype="multipart/form-data" id="DetailImgDropzone" method="post">
-                            @Html.Hidden("TreasureUID", Model.TreasureUID)
-                            @Html.Hidden("UserUID", Model.HolderID)
-                        </form>
-                        <div>
-                            <button type="submit" class="btn btn-danger" id="DetailImgBtn" disabled="disabled">上传</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

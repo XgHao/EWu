@@ -74,7 +74,7 @@ window.onload = function () {
     //完成按钮
     $("#Success").click(function () {
         //跳转页面
-
+        window.location.href = "/Treasure/List";
     });
 }
 

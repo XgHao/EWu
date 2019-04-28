@@ -157,9 +157,16 @@ namespace Ewu.WebUI.Controllers
                         //交易接受物品ID
                         TreasureRecipientID = dealLogCreate.DealInTreasure.TreasureUID.ToString()
                     };
-                    db.LogDeal.InsertOnSubmit(logDeal);
-                    //保存操作
-                    db.SubmitChanges();
+                    try
+                    {
+                        db.LogDeal.InsertOnSubmit(logDeal);
+                        //保存操作
+                        db.SubmitChanges();
+                    }
+                    catch(Exception ex)
+                    {
+                        return View("Error", ex.Message);
+                    }
                 }
                 return View();
             }
