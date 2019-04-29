@@ -1,0 +1,168 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<LogDealTableInfo>
+
+@foreach (var logdeal in Model)
+    {
+        if (logdeal.LogDeal.DealStatus.Contains("待确认"))
+        {
+            <tr class="warning">
+                <td>@logdeal.LogDeal.DealBeginTime</td>
+                <td>@logdeal.LogDeal.DealStatus</td>
+                <td>@logdeal.DealOutTreaName</td>
+                <td>@logdeal.DealInTreaName</td>
+                <td>@logdeal.TraderRecipientName</td>
+                <td>
+                    @if (logdeal.LogDeal.DealEndTime != null) {
+                        <text>---</text>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                    }
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                    }
+                </td>
+            </tr>
+        }
+        else if (logdeal.LogDeal.DealStatus.Contains("接受"))
+        {
+            <tr class="info">
+                <td>@logdeal.LogDeal.DealBeginTime</td>
+                <td>@logdeal.LogDeal.DealStatus</td>
+                <td>@logdeal.DealOutTreaName</td>
+                <td>@logdeal.DealInTreaName</td>
+                <td>@logdeal.TraderRecipientName</td>
+                <td>
+                    @if (logdeal.LogDeal.DealEndTime != null) {
+                        <text>---</text>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                    }
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                    }
+                </td>
+            </tr>
+        }
+        else if (logdeal.LogDeal.DealStatus.Contains("拒绝"))
+        {
+            <tr class="danger">
+                <td>@logdeal.LogDeal.DealBeginTime</td>
+                <td>@logdeal.LogDeal.DealStatus</td>
+                <td>@logdeal.DealOutTreaName</td>
+                <td>@logdeal.DealInTreaName</td>
+                <td>@logdeal.TraderRecipientName</td>
+                <td>
+                    @if (logdeal.LogDeal.DealEndTime != null) {
+                        <text>---</text>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                    }
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                    }
+                </td>
+            </tr>
+        }
+        else if (logdeal.LogDeal.DealStatus.Contains("完成交易"))
+        {
+            <tr class="success">
+                <td>@logdeal.LogDeal.DealBeginTime</td>
+                <td>@logdeal.LogDeal.DealStatus</td>
+                <td>@logdeal.DealOutTreaName</td>
+                <td>@logdeal.DealInTreaName</td>
+                <td>@logdeal.TraderRecipientName</td>
+                <td>
+                    @if (logdeal.LogDeal.DealEndTime != null) {
+                        <text>---</text>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                    }
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                    }
+                </td>
+            </tr>
+        }
+        else if (logdeal.LogDeal.DealStatus == "取消")
+        {
+            <tr class="active">
+                <td>@logdeal.LogDeal.DealBeginTime</td>
+                <td>@logdeal.LogDeal.DealStatus</td>
+                <td>@logdeal.DealOutTreaName</td>
+                <td>@logdeal.DealInTreaName</td>
+                <td>@logdeal.TraderRecipientName</td>
+                <td>
+                    @if (logdeal.LogDeal.DealEndTime != null) {
+                        <text>---</text>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                    }
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                    }
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>@logdeal.LogDeal.DealBeginTime</td>
+                <td>@logdeal.LogDeal.DealStatus</td>
+                <td>@logdeal.DealOutTreaName</td>
+                <td>@logdeal.DealInTreaName</td>
+                <td>@logdeal.TraderRecipientName</td>
+                <td>
+                    @if (logdeal.LogDeal.DealEndTime != null) {
+                        <text>---</text>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                    }
+                    @using (Html.BeginForm("", ""))
+                    {
+                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                    }
+                </td>
+            </tr>
+        }
+    }

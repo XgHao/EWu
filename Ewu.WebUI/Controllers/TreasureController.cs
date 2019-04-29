@@ -253,7 +253,8 @@ namespace Ewu.WebUI.Controllers
                 UploadImgs uploadImgs = new UploadImgs
                 {
                     TreasureUID = treasure.TreasureUID.ToString(),
-                    UserID = treasure.HolderID
+                    UserID = treasure.HolderID,
+                    TreasureName = treasure.TreasureName
                 };
 
                 //再跳转到上传图片页面前，要先清空原来的图片路径
@@ -321,7 +322,6 @@ namespace Ewu.WebUI.Controllers
         {
             get
             {
-                var q = UserManager.FindById("");
                 return UserManager.FindByName(HttpContext.User.Identity.Name);
             }
         }

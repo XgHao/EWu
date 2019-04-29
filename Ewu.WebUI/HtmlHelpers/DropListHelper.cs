@@ -42,8 +42,8 @@ namespace Ewu.WebUI.HtmlHelpers
                 {
                     try
                     {
-                        treasure.Cover = "";
-                        treasure.DetailPic = "";
+                        treasure.Cover = null;
+                        treasure.DetailPic = null;
                         db.SubmitChanges();
                         return true;
                     }

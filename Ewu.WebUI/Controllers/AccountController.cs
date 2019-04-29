@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ewu.Domain.Abstract;
 using Ewu.Domain.Entities;
+using Ewu.Domain.Db;
 using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models.ViewModel;
@@ -187,12 +188,47 @@ namespace Ewu.WebUI.Controllers
                 return View(new UploadImgs
                 {
                     TreasureUID = TreasureUID,
-                    UserID = treasure.HolderID
+                    UserID = treasure.HolderID,
+                    TreasureName = treasure.TreasureName
                 });
             }
             return View("Error");
         }
 
+        /// <summary>
+        /// 用户交易记录
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult MyDeal()
+        {
+            string currID = CurrentUser.Id;
+            UserDeal userDeal = new UserDeal();
+            //新建List
+            List<LogDealTableInfo> logDealTableInfos = new List<LogDealTableInfo>();
+            //获取当前登录用户的交易记录
+            using(var db = new LogDealDataContext())
+            {
+                //获取发起人是当前登录用户的交易信息
+                var deals = db.LogDeal.Where(d => d.TraderSponsorID == currID);
+                if (deals != null)
+                {
+                    foreach (var deal in deals)
+                    {
+                        logDealTableInfos.Add(new LogDealTableInfo
+                        {
+                            LogDeal = deal,
+                            TraderRecipientName = UserManager.FindById(deal.TraderRecipientID).UserName,
+                            DealInTreaName = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID)).FirstOrDefault().TreasureName,
+                            DealOutTreaName = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID)).FirstOrDefault().TreasureName
+                        });
+                    }
+                    userDeal.LogDealTableInfos = logDealTableInfos;
+                    return View(userDeal);
+                }
+            }
+            return View("Error");
+        }
 
         /// <summary>
         /// 获取当前用户

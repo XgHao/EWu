@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Ewu.Domain.Entities;
+using Ewu.Domain.Db;
 
 namespace Ewu.WebUI.Models.ViewModel
 {
@@ -91,6 +92,7 @@ namespace Ewu.WebUI.Models.ViewModel
     {
         public string TreasureUID { get; set; }
         public string UserID { get; set; }
+        public string TreasureName { get; set; }
     }
 
     /// <summary>
@@ -160,6 +162,44 @@ namespace Ewu.WebUI.Models.ViewModel
 
         public string Remark { get; set; }
 
+    }
+
+    /// <summary>
+    /// 用户交易记录
+    /// </summary>
+    public class UserDeal
+    {
+        /// <summary>
+        /// 订单记录
+        /// </summary>
+        public IEnumerable<LogDealTableInfo> LogDealTableInfos { get; set; }
+
+    }
+
+    /// <summary>
+    /// 交易记录页面视图模型
+    /// </summary>
+    public class LogDealTableInfo
+    {
+        /// <summary>
+        /// 交易记录
+        /// </summary>
+        public LogDeal LogDeal { get; set; }
+
+        /// <summary>
+        /// 交易用户名称
+        /// </summary>
+        public string TraderRecipientName { get; set; }
+
+        /// <summary>
+        /// 交换得到的物品名称
+        /// </summary>
+        public string DealInTreaName { get; set; }
+
+        /// <summary>
+        /// 交换换出的物品名称
+        /// </summary>
+        public string DealOutTreaName { get; set; }
     }
 
     public class UserViewModel

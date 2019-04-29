@@ -168,7 +168,7 @@ namespace Ewu.WebUI.Controllers
                         return View("Error", ex.Message);
                     }
                 }
-                return View();
+                return RedirectToAction("MyDeal", "Account");
             }
         }
 
@@ -179,7 +179,6 @@ namespace Ewu.WebUI.Controllers
         {
             get
             {
-                var q = UserManager.FindById("");
                 return UserManager.FindByName(HttpContext.User.Identity.Name);
             }
         }
