@@ -11,22 +11,29 @@
                 <td>@logdeal.DealOutTreaName</td>
                 <td>@logdeal.DealInTreaName</td>
                 <td>@logdeal.TraderRecipientName</td>
+                @if(logdeal.LogDeal.DealEndTime != null)
+                {
+                    <td>@logdeal.LogDeal.DealEndTime</td>
+                }
+                else
+                {
+                    <td>---</td>
+                }
                 <td>
-                    @if (logdeal.LogDeal.DealEndTime != null) {
-                        <text>---</text>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                    }
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                    }
+                    <a href="#">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                    <a href="#">
+                        <span class="fa fa-dashboard"></span>
+                    </a>
+                    @*@Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <button type="submit" class="btn btn-primary btn-xs">
+                        <span class="glyphicon glyphicon-user">详情</span>
+                    </button>
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <button type="submit" class="btn btn-primary btn-xs">
+                        <span class="glyphicon glyphicon-user">详情</span>
+                    </button>*@
                 </td>
             </tr>
         }
@@ -38,11 +45,14 @@
                 <td>@logdeal.DealOutTreaName</td>
                 <td>@logdeal.DealInTreaName</td>
                 <td>@logdeal.TraderRecipientName</td>
-                <td>
-                    @if (logdeal.LogDeal.DealEndTime != null) {
-                        <text>---</text>
-                    }
-                </td>
+                @if(logdeal.LogDeal.DealEndTime != null)
+                {
+                    <td>@logdeal.LogDeal.DealEndTime</td>
+                }
+                else
+                {
+                    <td>---</td>
+                }
                 <td>
                     @using (Html.BeginForm("", ""))
                     {
@@ -65,11 +75,14 @@
                 <td>@logdeal.DealOutTreaName</td>
                 <td>@logdeal.DealInTreaName</td>
                 <td>@logdeal.TraderRecipientName</td>
-                <td>
-                    @if (logdeal.LogDeal.DealEndTime != null) {
-                        <text>---</text>
-                    }
-                </td>
+                @if(logdeal.LogDeal.DealEndTime != null)
+                {
+                    <td>@logdeal.LogDeal.DealEndTime</td>
+                }
+                else
+                {
+                    <td>---</td>
+                }
                 <td>
                     @using (Html.BeginForm("", ""))
                     {
@@ -92,11 +105,14 @@
                 <td>@logdeal.DealOutTreaName</td>
                 <td>@logdeal.DealInTreaName</td>
                 <td>@logdeal.TraderRecipientName</td>
-                <td>
-                    @if (logdeal.LogDeal.DealEndTime != null) {
-                        <text>---</text>
-                    }
-                </td>
+                @if(logdeal.LogDeal.DealEndTime != null)
+                {
+                    <td>@logdeal.LogDeal.DealEndTime</td>
+                }
+                else
+                {
+                    <td>---</td>
+                }
                 <td>
                     @using (Html.BeginForm("", ""))
                     {
@@ -119,11 +135,14 @@
                 <td>@logdeal.DealOutTreaName</td>
                 <td>@logdeal.DealInTreaName</td>
                 <td>@logdeal.TraderRecipientName</td>
-                <td>
-                    @if (logdeal.LogDeal.DealEndTime != null) {
-                        <text>---</text>
-                    }
-                </td>
+                @if(logdeal.LogDeal.DealEndTime != null)
+                {
+                    <td>@logdeal.LogDeal.DealEndTime</td>
+                }
+                else
+                {
+                    <td>---</td>
+                }
                 <td>
                     @using (Html.BeginForm("", ""))
                     {
@@ -146,11 +165,14 @@
                 <td>@logdeal.DealOutTreaName</td>
                 <td>@logdeal.DealInTreaName</td>
                 <td>@logdeal.TraderRecipientName</td>
-                <td>
-                    @if (logdeal.LogDeal.DealEndTime != null) {
-                        <text>---</text>
-                    }
-                </td>
+                @if(logdeal.LogDeal.DealEndTime != null)
+                {
+                    <td>@logdeal.LogDeal.DealEndTime</td>
+                }
+                else
+                {
+                    <td>---</td>
+                }
                 <td>
                     @using (Html.BeginForm("", ""))
                     {

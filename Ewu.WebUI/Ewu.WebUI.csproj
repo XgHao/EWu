@@ -842,7 +842,7 @@
     <Content Include="Views\Account\EditImg.cshtml" />
     <Content Include="Views\Account\MyDeal.cshtml" />
     <Content Include="Views\Shared\Summary\DealLogTable.cshtml" />
-    <Content Include="Views\Shared\_WhiteLayout.cshtml" />
+    <Content Include="Views\Shared\_TableLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

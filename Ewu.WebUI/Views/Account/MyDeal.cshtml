@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "MyDeal";
-    Layout = "~/Views/Shared/_DealLayout.cshtml";
+    Layout = "~/Views/Shared/_TableLayout.cshtml";
 }
 
 <!--导航-->
@@ -38,32 +38,32 @@
             <di class="col-md-12">
                 <div class="modules__content">
                     <div class="withdraw_module withdraw_history">
-                            <!--标题-->
-                            <div class="withdraw_table_header">
-                                <h3>我的交易记录</h3>
-                            </div>
-                            <div class="table-responsive">
-                                <!--表格-->
-                                <table class="table">
-                                    <!--表头-->
-                                    <thead>
-                                        <tr>
-                                            <th class="font-weight-bolder">开始时间</th>
-                                            <th class="font-weight-bolder">状态</th>
-                                            <th class="font-weight-bolder">我换出的</th>
-                                            <th class="font-weight-bolder">我得到的</th>
-                                            <th class="font-weight-bolder">交易人</th>
-                                            <th class="font-weight-bolder">结束时间</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <!--表身-->
-                                    <tbody>
-                                        @Html.Partial("Summary/DealLogTable", Model.LogDealTableInfos)
-                                    </tbody>
-                                </table>
-                            </div>
+                        <!--标题-->
+                        <div class="withdraw_table_header">
+                            <h3>我的交易记录</h3>
                         </div>
+                        <div class="table-responsive">
+                            <!--表格-->
+                            <table class="table withdraw__table">
+                                <!--表头-->
+                                <thead>
+                                    <tr>
+                                        <th class="bold">开始时间</th>
+                                        <th class="font-weight-bolder">状态</th>
+                                        <th class="font-weight-bolder">我换出的</th>
+                                        <th class="font-weight-bolder">我得到的</th>
+                                        <th class="font-weight-bolder">交易人</th>
+                                        <th class="font-weight-bolder">结束时间</th>
+                                        <th width="30px"></th>
+                                    </tr>
+                                </thead>
+                                <!--表身-->
+                                <tbody>
+                                    @Html.Partial("Summary/DealLogTable", Model.LogDealTableInfos)
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
