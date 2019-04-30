@@ -20,7 +20,12 @@ namespace Ewu.Domain.Entities
         /// <summary>
         /// 所有者UID
         /// </summary>
-        public string HolderID { get; set; }        
+        public string HolderID { get; set; }   
+        
+        /// <summary>
+        /// 交易记录UID
+        /// </summary>
+        public string DLogUID { get; set; }
 
         /// <summary>
         /// 物品名称

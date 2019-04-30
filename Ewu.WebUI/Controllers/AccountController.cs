@@ -18,6 +18,7 @@ namespace Ewu.WebUI.Controllers
     /// <summary>
     /// 用户验证控制器
     /// </summary>
+    [Authorize]
     public class AccountController : Controller
     {
         //物品存储库
@@ -179,6 +180,7 @@ namespace Ewu.WebUI.Controllers
         /// 修改图片
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public ActionResult EditImg(string TreasureUID)
         {
             //清空图片
@@ -196,11 +198,11 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
-        /// 用户交易记录
+        /// 用户交易记录所有现存的交易
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public ActionResult MyDeal()
+        public ActionResult AllDealLog()
         {
             string currID = CurrentUser.Id;
             UserDeal userDeal = new UserDeal();
@@ -229,6 +231,80 @@ namespace Ewu.WebUI.Controllers
             }
             return View("Error");
         }
+
+        /// <summary>
+        /// 我发起的交易记录
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult RecipientDealLog()
+        {
+            //新建视图模型List
+            List<InitiateDealLog> model = new List<InitiateDealLog>();
+            //获取当前登录用户ID
+            string userid = CurrentUser.Id;
+
+            //获取当前登录用户接受到交易申请的记录集合
+            using(var db=new LogDealDataContext())
+            {
+                var deals = db.LogDeal.Where(d => d.TraderRecipientID == userid);
+                foreach(var deal in deals)
+                {
+                    //收到交易的物品
+                    var DealInTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID)).FirstOrDefault();
+                    //当前用户的物品
+                    var DealOutTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID)).FirstOrDefault();
+                    //交易对方信息
+                    var Dealer = UserManager.FindById(DealInTrea.HolderID);
+                    //添加到视图模型中
+                    model.Add(new InitiateDealLog
+                    {
+                        Dealer = Dealer,
+                        InitiateTreasures = DealInTrea,
+                        MyTreasure = DealOutTrea,
+                        LogDeal = deal
+                    });
+                }
+            }
+            return View(model.AsEnumerable());
+        }
+
+        /// <summary>
+        /// 我接受到的交易记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InitiateDealLog()
+        {
+            //新建视图模型List
+            List<InitiateDealLog> model = new List<InitiateDealLog>();
+            //获取当前登录用户ID
+            string userid = CurrentUser.Id;
+
+            //获取当前登录用户接受到交易申请的记录集合
+            using (var db = new LogDealDataContext())
+            {
+                var deals = db.LogDeal.Where(d => d.TraderSponsorID == userid);
+                foreach (var deal in deals)
+                {
+                    //收到交易的物品
+                    var DealInTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID)).FirstOrDefault();
+                    //当前用户的物品
+                    var DealOutTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID)).FirstOrDefault();
+                    //交易对方信息
+                    var Dealer = UserManager.FindById(DealInTrea.HolderID);
+                    //添加到视图模型中
+                    model.Add(new InitiateDealLog
+                    {
+                        Dealer = Dealer,
+                        InitiateTreasures = DealInTrea,
+                        MyTreasure = DealOutTrea,
+                        LogDeal = deal
+                    });
+                }
+            }
+            return View(model.AsEnumerable());
+        }
+
 
         /// <summary>
         /// 获取当前用户

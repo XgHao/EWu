@@ -202,6 +202,32 @@ namespace Ewu.WebUI.Models.ViewModel
         public string DealOutTreaName { get; set; }
     }
 
+    /// <summary>
+    /// 我收到交易的视图模型
+    /// </summary>
+    public class InitiateDealLog
+    {
+        /// <summary>
+        /// 收到交易物品
+        /// </summary>
+        public Treasure InitiateTreasures { get; set; }
+
+        /// <summary>
+        /// 交换我的物品对象
+        /// </summary>
+        public Treasure MyTreasure { get; set; }
+
+        /// <summary>
+        /// 交易记录信息
+        /// </summary>
+        public LogDeal LogDeal { get; set; }
+
+        /// <summary>
+        /// 对方个人模型
+        /// </summary>
+        public AppUser Dealer { get; set; }
+    }
+
     public class UserViewModel
     {
     }

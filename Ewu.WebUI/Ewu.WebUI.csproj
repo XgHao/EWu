@@ -840,9 +840,11 @@
     <Content Include="Views\Shared\Summary\DealMyTreasure.cshtml" />
     <Content Include="Views\Deal\MakeDeal.cshtml" />
     <Content Include="Views\Account\EditImg.cshtml" />
-    <Content Include="Views\Account\MyDeal.cshtml" />
+    <Content Include="Views\Account\AllDealLog.cshtml" />
     <Content Include="Views\Shared\Summary\DealLogTable.cshtml" />
     <Content Include="Views\Shared\_TableLayout.cshtml" />
+    <Content Include="Views\Account\RecipientDealLog.cshtml" />
+    <Content Include="Views\Account\InitiateDealLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

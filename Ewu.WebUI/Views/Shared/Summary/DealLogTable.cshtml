@@ -6,54 +6,46 @@
         if (logdeal.LogDeal.DealStatus.Contains("待确认"))
         {
             <tr class="warning">
-                <td>@logdeal.LogDeal.DealBeginTime</td>
-                <td>@logdeal.LogDeal.DealStatus</td>
-                <td>@logdeal.DealOutTreaName</td>
-                <td>@logdeal.DealInTreaName</td>
-                <td>@logdeal.TraderRecipientName</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
+                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
+                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
                 @if(logdeal.LogDeal.DealEndTime != null)
                 {
-                    <td>@logdeal.LogDeal.DealEndTime</td>
+                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
                 }
                 else
                 {
-                    <td>---</td>
+                    <td style="white-space:nowrap">---</td>
                 }
-                <td>
+                <td style="white-space:nowrap" class="">
                     <a href="#">
-                        <span class="fa fa-trash"></span>
+                        <span class="fa fa-trash" style="font-size:25px"></span>
                     </a>
                     <a href="#">
-                        <span class="fa fa-dashboard"></span>
+                        <span class="fa fa-dashboard" style="font-size:25px"></span>
                     </a>
-                    @*@Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <button type="submit" class="btn btn-primary btn-xs">
-                        <span class="glyphicon glyphicon-user">详情</span>
-                    </button>
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <button type="submit" class="btn btn-primary btn-xs">
-                        <span class="glyphicon glyphicon-user">详情</span>
-                    </button>*@
                 </td>
             </tr>
         }
         else if (logdeal.LogDeal.DealStatus.Contains("接受"))
         {
             <tr class="info">
-                <td>@logdeal.LogDeal.DealBeginTime</td>
-                <td>@logdeal.LogDeal.DealStatus</td>
-                <td>@logdeal.DealOutTreaName</td>
-                <td>@logdeal.DealInTreaName</td>
-                <td>@logdeal.TraderRecipientName</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
+                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
+                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
                 @if(logdeal.LogDeal.DealEndTime != null)
                 {
-                    <td>@logdeal.LogDeal.DealEndTime</td>
+                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
                 }
                 else
                 {
-                    <td>---</td>
+                    <td style="white-space:nowrap">---</td>
                 }
-                <td>
+                <td style="white-space:nowrap">
                     @using (Html.BeginForm("", ""))
                     {
                         @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
@@ -70,20 +62,20 @@
         else if (logdeal.LogDeal.DealStatus.Contains("拒绝"))
         {
             <tr class="danger">
-                <td>@logdeal.LogDeal.DealBeginTime</td>
-                <td>@logdeal.LogDeal.DealStatus</td>
-                <td>@logdeal.DealOutTreaName</td>
-                <td>@logdeal.DealInTreaName</td>
-                <td>@logdeal.TraderRecipientName</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
+                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
+                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
                 @if(logdeal.LogDeal.DealEndTime != null)
                 {
-                    <td>@logdeal.LogDeal.DealEndTime</td>
+                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
                 }
                 else
                 {
-                    <td>---</td>
+                    <td style="white-space:nowrap">---</td>
                 }
-                <td>
+                <td style="white-space:nowrap">
                     @using (Html.BeginForm("", ""))
                     {
                         @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
@@ -100,20 +92,20 @@
         else if (logdeal.LogDeal.DealStatus.Contains("完成交易"))
         {
             <tr class="success">
-                <td>@logdeal.LogDeal.DealBeginTime</td>
-                <td>@logdeal.LogDeal.DealStatus</td>
-                <td>@logdeal.DealOutTreaName</td>
-                <td>@logdeal.DealInTreaName</td>
-                <td>@logdeal.TraderRecipientName</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
+                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
+                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
                 @if(logdeal.LogDeal.DealEndTime != null)
                 {
-                    <td>@logdeal.LogDeal.DealEndTime</td>
+                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
                 }
                 else
                 {
-                    <td>---</td>
+                    <td style="white-space:nowrap">---</td>
                 }
-                <td>
+                <td style="white-space:nowrap">
                     @using (Html.BeginForm("", ""))
                     {
                         @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
@@ -130,20 +122,20 @@
         else if (logdeal.LogDeal.DealStatus == "取消")
         {
             <tr class="active">
-                <td>@logdeal.LogDeal.DealBeginTime</td>
-                <td>@logdeal.LogDeal.DealStatus</td>
-                <td>@logdeal.DealOutTreaName</td>
-                <td>@logdeal.DealInTreaName</td>
-                <td>@logdeal.TraderRecipientName</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
+                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
+                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
                 @if(logdeal.LogDeal.DealEndTime != null)
                 {
-                    <td>@logdeal.LogDeal.DealEndTime</td>
+                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
                 }
                 else
                 {
-                    <td>---</td>
+                    <td style="white-space:nowrap">---</td>
                 }
-                <td>
+                <td style="white-space:nowrap">
                     @using (Html.BeginForm("", ""))
                     {
                         @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
@@ -160,20 +152,20 @@
         else
         {
             <tr>
-                <td>@logdeal.LogDeal.DealBeginTime</td>
-                <td>@logdeal.LogDeal.DealStatus</td>
-                <td>@logdeal.DealOutTreaName</td>
-                <td>@logdeal.DealInTreaName</td>
-                <td>@logdeal.TraderRecipientName</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
+                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
+                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
                 @if(logdeal.LogDeal.DealEndTime != null)
                 {
-                    <td>@logdeal.LogDeal.DealEndTime</td>
+                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
                 }
                 else
                 {
-                    <td>---</td>
+                    <td style="white-space:nowrap">---</td>
                 }
-                <td>
+                <td style="white-space:nowrap">
                     @using (Html.BeginForm("", ""))
                     {
                         @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)

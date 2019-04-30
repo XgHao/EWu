@@ -50,6 +50,7 @@ namespace Ewu.WebUI.Controllers
 
                 if (!string.IsNullOrEmpty(holderid))
                 {
+                    //当前登录用户所有的物品
                     var userTrea = repository.Treasures.Where(t => t.HolderID == CurrentUser.Id);
 
                     //生成对应视图模型
@@ -58,7 +59,7 @@ namespace Ewu.WebUI.Controllers
                         //当前物品的所属人对象
                         Holder = UserManager.FindById(holderid),
                         //当前物品对象
-                        DealTreasure = repository.Treasures.FirstOrDefault(),
+                        DealTreasure = repository.Treasures.Where(t => t.TreasureUID == TreasureGuid).FirstOrDefault(),
                         //交易-当前登录用户物品集合-模型
                         DealMyTreasureModel = new DealMyTreasureModel
                         {
@@ -76,6 +77,14 @@ namespace Ewu.WebUI.Controllers
 
         /// <summary>
         /// 生成交易记录
+        /// 交易记录状态：
+        /// 1.待确认：发起交易阶段---订单未结束
+        /// 2.拒绝：对方拒绝交易---订单已结束
+        /// 3.接受：对方接受交易---订单未结束
+        /// 4.交易中：双方交易阶段---订单未结束
+        /// 5.交易失败：交易双方中有一方无法完成交易---订单已结束
+        /// 6.交易成功：交易成功，进入评价阶段---订单已结束
+        /// 7.交易取消：发起人在接受人 接受/拒绝 之前取消交易---订单已结束
         /// </summary>
         /// <param name="TreasureSponsorID">发起人物品UID</param>
         /// <param name="TreasureRecipientID">接收人物品UID</param>
@@ -83,6 +92,23 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult MakeDeal(string TreasureSponsorID, string TreasureRecipientID)
         {
+            //首先要先验证该订单是不是出现过
+            using(var db=new LogDealDataContext())
+            {
+                //获取与当前交易相同的记录
+                var deallogs = db.LogDeal.Where(d => d.TreasureSponsorID == TreasureSponsorID && d.TreasureRecipientID == TreasureRecipientID);
+                //遍历记录
+                foreach(var dlog in deallogs)
+                {
+                    //当记录中出现以下哞种情况（即订单未完成），说明当前交易订单还在处理，这不允许创建订单，返回Error页面
+                    if (dlog.DealStatus == "待确认" || dlog.DealStatus == "接受" || dlog.DealStatus == "交易中")
+                    {
+                        return View("Error");
+                    }
+                }
+            }
+
+
             if (string.IsNullOrEmpty(TreasureSponsorID) || string.IsNullOrEmpty(TreasureRecipientID))
             {
                 return View();
@@ -138,14 +164,15 @@ namespace Ewu.WebUI.Controllers
             }
             else
             {
+                Guid guid = Guid.NewGuid();
                 //插入数据库
                 using (var db = new LogDealDataContext())
                 {
                     LogDeal logDeal = new LogDeal
                     {
                         DealBeginTime = DateTime.Now,
-                        DealStatus = "发起",
-                        DLogUID = Guid.NewGuid(),
+                        DealStatus = "待确认",
+                        DLogUID = guid,
                         //备注-发起人对接收人
                         RemarkSToR = dealLogCreate.Remark,
                         //交易接收人ID
@@ -162,6 +189,11 @@ namespace Ewu.WebUI.Controllers
                         db.LogDeal.InsertOnSubmit(logDeal);
                         //保存操作
                         db.SubmitChanges();
+
+                        //更新当前物品交易记录
+                        var treasure = repository.Treasures.Where(t => t.TreasureUID == dealLogCreate.DealOutTreasure.TreasureUID).FirstOrDefault();
+                        treasure.DLogUID = guid.ToString();
+                        repository.SaveTreasure(treasure);
                     }
                     catch(Exception ex)
                     {

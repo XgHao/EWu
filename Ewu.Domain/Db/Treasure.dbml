@@ -4,6 +4,7 @@
     <Type Name="Treasures">
       <Column Name="TreasureUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="HolderID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DLogUID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="TreasureName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="TreasureType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="DamageDegree" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />

@@ -84,6 +84,8 @@ namespace Ewu.Domain.Db
 		
 		private string _HolderID;
 		
+		private string _DLogUID;
+		
 		private string _TreasureName;
 		
 		private string _TreasureType;
@@ -130,6 +132,8 @@ namespace Ewu.Domain.Db
     partial void OnTreasureUIDChanged();
     partial void OnHolderIDChanging(string value);
     partial void OnHolderIDChanged();
+    partial void OnDLogUIDChanging(string value);
+    partial void OnDLogUIDChanged();
     partial void OnTreasureNameChanging(string value);
     partial void OnTreasureNameChanged();
     partial void OnTreasureTypeChanging(string value);
@@ -211,6 +215,26 @@ namespace Ewu.Domain.Db
 					this._HolderID = value;
 					this.SendPropertyChanged("HolderID");
 					this.OnHolderIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DLogUID", DbType="VarChar(50)")]
+		public string DLogUID
+		{
+			get
+			{
+				return this._DLogUID;
+			}
+			set
+			{
+				if ((this._DLogUID != value))
+				{
+					this.OnDLogUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DLogUID = value;
+					this.SendPropertyChanged("DLogUID");
+					this.OnDLogUIDChanged();
 				}
 			}
 		}

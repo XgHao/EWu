@@ -6,7 +6,7 @@
     <div class="col-lg-3 col-md-4">
         <div class="single_team_member">
             <figure>
-                <img src=@trea.Cover alt="Team Member">
+                <img width="255" height="350" src=@trea.Cover alt="Team Member">
                 <figcaption>
                     <div class="name_desig">
                         <h4>@trea.TreasureName</h4>
@@ -15,9 +15,20 @@
                     <div class="social">
                         <ul>
                             <li>
-                                <a href=@("/Deal/MakeDeal?TreasureSponsorID="+trea.TreasureUID+"&TreasureRecipientID="+Model.DealTreasureGuid)>
-                                    <span title="选择" class="fa fa-shopping-basket"></span>
-                                </a>
+                                <!--如果已经有订单-->
+                                @if (string.IsNullOrEmpty(trea.DLogUID))
+                                {
+                                    <a href=@("/Deal/MakeDeal?TreasureSponsorID="+trea.TreasureUID+"&TreasureRecipientID="+Model.DealTreasureGuid)>
+                                        <span title="选择" class="fa fa-shopping-basket"></span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a>
+                                        <span title="交换中" class="fa fa-handshake-o"></span>
+                                    </a>
+                                }
+
                             </li>
                             <li>
                                 <a href="#">

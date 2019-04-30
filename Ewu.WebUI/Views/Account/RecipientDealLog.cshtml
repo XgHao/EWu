@@ -1,0 +1,206 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<InitiateDealLog>
+
+@{
+    ViewBag.Title = "我接受的交易";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>
+                                <a href="#">交易记录</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">我接受的交易</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">The Transaction I Initiated</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="dashboard-area dashboard_purchase">
+    <div class="dashboard_menu_area">
+        <div class="container">
+            <!--导航行-->
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="dashboard_menu">
+                        <li class="col-md-2">
+                            <a href="dashboard.html">
+                                <span class="lnr lnr-home"></span>所有交易记录
+                            </a>
+                        </li>
+                        <li class="active col-md-2">
+                            <a href="dashboard-statement.html">
+                                <span class="lnr lnr-chart-bars"></span>我接受的交易
+                            </a>
+                        </li>
+                        <li class="col-md-2">
+                            <a href="dashboard-setting.html">
+                                <span class="lnr lnr-cog"></span>我收到的交易
+                            </a>
+                        <li class="col-md-2">
+                            <a href="dashboard-withdrawal.html">
+                                <span class="lnr lnr-briefcase"></span>取消的交易
+                            </a>
+                        </li>
+                        <li class="col-md-2">
+                            <a href="dashboard-withdrawal.html">
+                                <span class="lnr lnr-briefcase"></span>取消的交易
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard_contents">
+        <div class="container">
+            <div class="product_archive">
+                @foreach (var logs in Model)
+                {
+                    <div class="row">
+                        <!--具体内容-->
+                        <div class="col-md-12">
+                            <div class="single_product clearfix">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <!--物品信息-->
+                                        <div class="product__description">
+                                            <a href=@logs.InitiateTreasures.Link>
+                                                <img width="150" src=@logs.InitiateTreasures.Cover alt="Purchase image">
+                                            </a>
+                                            <div class="short_desc">
+                                                <a href=@logs.InitiateTreasures.Link>
+                                                    <h4 class="text-info">
+                                                        <span class="fa fa-hand-o-right"></span>
+                                                        @logs.InitiateTreasures.TreasureName
+                                                    </h4>
+                                                </a>
+                                                <p>
+                                                    <span class="fa fa-quote-left"></span>
+                                                    @logs.InitiateTreasures.DetailContent
+                                                    <span class="fa fa-quote-right"></span>
+                                                </p>
+                                                <ul>
+                                                    <li>
+                                                        <p>
+                                                            <a href="#">
+                                                                <span class="fa fa-puzzle-piece"></span>
+                                                                @logs.InitiateTreasures.TreasureType
+                                                            </a>
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text-success">
+                                                            <span class="fa fa-magic"></span>
+                                                            @logs.InitiateTreasures.DamageDegree
+                                                        </p>
+                                                        
+                                                    </li>
+                                                    <li>
+                                                        <p class="text-warning">
+                                                            <span class="fa fa-map-marker"></span>
+                                                            @(logs.InitiateTreasures.LocationProvince + " " + logs.InitiateTreasures.LocationCity + " " + logs.InitiateTreasures.LocationDistrict)
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <span class="fa fa-heart mcolor4">@logs.InitiateTreasures.Favorite</span>
+                                                        &nbsp;&nbsp;
+                                                        <span class="fa fa-eye mcolor1">@logs.InitiateTreasures.BrowseNum</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--参数信息-->
+                                    <div class="col-lg-4 col-md-4 col-4 btn-group-vertical">
+                                        <div class="product__description">
+                                            <div class="author-card">
+                                                <div class="inline">
+                                                    <!--头像-->
+                                                    <div class="author__avatar">
+                                                        <img height="70" width="70" src=@logs.Dealer.HeadPortrait alt="user avatar">
+                                                    </div>
+
+                                                    <!--昵称-->
+                                                    <div class="autor__info">
+                                                        <h2>
+                                                            @logs.Dealer.RealName
+                                                        </h2>
+                                                        <p>
+                                                            <span class="fa fa-birthday-cake"></span>
+                                                            @logs.Dealer.BirthDay.ToString("yyyy-MM-dd")
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <ul>
+                                                    <li>
+                                                        <p class="text-danger">
+                                                            <span class="fa fa-commenting-o"></span>
+                                                            @(logs.LogDeal.RemarkSToR ?? "无")
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <p>
+                                                            <span class="fa fa-shopping-basket"></span>
+                                                            <a href=@logs.MyTreasure.Link>@logs.MyTreasure.TreasureName</a>
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text-muted">
+                                                            <span class="fa fa-clock-o"></span>
+                                                            @logs.LogDeal.DealBeginTime
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-2 btn-group-vertical">
+                                        <div class="product__price_download">
+                                            <div class="item_action v_middle">
+                                                <div class="row">
+                                                    <button class="btn btn-sm btn-success">
+                                                        <span class="fa fa-handshake-o"></span> 接受交易
+                                                    </button>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <button class="btn btn-sm btn-danger">
+                                                        <span class="fa fa-user-times"></span> 拒绝交易
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
