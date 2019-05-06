@@ -62,7 +62,7 @@ Dropzone.options.CoverDropzone = {
                 var res = eval('(' + data.xhr.responseText + ')');
                 var msg;
                 if (res.Result) {
-                    msg = res.Count + "张图片上传成功";
+                    msg = "封面图片上传成功";
                     //下一步按钮显示
                     $("#CoverBtn").attr("hidden", "hidden");
                     $("#ToDetail").removeAttr("hidden");
@@ -148,7 +148,7 @@ Dropzone.options.DetailImgDropzone = {
                 var res = eval('(' + data.xhr.responseText + ')');
                 var msg;
                 if (res.Result) {
-                    msg = res.Count + "张图片上传成功";
+                    msg = "细节图片上传成功";
                     //下一步按钮显示
                     $("#DetailImgBtn").attr("hidden", "hidden");
                     $("#Success").removeAttr("hidden");

@@ -75,7 +75,7 @@ namespace Ewu.WebUI.Controllers
                         {
                             var idcard = db.AspNetUsers.Where(x => x.IDCardNO.ToString() == info["num"]).ToList();
                             
-                            //改身份证已被注册
+                            //该身份证已被注册
                             if (idcard.Count > 0)
                             {
                                 model.OCRresult = "该身份证已被注册";

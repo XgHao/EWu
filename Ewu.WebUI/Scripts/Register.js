@@ -481,6 +481,7 @@
     $("#Name").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "只能由数字和字母组成，长度为3-20字符");
     $("#Password").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "长度为6-16字符，大小写字母都需至少一个");
     $("#ConfirmedPassWd").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "再输入一次密码");
+    $("#Email").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "left").attr("data-content", "为了确保能够邮件正常接收，请将Admin@YiWu.zxh添加到你的白名单");
 
     //提示框
     $(function () {
