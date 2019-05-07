@@ -846,6 +846,8 @@
     <Content Include="Views\Shared\_TableLayout.cshtml" />
     <Content Include="Views\Account\RecipientDealLog.cshtml" />
     <Content Include="Views\Account\InitiateDealLog.cshtml" />
+    <Content Include="Views\IAccount\SignOut.cshtml" />
+    <Content Include="Views\Nav\Test.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -233,7 +233,7 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
-        /// 我发起的交易记录
+        /// 我收到的交易记录
         /// </summary>
         /// <returns></returns>
         [Authorize]
@@ -270,7 +270,7 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
-        /// 我接受到的交易记录
+        /// 我发起的交易记录
         /// </summary>
         /// <returns></returns>
         public ActionResult InitiateDealLog()

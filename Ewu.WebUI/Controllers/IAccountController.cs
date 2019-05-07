@@ -25,12 +25,13 @@ namespace Ewu.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //当前用户没有通过验证
+            //当前用户通过验证时,不能在登录
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return View("Error", new string[] { "拒绝访问" });
+                return View("Error", new string[] { "拒绝访问，请先退出账户" });
             }
-            ViewBag.returnUrl = returnUrl;
+            //验证，如果返回是注销链接，则返回设为List
+            ViewBag.returnUrl = returnUrl.Contains("SignOut") ? "/Treasure/List" : returnUrl;
             return View();
         }
 
@@ -81,12 +82,15 @@ namespace Ewu.WebUI.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public ActionResult Logout()
+        public ActionResult SignOut()
         {
             AuthManager.SignOut();
-            return RedirectToAction("Index", "Identity");
+            return View();
         }
 
+        /// <summary>
+        /// 验证管理器
+        /// </summary>
         private IAuthenticationManager AuthManager
         {
             get
@@ -95,6 +99,9 @@ namespace Ewu.WebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// 验证管理器
+        /// </summary>
         private AppUserManager UserManager
         {
             get

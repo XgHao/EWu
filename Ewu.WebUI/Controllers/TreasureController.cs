@@ -148,6 +148,21 @@ namespace Ewu.WebUI.Controllers
         {
             if (!string.IsNullOrEmpty(TreasureUID))
             {
+                //#region 增加一次浏览量
+                //using (var db = new LogDataContext())
+                //{
+                //    db.LogBrowse.InsertOnSubmit(new LogBrowse
+                //    {
+                //        TreasureID = TreasureUID,
+                //        BLogUID = Guid.NewGuid(),
+                //        BrowserID = CurrentUser.Id,
+                //        BrowserTime = DateTime.Now,
+                       
+                //    });
+                //    db.SubmitChanges();
+                //}
+                //#endregion
+
                 Guid Treasureguid = Guid.Parse(TreasureUID);
                 Treasure treasure = repository.Treasures.Where(t => t.TreasureUID == Treasureguid).FirstOrDefault();
                 var imgs = treasure.DetailPic.Split('|');
@@ -165,7 +180,7 @@ namespace Ewu.WebUI.Controllers
                     return View(treaInfo);
                 }
             }
-            return View("Error");
+            return View("List");
         }
 
 

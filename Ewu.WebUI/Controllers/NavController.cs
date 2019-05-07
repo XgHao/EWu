@@ -105,5 +105,15 @@ namespace Ewu.WebUI.Controllers
 
             return PartialView(orderbys);
         }
+
+        /// <summary>
+        /// IP地址测试
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Test()
+        {
+            string ip = HttpContext.Request.UserHostAddress;
+            return View(ip);
+        }
     }
 }
