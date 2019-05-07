@@ -36,7 +36,7 @@ namespace Ewu.Domain.Db
     #endregion
 		
 		public LogDealDataContext() : 
-				base(global::Ewu.Domain.Properties.Settings.Default.LinJiaoFengJuConnectionString1, mappingSource)
+				base(global::Ewu.Domain.Properties.Settings.Default.LinJiaoFengJuConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}

@@ -18,5 +18,13 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=139.199.82.204;Initial Catalog=LinJiaoFengJu;Persist Security Info=True;User ID=zxh;Password=526114;MultipleActiveResultSets=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False</Value>
     </Setting>
+    <Setting Name="LinJiaoFengJuConnectionString2" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;Password=zxh10916114+;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;Password=zxh10916114+;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

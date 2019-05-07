@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 10" name="AspNetUser">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 10.375" name="AspNetUser">
   <DataContextMoniker Name="/AspNetUserDataContext" />
   <nestedChildShapes>
-    <classShape Id="a621cfe7-3ebf-48f8-a7d4-cc18211d6b72" absoluteBounds="5.375, 2.875, 2, 6.8963342285156246">
+    <classShape Id="531c01e6-c3ec-4fbd-a726-87b7439e31f1" absoluteBounds="2.25, 3.25, 2, 6.8963342285156246">
       <DataClassMoniker Name="/AspNetUserDataContext/AspNetUsers" />
       <nestedChildShapes>
-        <elementListCompartment Id="6e3e3528-8e7c-4a2b-b214-d0fee52b159c" absoluteBounds="5.39, 3.335, 1.9700000000000002, 6.336334228515625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6a4e052a-7b6b-4359-9270-3fdf1b986f59" absoluteBounds="2.265, 3.71, 1.9700000000000002, 6.336334228515625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

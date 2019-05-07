@@ -46,5 +46,17 @@ namespace Ewu.Domain.Properties {
                 return ((string)(this["LinJiaoFengJuConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;" +
+            "Persist Security Info=False;User ID=XgHao;Password=zxh10916114+;MultipleActiveRe" +
+            "sultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False")]
+        public string LinJiaoFengJuConnectionString2 {
+            get {
+                return ((string)(this["LinJiaoFengJuConnectionString2"]));
+            }
+        }
     }
 }

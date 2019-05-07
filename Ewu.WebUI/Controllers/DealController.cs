@@ -200,7 +200,7 @@ namespace Ewu.WebUI.Controllers
                         return View("Error", ex.Message);
                     }
                 }
-                return RedirectToAction("MyDeal", "Account");
+                return RedirectToAction("InitiateDealLog", "Account");
             }
         }
 
