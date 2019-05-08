@@ -272,38 +272,12 @@ namespace Ewu.WebUI.Controllers
         /// 取消交易-发起的交易
         /// </summary>
         /// <returns></returns>
-        public ActionResult CancelDeal(string DLogUID = "")
+        public ActionResult CancelDeal(string DealLogUID = "")
         {
-            if (string.IsNullOrEmpty(DLogUID))
+            if (string.IsNullOrEmpty(DealLogUID))
             {
                 return View("Error");
             }
-            //获取当前交易信息
-            LogDeal deal = new LogDeal();
-            using (var db = new LogDealDataContext())
-            {
-                deal = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
-            }
-
-            //换入物品
-            var treaR = repository.Treasures
-                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
-                                .FirstOrDefault();
-            //换出物品
-            var treaS = repository.Treasures
-                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
-                                .FirstOrDefault();
-            if (treaR != null && treaS != null)
-            {
-                return View(new DealLogCreate
-                {
-                    DealInTreasure = treaR,
-                    DealOutTreasure = treaS,
-                    Remark = deal.RemarkSToR,
-                    DealLogID = DLogUID
-                });
-            }
-
             return View("Error");
         }
 
