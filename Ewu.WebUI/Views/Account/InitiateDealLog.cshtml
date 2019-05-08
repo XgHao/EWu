@@ -183,13 +183,13 @@
                                         <div class="product__price_download">
                                             <div class="item_action v_middle">
                                                 <div class="row">
-                                                    <button class="btn btn-sm btn-info">
+                                                    <button class="btn btn-sm btn-info" onclick="@("window.location.href='/Deal/EditRemarks?DLogUID="+logs.LogDeal.DLogUID+"'")">
                                                         <span class="fa fa-comments-o"></span> 修改备注
                                                     </button>
                                                 </div>
                                                 <br />
                                                 <div class="row">
-                                                    <button class="btn btn-sm btn-warning">
+                                                    <button id=@logs.LogDeal.DLogUID class="btn btn-sm btn-warning" onclick="CancelDeal(this)">
                                                         <span class="fa fa-chain-broken"></span> 取消交易
                                                     </button>
                                                 </div>

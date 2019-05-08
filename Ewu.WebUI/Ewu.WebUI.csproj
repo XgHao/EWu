@@ -178,6 +178,7 @@
     <Content Include="Scripts\bootstrap-table-zh-CN.js" />
     <Content Include="Scripts\bootstrap-table.min.css" />
     <Content Include="Scripts\bootstrap-table.min.js" />
+    <Content Include="Scripts\CancelDeal.js" />
     <Content Include="Scripts\carousel.js" />
     <Content Include="Scripts\TreasureInfo.js" />
     <Content Include="Scripts\UploadItem.js" />
@@ -847,7 +848,7 @@
     <Content Include="Views\Account\RecipientDealLog.cshtml" />
     <Content Include="Views\Account\InitiateDealLog.cshtml" />
     <Content Include="Views\IAccount\SignOut.cshtml" />
-    <Content Include="Views\Nav\Test.cshtml" />
+    <Content Include="Views\Deal\EditRemarks.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

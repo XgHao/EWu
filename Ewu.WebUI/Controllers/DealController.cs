@@ -204,6 +204,112 @@ namespace Ewu.WebUI.Controllers
             }
         }
 
+
+        #region 订单进行状态
+        /// <summary>
+        /// 修改备注信息-发起的申请
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult EditRemarks(string DLogUID = "")
+        {
+            if (string.IsNullOrEmpty(DLogUID))
+            {
+                return View("Error");
+            }
+            //获取当前交易信息
+            LogDeal deal = new LogDeal();
+            using(var db=new LogDealDataContext())
+            {
+                deal = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+            }
+
+            //换入物品
+            var treaR = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                .FirstOrDefault();
+            //换出物品
+            var treaS = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                .FirstOrDefault();
+            if (treaR != null && treaS != null)
+            {
+                return View(new DealLogCreate
+                {
+                    DealInTreasure = treaR,
+                    DealOutTreasure = treaS,
+                    Remark = deal.RemarkSToR,
+                    DealLogID = DLogUID
+                });
+            }
+
+            return View("Error");
+        }
+
+        /// <summary>
+        /// 修改备注信息-发起的申请[HttpPost]
+        /// </summary>
+        /// <param name="dealLogCreate"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditRemarks(DealLogCreate dealLogCreate)
+        {
+            using(var db = new LogDealDataContext())
+            {
+                //修改备注信息
+                var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(dealLogCreate.DealLogID)).FirstOrDefault();
+                if (log != null)
+                {
+                    log.RemarkSToR = dealLogCreate.Remark;
+                }
+                db.SubmitChanges();
+            }
+            return RedirectToAction("InitiateDealLog", "Account");
+        }
+
+        /// <summary>
+        /// 取消交易-发起的交易
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CancelDeal(string DLogUID = "")
+        {
+            if (string.IsNullOrEmpty(DLogUID))
+            {
+                return View("Error");
+            }
+            //获取当前交易信息
+            LogDeal deal = new LogDeal();
+            using (var db = new LogDealDataContext())
+            {
+                deal = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+            }
+
+            //换入物品
+            var treaR = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                .FirstOrDefault();
+            //换出物品
+            var treaS = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                .FirstOrDefault();
+            if (treaR != null && treaS != null)
+            {
+                return View(new DealLogCreate
+                {
+                    DealInTreasure = treaR,
+                    DealOutTreasure = treaS,
+                    Remark = deal.RemarkSToR,
+                    DealLogID = DLogUID
+                });
+            }
+
+            return View("Error");
+        }
+
+        #endregion
+
+
         /// <summary>
         /// 获取当前用户
         /// </summary>

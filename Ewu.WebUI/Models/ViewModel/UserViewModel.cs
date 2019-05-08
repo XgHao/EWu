@@ -160,7 +160,15 @@ namespace Ewu.WebUI.Models.ViewModel
         public string QQ { get; set; }
         #endregion
 
+        /// <summary>
+        /// 备注信息
+        /// </summary>
         public string Remark { get; set; }
+
+        /// <summary>
+        /// 交易订单UID
+        /// </summary>
+        public string DealLogID { get; set; }
 
     }
 

@@ -382,12 +382,13 @@ namespace Ewu.WebUI.API
 
         #endregion
 
+        #region 发送邮件
         /// <summary>
         /// 发送邮件
         /// </summary>
         /// <param name="email">目标地址</param>
         /// <param name="code">验证码</param>
-        public void SendMail(string email,string code)
+        public void SendMail(string email, string code)
         {
             const string EwuEmail = "Admin@YiWu.zxh";
             const string EwuPd = "526114";
@@ -413,7 +414,80 @@ namespace Ewu.WebUI.API
             client.Credentials = new NetworkCredential(EwuEmail, EwuPd);
             client.Send(mailMessage);
         }
+        #endregion
 
+        #region IP地址归属地查询
+        /// <summary>
+        /// IP地址归属地查询
+        /// </summary>
+        /// <param name="ip"></param>
+        public string GetIPAttribution(string ip)
+        {
+            if (ip != "::1")
+            {
+                const string host = "https://api01.aliyun.venuscn.com";
+                const string path = "/ip";
+                const string method = "GET";
+                const string appcode = "4b677fa79cc14896a78936a7dde89445";
+
+                string querys = "ip=" + ip;
+                string bodys = "";
+                string url = host + path;
+                HttpWebRequest httpRequest = null;
+                HttpWebResponse httpResponse = null;
+
+                if (0 < querys.Length)
+                {
+                    url = url + "?" + querys;
+                }
+
+                if (host.Contains("https://"))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                    httpRequest = (HttpWebRequest)WebRequest.CreateDefault(new Uri(url));
+                }
+                else
+                {
+                    httpRequest = (HttpWebRequest)WebRequest.Create(url);
+                }
+                httpRequest.Method = method;
+                httpRequest.Headers.Add("Authorization", "APPCODE " + appcode);
+                if (0 < bodys.Length)
+                {
+                    byte[] data = Encoding.UTF8.GetBytes(bodys);
+                    using (Stream stream = httpRequest.GetRequestStream())
+                    {
+                        stream.Write(data, 0, data.Length);
+                    }
+                }
+                try
+                {
+                    httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+                }
+                catch (WebException ex)
+                {
+                    httpResponse = (HttpWebResponse)ex.Response;
+                }
+
+                var v1 = httpResponse.StatusCode;
+                var v2 = httpResponse.Method;
+                var v3 = httpResponse.Headers;
+                Stream st = httpResponse.GetResponseStream();
+                StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
+                JObject ipAttribution = JObject.Parse(reader.ReadToEnd());
+                //查询失败
+                if (ipAttribution["ret"].ToString() != "200")
+                {
+                    return ip + " 未知";
+                }
+                //获取IP归属地
+                string city = ipAttribution["data"]["region"].ToString() + ipAttribution["data"]["city"].ToString();
+                return ip + " " + city;
+            }
+            return ip + " 本地IP";
+        }
+
+        #endregion
 
         public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {

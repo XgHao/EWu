@@ -1,0 +1,184 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model DealLogCreate
+@{
+    ViewBag.Title = "EditRemarks";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>
+                                <a href="#">我发起的交易</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">修改备注信息</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">LogDeal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="dashboard-area">
+    <div class="dashboard_contents">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="dashboard_title_area">
+                        <div class="dashboard__title">
+                            <h3>交易信息</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("EditRemarks", "Deal", FormMethod.Post, new { @class = "setting_form" }))
+            {
+                <div class="row">
+                    <!--左边卡片-->
+                    <div class="col-lg-6">
+                        <div class="information_module">
+                            <a class="toggle_title" href="#collapse2" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                <h4>
+                                    换入物品
+                                    <span class="lnr lnr-chevron-down"></span>
+                                </h4>
+                            </a>
+                            <!--换入物品-->
+                            <div class="information__set toggle_module collapse show" id="collapse2">
+                                <aside class="sidebar sidebar--single-product">
+                                    <!--物品信息-->
+                                    <div class="sidebar-card card--product-infos">
+                                        <!--具体信息-->
+                                        <ul class="infos">
+                                            <li>
+                                                <p class="data-label font-weight-bold">物品全称</p>
+                                                <p class="info">@Model.DealInTreasure.TreasureName</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">物品类型</p>
+                                                <p class="info">
+                                                    <a href="#">@Model.DealInTreasure.TreasureType</a>
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">物品成色</p>
+                                                <p class="info">@Model.DealInTreasure.DamageDegree</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">所在地区</p>
+                                                <p class="info">@(Model.DealInTreasure.LocationProvince + " " + Model.DealInTreasure.LocationCity + " " + Model.DealInTreasure.LocationDistrict)</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">交易范围</p>
+                                                <p class="info">@Model.DealInTreasure.TradeRange</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">收藏数</p>
+                                                <p class="info">@Model.DealInTreasure.Favorite</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">浏览量</p>
+                                                <p class="info">@Model.DealInTreasure.BrowseNum</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">上传时间</p>
+                                                <p class="info">
+                                                    <button class="btn btn-success">@Model.DealInTreasure.UploadTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">信息更新时间</p>
+                                                <p class="info">
+                                                    <button class="btn btn-danger">@Model.DealInTreasure.UpdateTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">编辑次数</p>
+                                                <p class="info">@Model.DealInTreasure.EditCount</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </aside>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--右边卡片-->
+                    <div class="col-lg-6">
+                        <div class="information_module">
+                            <a class="toggle_title collapsed" href="#collapse3" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                <h4>
+                                    换出物品
+                                    <span class="lnr lnr-chevron-down"></span>
+                                </h4>
+                            </a>
+                            <!--换出物品-->
+                            <div class="information__set profile_images toggle_module collapse show" id="collapse3" style="">
+                                <aside class="sidebar sidebar--single-product">
+                                    <!--物品信息-->
+                                    <div class="sidebar-card card--product-infos">
+                                        <!--具体信息-->
+                                        <ul class="infos">
+                                            <li>
+                                                <p class="data-label font-weight-bold">物品全称</p>
+                                                <p class="info">@Model.DealOutTreasure.TreasureName</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">物品成色</p>
+                                                <p class="info">@Model.DealOutTreasure.DamageDegree</p>
+                                            </li>
+                                            <li>
+                                                <p class="data-label font-weight-bold">信息更新时间</p>
+                                                <p class="info">
+                                                    <button class="btn btn-danger">@Model.DealOutTreasure.UpdateTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </aside>
+                            </div>
+                        </div>
+                        <div class="information_module">
+                            <a class="toggle_title" href="#collapse4" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                <h4>
+                                    备注信息
+                                    <span class="lnr lnr-chevron-down"></span>
+                                </h4>
+                            </a>
+                            <!--备注信息-->
+                            <div class="information__set profile_images toggle_module collapse show" id="collapse4">
+                                @Html.TextAreaFor(t => t.Remark, new { @value = Model.Remark })
+                                @Html.HiddenFor(t => t.DealLogID, new { @value = Model.DealLogID })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="dashboard_setting_btn">
+                            <button type="submit" class="btn btn-info btn--round btn--md btn--fullwidth">修改备注信息</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+

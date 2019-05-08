@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using Ewu.WebUI.Models.ViewModel;
+using Ewu.WebUI.API;
 using Ewu.Domain.Entities;
+using Ewu.Domain.Db;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
@@ -23,7 +25,7 @@ namespace Ewu.WebUI.Controllers
         /// <param name="returnUrl">返回的URL(当用户请求一个受限的URL时，转入到验证页面时需要传递URL，以便验证成功后能返回)</param>
         /// <returns></returns>
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl= "/Treasure/List")
         {
             //当前用户通过验证时,不能在登录
             if (HttpContext.User.Identity.IsAuthenticated)
@@ -68,6 +70,19 @@ namespace Ewu.WebUI.Controllers
                     {
                         IsPersistent = false            //该属性设为TRUE表示该认证Cookie在浏览器中是持久化的，表明用户在开始新会话时不必再次验证
                     }, ident);                          //SignIn(options,identity)签入用户，意味着创建用来标识已认证请求的Cookie
+
+                    //增加登录日志
+                    using (var db = new LogDataContext())
+                    {
+                        db.LogLogin.InsertOnSubmit(new LogLogin
+                        {
+                            LoginerID = user.Id,
+                            LoginIP = new Identity().GetIPAttribution(HttpContext.Request.UserHostAddress),
+                            LoginTime = DateTime.Now,
+                            LoginUID = Guid.NewGuid()
+                        });
+                        db.SubmitChanges();
+                    }
 
                     //重定向到原来的页面
                     return Redirect(returnUrl);
