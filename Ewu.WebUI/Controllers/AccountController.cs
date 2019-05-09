@@ -247,7 +247,7 @@ namespace Ewu.WebUI.Controllers
             //获取当前登录用户接受到交易申请的记录集合
             using(var db=new LogDealDataContext())
             {
-                var deals = db.LogDeal.Where(d => d.TraderRecipientID == userid);
+                var deals = db.LogDeal.Where(d => (d.TraderRecipientID == userid));
                 foreach(var deal in deals)
                 {
                     //收到交易的物品
@@ -283,13 +283,18 @@ namespace Ewu.WebUI.Controllers
             //获取当前登录用户接受到交易申请的记录集合
             using (var db = new LogDealDataContext())
             {
-                var deals = db.LogDeal.Where(d => d.TraderSponsorID == userid);
+                var deals = db.LogDeal
+                                .Where(d => (d.TraderSponsorID == userid) && (d.DealStatus == "待确认"));
                 foreach (var deal in deals)
                 {
                     //收到交易的物品
-                    var DealInTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID)).FirstOrDefault();
+                    var DealInTrea = repository.Treasures
+                                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                                .FirstOrDefault();
                     //当前用户的物品
-                    var DealOutTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID)).FirstOrDefault();
+                    var DealOutTrea = repository.Treasures
+                                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                                .FirstOrDefault();
                     //交易对方信息
                     var Dealer = UserManager.FindById(DealInTrea.HolderID);
                     //添加到视图模型中
@@ -305,6 +310,23 @@ namespace Ewu.WebUI.Controllers
             return View(model.AsEnumerable());
         }
 
+        /// <summary>
+        /// 结束的交易
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EndDealLog()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 正在进行的交易
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DealingLog()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 获取当前用户

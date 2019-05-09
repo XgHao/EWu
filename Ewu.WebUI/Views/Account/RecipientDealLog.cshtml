@@ -38,37 +38,7 @@
 <section class="dashboard-area dashboard_purchase">
     <div class="dashboard_menu_area">
         <div class="container">
-            <!--导航行-->
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="dashboard_menu">
-                        <li class="col-md-2">
-                            <a href="dashboard.html">
-                                <span class="lnr lnr-home"></span>所有交易记录
-                            </a>
-                        </li>
-                        <li class="active col-md-2">
-                            <a href="dashboard-statement.html">
-                                <span class="lnr lnr-chart-bars"></span>我接受的交易
-                            </a>
-                        </li>
-                        <li class="col-md-2">
-                            <a href="dashboard-setting.html">
-                                <span class="lnr lnr-cog"></span>我收到的交易
-                            </a>
-                        <li class="col-md-2">
-                            <a href="dashboard-withdrawal.html">
-                                <span class="lnr lnr-briefcase"></span>取消的交易
-                            </a>
-                        </li>
-                        <li class="col-md-2">
-                            <a href="dashboard-withdrawal.html">
-                                <span class="lnr lnr-briefcase"></span>取消的交易
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            @Html.Partial("PartialLayout/Menu")
         </div>
     </div>
 
@@ -182,13 +152,13 @@
                                         <div class="product__price_download">
                                             <div class="item_action v_middle">
                                                 <div class="row">
-                                                    <button class="btn btn-sm btn-success">
+                                                    <button class="btn btn-sm btn-success" onclick="@("window.location.href='/Deal/AgreeDeal?DLogUID="+logs.LogDeal.DLogUID+"'")">
                                                         <span class="fa fa-handshake-o"></span> 接受交易
                                                     </button>
                                                 </div>
                                                 <br />
                                                 <div class="row">
-                                                    <button class="btn btn-sm btn-danger">
+                                                    <button class="btn btn-sm btn-danger" onclick="@("window.location.href='/Deal/DisagreeDeal?DLogUID="+logs.LogDeal.DLogUID+"'")">
                                                         <span class="fa fa-user-times"></span> 拒绝交易
                                                     </button>
                                                 </div>

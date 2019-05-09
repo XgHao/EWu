@@ -2,10 +2,10 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LogDeal">
   <DataContextMoniker Name="/LogDealDataContext" />
   <nestedChildShapes>
-    <classShape Id="f9c12862-258c-43ba-ad63-314bc1b6a120" absoluteBounds="2.125, 3.5, 2, 3.0156579589843751">
+    <classShape Id="b59cd09a-53ef-4f25-85c2-e6abf2340404" absoluteBounds="2.125, 3.5, 2, 3.0156579589843751">
       <DataClassMoniker Name="/LogDealDataContext/LogDeal" />
       <nestedChildShapes>
-        <elementListCompartment Id="912cc8a3-684e-44de-b052-f3f618abca36" absoluteBounds="2.14, 3.96, 1.9700000000000002, 2.455657958984375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="339802a7-8f93-4626-9c94-fed98ecfb757" absoluteBounds="2.14, 3.96, 1.9700000000000002, 2.455657958984375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

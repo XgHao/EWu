@@ -272,16 +272,124 @@ namespace Ewu.WebUI.Controllers
         /// 取消交易-发起的交易
         /// </summary>
         /// <returns></returns>
-        public ActionResult CancelDeal(string DealLogUID = "")
+        [Authorize]
+        public JsonResult CancelDeal(string DealLogUID = "")
         {
-            if (string.IsNullOrEmpty(DealLogUID))
+            string result = "Fail";
+            if (!string.IsNullOrEmpty(DealLogUID))
+            {
+                using(var db=new LogDealDataContext())
+                {
+                    var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DealLogUID)).FirstOrDefault();
+                    if (log != null)
+                    {
+                        log.DealStatus = "交易取消";
+                        db.SubmitChanges();
+                        result = "OK";
+                    }
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 接受申请
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AgreeDeal(string DLogUID = "")
+        {
+            //首先改变订单状态
+            //using(var db=new LogDealDataContext())
+            //{
+            //    var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+            //    if (log != null)
+            //    {
+            //        log.DealStatus = "交易中";
+            //        db.SubmitChanges();
+            //    }
+            //}
+            //在物流信息中添加一项
+            using(var db=new trackingDataContext())
+            {
+                //当前订单号不存在时
+                if (db.Tracking.Where(t => t.DLogUID == DLogUID).FirstOrDefault() == null)
+                {
+                    db.Tracking.InsertOnSubmit(new Tracking
+                    {
+                        DLogUID = DLogUID
+                    });
+                    db.SubmitChanges();
+                }
+            }
+
+            return View();
+        }
+
+
+        /// <summary>
+        /// 拒绝申请-我收到的交易申请
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DisagreeDeal(string DLogUID="")
+        {
+            if (string.IsNullOrEmpty(DLogUID))
             {
                 return View("Error");
             }
+            //获取当前交易信息
+            LogDeal deal = new LogDeal();
+            using (var db = new LogDealDataContext())
+            {
+                deal = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+            }
+
+            //换入物品-对于接收人来说，换入物品是本次申请的发起人物品
+            var treaR = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                .FirstOrDefault();
+            //换出物品-对于接收人来说，换出物品是本次申请的接收人物品
+            var treaS = repository.Treasures
+                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                .FirstOrDefault();
+            if (treaR != null && treaS != null)
+            {
+                return View(new DealLogCreate
+                {
+                    DealInTreasure = treaR,
+                    DealOutTreasure = treaS,
+                    Remark = deal.RemarkSToR,
+                    DealLogID = DLogUID
+                });
+            }
+
             return View("Error");
         }
 
+        /// <summary>
+        /// 拒绝申请[HttpPost]
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult DisagreeDeal(DealLogCreate dealLogCreate)
+        {
+            //更新本次订单的记录
+            using (var db = new LogDealDataContext())
+            {
+                var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(dealLogCreate.DealLogID)).FirstOrDefault();
+                log.RemarkRToS = dealLogCreate.Remark;
+                log.DealStatus = "拒接";
+                log.DealEndTime = DateTime.Now;
+                db.SubmitChanges();
+            }
+            return View();
+        }
         #endregion
+
+
+
 
 
         /// <summary>

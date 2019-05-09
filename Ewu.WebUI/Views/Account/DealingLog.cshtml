@@ -1,8 +1,7 @@
 ﻿@using Ewu.WebUI.Models.ViewModel
 @model IEnumerable<InitiateDealLog>
-
 @{
-    ViewBag.Title = "我发起的交易";
+    ViewBag.Title = "DealingLog";
     Layout = "~/Views/Shared/_DealLayout.cshtml";
 }
 
@@ -24,7 +23,7 @@
                                 <a href="#">交易记录</a>
                             </li>
                             <li class="active">
-                                <a href="#">我发起的交易</a>
+                                <a href="#">我接受的交易</a>
                             </li>
                         </ul>
                     </div>
@@ -52,7 +51,6 @@
                         <div class="col-md-12">
                             <div class="single_product clearfix">
                                 <div class="row">
-
                                     <div class="col-lg-6 col-md-6">
                                         <!--物品信息-->
                                         <div class="product__description">
@@ -105,6 +103,25 @@
                                     <!--参数信息-->
                                     <div class="col-lg-4 col-md-4 col-4 btn-group-vertical">
                                         <div class="product__description">
+                                            <div class="author-card">
+                                                <div class="inline">
+                                                    <!--头像-->
+                                                    <div class="author__avatar">
+                                                        <img height="70" width="70" src=@logs.Dealer.HeadPortrait alt="user avatar">
+                                                    </div>
+
+                                                    <!--昵称-->
+                                                    <div class="autor__info">
+                                                        <h2>
+                                                            @logs.Dealer.RealName
+                                                        </h2>
+                                                        <p>
+                                                            <span class="fa fa-birthday-cake"></span>
+                                                            @logs.Dealer.BirthDay.ToString("yyyy-MM-dd")
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <ul>
                                                     <li>
@@ -127,25 +144,6 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="author-card">
-                                                <div class="inline">
-                                                    <!--头像-->
-                                                    <div class="author__avatar">
-                                                        <img height="70" width="70" src=@logs.Dealer.HeadPortrait alt="user avatar">
-                                                    </div>
-
-                                                    <!--昵称-->
-                                                    <div class="autor__info">
-                                                        <h2>
-                                                            @logs.Dealer.RealName
-                                                        </h2>
-                                                        <p>
-                                                            <span class="fa fa-birthday-cake"></span>
-                                                            @logs.Dealer.BirthDay.ToString("yyyy-MM-dd")
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -153,14 +151,14 @@
                                         <div class="product__price_download">
                                             <div class="item_action v_middle">
                                                 <div class="row">
-                                                    <button class="btn btn-sm btn-info" onclick="@("window.location.href='/Deal/EditRemarks?DLogUID="+logs.LogDeal.DLogUID+"'")">
-                                                        <span class="fa fa-comments-o"></span> 修改备注
+                                                    <button class="btn btn-sm btn-success" onclick="@("window.location.href='/Deal/AgreeDeal?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                        <span class="fa fa-handshake-o"></span> 接受交易
                                                     </button>
                                                 </div>
                                                 <br />
                                                 <div class="row">
-                                                    <button id=@logs.LogDeal.DLogUID class="btn btn-sm btn-warning" onclick="CancelDeal(this)">
-                                                        <span class="fa fa-chain-broken"></span> 取消交易
+                                                    <button class="btn btn-sm btn-danger" onclick="@("window.location.href='/Deal/DisagreeDeal?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                        <span class="fa fa-user-times"></span> 拒绝交易
                                                     </button>
                                                 </div>
                                             </div>

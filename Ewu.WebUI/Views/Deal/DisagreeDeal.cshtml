@@ -1,7 +1,8 @@
 ﻿@using Ewu.WebUI.Models.ViewModel
 @model DealLogCreate
+
 @{
-    ViewBag.Title = "EditRemarks";
+    ViewBag.Title = "DisagreeDeal";
     Layout = "~/Views/Shared/_DealLayout.cshtml";
 }
 
@@ -20,10 +21,10 @@
                                 <a href="#">个人</a>
                             </li>
                             <li>
-                                <a href="#">我发起的交易</a>
+                                <a href="#">我收到的交易</a>
                             </li>
                             <li class="active">
-                                <a href="#">修改备注信息</a>
+                                <a href="#">拒绝交易申请</a>
                             </li>
                         </ul>
                     </div>
@@ -47,7 +48,7 @@
                 </div>
             </div>
 
-            @using (Html.BeginForm("EditRemarks", "Deal", FormMethod.Post, new { @class = "setting_form" }))
+            @using (Html.BeginForm("DisagreeDeal", "Deal", FormMethod.Post, new { @class = "setting_form" }))
             {
                 <div class="row">
                     <!--左边卡片-->
@@ -55,7 +56,7 @@
                         <div class="information_module">
                             <a class="toggle_title" href="#collapse2" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
                                 <h4>
-                                    换入物品
+                                    本次交易你换得的物品
                                     <span class="lnr lnr-chevron-down"></span>
                                 </h4>
                             </a>
@@ -125,7 +126,7 @@
                         <div class="information_module">
                             <a class="toggle_title collapsed" href="#collapse3" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
                                 <h4>
-                                    换出物品
+                                    本次交易你换出的物品
                                     <span class="lnr lnr-chevron-down"></span>
                                 </h4>
                             </a>
@@ -159,13 +160,25 @@
                         <div class="information_module">
                             <a class="toggle_title" href="#collapse4" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
                                 <h4>
-                                    备注信息
+                                    TA的备注信息
                                     <span class="lnr lnr-chevron-down"></span>
                                 </h4>
                             </a>
                             <!--备注信息-->
-                            <div class="information__set profile_images toggle_module collapse show" id="collapse4">
-                                @Html.TextAreaFor(t => t.Remark)
+                            <div class="information__set profile_images toggle_module collapse" id="collapse4">
+                                @Html.TextArea("OldRemark", Model.Remark)
+                            </div>
+                        </div>
+                        <div class="information_module">
+                            <a class="toggle_title" href="#collapse5" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                <h4>
+                                    拒绝申请的理由
+                                    <span class="lnr lnr-chevron-down"></span>
+                                </h4>
+                            </a>
+                            <!--备注信息-->
+                            <div class="information__set profile_images toggle_module collapse show" id="collapse5">
+                                <textarea cols="20" id="Remark" name="Remark" placeholder="选填拒绝本次交易申请的理由" rows="2"></textarea>
                                 @Html.HiddenFor(t => t.DealLogID)
                             </div>
                         </div>
@@ -173,7 +186,7 @@
 
                     <div class="col-md-12">
                         <div class="dashboard_setting_btn">
-                            <button type="submit" class="btn btn-info btn--round btn--md btn--fullwidth">修改备注信息</button>
+                            <button type="submit" class="btn btn-danger btn--round btn--md btn--fullwidth">拒绝交易申请</button>
                         </div>
                     </div>
                 </div>
