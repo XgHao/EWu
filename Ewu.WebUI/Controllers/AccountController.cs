@@ -325,7 +325,39 @@ namespace Ewu.WebUI.Controllers
         /// <returns></returns>
         public ActionResult DealingLog()
         {
-            return View();
+            //新建视图模型List
+            List<InitiateDealLog> model = new List<InitiateDealLog>();
+            //获取当前登录用户ID
+            string userid = CurrentUser.Id;
+
+            //获取当前登录用户接受到交易申请的记录集合
+            using (var db = new LogDealDataContext())
+            {
+                var deals = db.LogDeal
+                                .Where(d => ((d.TraderSponsorID == userid) || (d.TraderRecipientID == userid)) && (d.DealStatus == "交易中"));
+                foreach (var deal in deals)
+                {
+                    //收到交易的物品
+                    var DealInTrea = repository.Treasures
+                                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                                .FirstOrDefault();
+                    //当前用户的物品
+                    var DealOutTrea = repository.Treasures
+                                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                                .FirstOrDefault();
+                    //交易对方信息
+                    var Dealer = UserManager.FindById(DealInTrea.HolderID);
+                    //添加到视图模型中
+                    model.Add(new InitiateDealLog
+                    {
+                        Dealer = Dealer,
+                        InitiateTreasures = DealInTrea,
+                        MyTreasure = DealOutTrea,
+                        LogDeal = deal
+                    });
+                }
+            }
+            return View(model.AsEnumerable());
         }
 
         /// <summary>

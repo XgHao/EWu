@@ -300,17 +300,17 @@ namespace Ewu.WebUI.Controllers
         public ActionResult AgreeDeal(string DLogUID = "")
         {
             //首先改变订单状态
-            //using(var db=new LogDealDataContext())
-            //{
-            //    var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
-            //    if (log != null)
-            //    {
-            //        log.DealStatus = "交易中";
-            //        db.SubmitChanges();
-            //    }
-            //}
+            using (var db = new LogDealDataContext())
+            {
+                var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+                if (log != null)
+                {
+                    log.DealStatus = "交易中";
+                    db.SubmitChanges();
+                }
+            }
             //在物流信息中添加一项
-            using(var db=new trackingDataContext())
+            using (var db=new trackingDataContext())
             {
                 //当前订单号不存在时
                 if (db.Tracking.Where(t => t.DLogUID == DLogUID).FirstOrDefault() == null)
@@ -323,7 +323,7 @@ namespace Ewu.WebUI.Controllers
                 }
             }
 
-            return View();
+            return RedirectToAction("DealingLog", "Account");
         }
 
 
