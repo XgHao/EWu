@@ -208,10 +208,12 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 交换换出的物品名称
         /// </summary>
         public string DealOutTreaName { get; set; }
+
+        
     }
 
     /// <summary>
-    /// 我收到交易的视图模型
+    /// 我收到/收到交易的视图模型
     /// </summary>
     public class InitiateDealLog
     {
@@ -234,6 +236,47 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 对方个人模型
         /// </summary>
         public AppUser Dealer { get; set; }
+    }
+
+    /// <summary>
+    /// 正在交易的视图模型
+    /// </summary>
+    public class DealingLog
+    {
+        /// <summary>
+        /// 当前交易订单
+        /// </summary>
+        public LogDeal LogDeal { get; set; }
+
+        /// <summary>
+        /// 我的物品-当前登录人
+        /// </summary>
+        public Treasure MyTreasure { get; set; }
+
+        /// <summary>
+        /// TA的物品
+        /// </summary>
+        public Treasure TaTreasure { get; set; }
+
+        /// <summary>
+        /// 当前物流信息
+        /// </summary>
+        public Tracking Tracking { get; set; }
+
+        /// <summary>
+        /// 当前登录人信息
+        /// </summary>
+        public AppUser My { get; set; }
+
+        /// <summary>
+        /// 对方信息
+        /// </summary>
+        public AppUser Ta { get; set; }
+
+        /// <summary>
+        /// 当前用户在本次订单中是什么角色
+        /// </summary>
+        public string CurrentUserRole { get; set; }
     }
 
     public class UserViewModel

@@ -12,8 +12,10 @@
       <Column Name="DealStatus" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
       <Column Name="RemarkSToR" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="RemarkRToS" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="ScoreSToR" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ScoreRToS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ScoreSToR" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ScoreRToS" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DeliveryAddressSponsorID" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DeliveryAddressRecipientID" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

@@ -325,39 +325,61 @@ namespace Ewu.WebUI.Controllers
         /// <returns></returns>
         public ActionResult DealingLog()
         {
-            //新建视图模型List
-            List<InitiateDealLog> model = new List<InitiateDealLog>();
-            //获取当前登录用户ID
-            string userid = CurrentUser.Id;
+            //获取当前登录人ID
+            string Id = CurrentUser.Id;
 
-            //获取当前登录用户接受到交易申请的记录集合
-            using (var db = new LogDealDataContext())
+            //新建List视图模型
+            List<DealingLog> dealingLogs = new List<DealingLog>();
+
+            //获取状态是“交易中”的交易集合
+            using(var db = new LogDealDataContext())
             {
-                var deals = db.LogDeal
-                                .Where(d => ((d.TraderSponsorID == userid) || (d.TraderRecipientID == userid)) && (d.DealStatus == "交易中"));
-                foreach (var deal in deals)
+                var logs = db.LogDeal.Where(d => (d.DealStatus == "交易中") && ((d.TraderRecipientID == Id) || (d.TraderSponsorID == Id)));
+
+                foreach (var log in logs)
                 {
-                    //收到交易的物品
-                    var DealInTrea = repository.Treasures
-                                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
-                                                .FirstOrDefault();
-                    //当前用户的物品
-                    var DealOutTrea = repository.Treasures
-                                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
-                                                .FirstOrDefault();
-                    //交易对方信息
-                    var Dealer = UserManager.FindById(DealInTrea.HolderID);
-                    //添加到视图模型中
-                    model.Add(new InitiateDealLog
+                    //获取对方个人ID
+                    string TaID = log.TraderRecipientID == Id ? log.TraderSponsorID : log.TraderRecipientID;
+
+                    //获取对方信息
+                    AppUser TaInfo = UserManager.FindById(TaID);
+
+                    //获取物品信息
+                    //接受人的物品
+                    var TreaR = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureRecipientID)).FirstOrDefault();
+                    //发起人的物品
+                    var TreaS = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureSponsorID)).FirstOrDefault();
+
+                    //添加视图模型
+                    if (TreaR != null && TreaS != null)
                     {
-                        Dealer = Dealer,
-                        InitiateTreasures = DealInTrea,
-                        MyTreasure = DealOutTrea,
-                        LogDeal = deal
-                    });
+                        using (var db2 = new trackingDataContext())
+                        {
+                            var tracking = db2.Tracking.Where(t => t.DLogUID == log.DLogUID.ToString()).FirstOrDefault();
+
+                            dealingLogs.Add(new DealingLog
+                            {
+                                LogDeal = log,
+                                My = CurrentUser,
+                                MyTreasure = TreaR.HolderID == Id ? TreaR : TreaS,
+                                Ta = TaInfo,
+                                TaTreasure = TreaR.HolderID == TaID ? TreaS : TreaS,
+                                Tracking = tracking,
+                                //当前用户在本次交易中是什么角色
+                                CurrentUserRole = TreaR.HolderID == Id ? "Recipient" : "Sponsor"
+                            });
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+
                 }
             }
-            return View(model.AsEnumerable());
+
+            //返回视图
+            return View(dealingLogs.AsEnumerable());
         }
 
         /// <summary>

@@ -100,9 +100,13 @@ namespace Ewu.Domain.Db
 		
 		private string _RemarkRToS;
 		
-		private System.Nullable<int> _ScoreSToR;
+		private string _ScoreSToR;
 		
-		private System.Nullable<int> _ScoreRToS;
+		private string _ScoreRToS;
+		
+		private string _DeliveryAddressSponsorID;
+		
+		private string _DeliveryAddressRecipientID;
 		
     #region 可扩展性方法定义
     partial void OnLoaded();
@@ -128,10 +132,14 @@ namespace Ewu.Domain.Db
     partial void OnRemarkSToRChanged();
     partial void OnRemarkRToSChanging(string value);
     partial void OnRemarkRToSChanged();
-    partial void OnScoreSToRChanging(System.Nullable<int> value);
+    partial void OnScoreSToRChanging(string value);
     partial void OnScoreSToRChanged();
-    partial void OnScoreRToSChanging(System.Nullable<int> value);
+    partial void OnScoreRToSChanging(string value);
     partial void OnScoreRToSChanged();
+    partial void OnDeliveryAddressSponsorIDChanging(string value);
+    partial void OnDeliveryAddressSponsorIDChanged();
+    partial void OnDeliveryAddressRecipientIDChanging(string value);
+    partial void OnDeliveryAddressRecipientIDChanged();
     #endregion
 		
 		public LogDeal()
@@ -339,8 +347,8 @@ namespace Ewu.Domain.Db
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScoreSToR", DbType="Int")]
-		public System.Nullable<int> ScoreSToR
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScoreSToR", DbType="VarChar(50)")]
+		public string ScoreSToR
 		{
 			get
 			{
@@ -359,8 +367,8 @@ namespace Ewu.Domain.Db
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScoreRToS", DbType="Int")]
-		public System.Nullable<int> ScoreRToS
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScoreRToS", DbType="VarChar(50)")]
+		public string ScoreRToS
 		{
 			get
 			{
@@ -375,6 +383,46 @@ namespace Ewu.Domain.Db
 					this._ScoreRToS = value;
 					this.SendPropertyChanged("ScoreRToS");
 					this.OnScoreRToSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryAddressSponsorID", DbType="NVarChar(MAX)")]
+		public string DeliveryAddressSponsorID
+		{
+			get
+			{
+				return this._DeliveryAddressSponsorID;
+			}
+			set
+			{
+				if ((this._DeliveryAddressSponsorID != value))
+				{
+					this.OnDeliveryAddressSponsorIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliveryAddressSponsorID = value;
+					this.SendPropertyChanged("DeliveryAddressSponsorID");
+					this.OnDeliveryAddressSponsorIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryAddressRecipientID", DbType="NVarChar(MAX)")]
+		public string DeliveryAddressRecipientID
+		{
+			get
+			{
+				return this._DeliveryAddressRecipientID;
+			}
+			set
+			{
+				if ((this._DeliveryAddressRecipientID != value))
+				{
+					this.OnDeliveryAddressRecipientIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliveryAddressRecipientID = value;
+					this.SendPropertyChanged("DeliveryAddressRecipientID");
+					this.OnDeliveryAddressRecipientIDChanged();
 				}
 			}
 		}

@@ -58,15 +58,19 @@ namespace Ewu.WebUI.Controllers
                 {
                     //文件MimeType
                     model.IDCardImageMimeType = idcardImg.ContentType;
-                    //
+                    
+                    //文件数据
                     model.IDCardImageData = new byte[idcardImg.ContentLength];
+
                     //数据以二进制的形势写入到流中
                     idcardImg.InputStream.Read(model.IDCardImageData, 0, idcardImg.ContentLength);
 
+                    //转换base64格式
                     string base64 = Convert.ToBase64String(model.IDCardImageData);
-                    //使用API获取身份证信息
 
+                    //使用API获取身份证信息
                     Dictionary<string, string> info = new Identity().IdentityORC(base64);
+
                     //识别成功
                     if (info["Status"] == "SUCCESS")
                     {

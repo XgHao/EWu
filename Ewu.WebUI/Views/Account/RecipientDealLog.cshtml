@@ -2,7 +2,7 @@
 @model IEnumerable<InitiateDealLog>
 
 @{
-    ViewBag.Title = "我接受的交易";
+    ViewBag.Title = "我收到的申请";
     Layout = "~/Views/Shared/_DealLayout.cshtml";
 }
 
@@ -38,7 +38,7 @@
 <section class="dashboard-area dashboard_purchase">
     <div class="dashboard_menu_area">
         <div class="container">
-            @Html.Partial("PartialLayout/Menu")
+            @Html.Partial("PartialLayout/Menu","我收到的申请")
         </div>
     </div>
 

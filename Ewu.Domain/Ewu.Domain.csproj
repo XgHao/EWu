@@ -111,6 +111,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspNetUser.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Db\DeliveryAddress.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeliveryAddress.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Db\Log.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -155,6 +160,14 @@
     </None>
     <None Include="Db\AspNetUser.dbml.layout">
       <DependentUpon>AspNetUser.dbml</DependentUpon>
+    </None>
+    <None Include="Db\DeliveryAddress.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DeliveryAddress.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Db\DeliveryAddress.dbml.layout">
+      <DependentUpon>DeliveryAddress.dbml</DependentUpon>
     </None>
     <None Include="Db\Log.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
