@@ -31,6 +31,7 @@ namespace Ewu.WebUI.Controllers
             authProvider = auth;
         }
 
+        #region 订单创建
         /// <summary>
         /// 创建交易
         /// </summary>
@@ -72,8 +73,6 @@ namespace Ewu.WebUI.Controllers
             }
             return View();
         }
-
-
 
         /// <summary>
         /// 生成交易记录
@@ -203,6 +202,7 @@ namespace Ewu.WebUI.Controllers
                 return RedirectToAction("InitiateDealLog", "Account");
             }
         }
+        #endregion
 
 
         #region 订单进行状态
@@ -389,7 +389,46 @@ namespace Ewu.WebUI.Controllers
         #endregion
 
 
+        #region 订单交易阶段
+        /// <summary>
+        /// 选择收货信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ChooseDeliveryAddress(string DLogUID = "", string CurrentRole = "")
+        {
+            if (!string.IsNullOrEmpty(DLogUID) && !string.IsNullOrEmpty(CurrentRole)) 
+            {
+                //获取当前用户ID
+                string CurrentID = CurrentUser.Id;
 
+                using (var db = new DeliveryAddressDataContext())
+                {
+                    //获取当前用户的收货地址
+                    var DealiveryAddresses = db.DeliveryAddress.Where(d => d.UserUID == CurrentID).ToList();
+                    using(var db2 = new LogDealDataContext())
+                    {
+                        //获取当前交易订单
+                        var logdeal = db2.LogDeal.Where(l => l.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+                        if (logdeal != null)
+                        {
+                            MyDeliveryAddress myDeliveryAddress = new MyDeliveryAddress
+                            {
+                                DeliveryAddresses = DealiveryAddresses.AsEnumerable(),
+                                CurrentLogDeal = logdeal,
+                                CurrentRole = CurrentRole,
+                                NewdeliveryAddress=new DeliveryAddress()
+                            };
+
+                            //返回视图模型
+                            return View(myDeliveryAddress);
+                        }
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        #endregion
 
 
         /// <summary>

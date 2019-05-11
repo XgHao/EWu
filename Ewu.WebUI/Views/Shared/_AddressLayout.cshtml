@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+<head>
+    @Html.Partial("cssJS/cssHead")
+    <!--城市选择样式-->
+    <link href="~/Content/back.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="preload home1 mutlti-vendor">
+    <div class="menu-area">
+        <!--顶部栏-->
+        <div class="top-menu-area">
+            <div class="container">
+                <div class="row">
+                    <!--Logo-->
+                    <div class="col-lg-3 col-md-3 col-6 v_middle">
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="~/images/logo.png" alt="logo image" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                    <!--用户个人信息-->
+                    @Html.Action("UserInfo", "Account");
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--导航-->
+    @RenderSection("Nav", false)
+
+
+    @RenderBody()
+
+
+    <!--页尾底栏-->
+    @Html.Partial("PartialLayout/Footer")
+    <!--JS-->
+    @Html.Partial("cssJS/jsBody")
+    <!--选择城市文件所需的js-->
+    <script src="~/Scripts/citydata.js"></script>
+    <script src="~/Scripts/cityPicker-1.0.0.js"></script>
+    <script src="~/Scripts/cityDropList.js"></script>
+    <script src="~/Scripts/UploadItem.js"></script>
+
+</body>
+</html>

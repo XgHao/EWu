@@ -279,6 +279,32 @@ namespace Ewu.WebUI.Models.ViewModel
         public string CurrentUserRole { get; set; }
     }
 
+    /// <summary>
+    /// 用户收货地址视图模型
+    /// </summary>
+    public class MyDeliveryAddress
+    {
+        /// <summary>
+        /// 收货地址集合
+        /// </summary>
+        public IEnumerable<DeliveryAddress> DeliveryAddresses { get; set; }
+
+        /// <summary>
+        /// 新的收货地址
+        /// </summary>
+        public DeliveryAddress NewdeliveryAddress { get; set; }
+
+        /// <summary>
+        /// 当前的交易订单
+        /// </summary>
+        public LogDeal CurrentLogDeal { get; set; }
+
+        /// <summary>
+        /// 当前账户角色
+        /// </summary>
+        public string CurrentRole { get; set; }
+    }
+
     public class UserViewModel
     {
     }

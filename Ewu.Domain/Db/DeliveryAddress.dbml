@@ -1,1 +1,15 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LinJiaoFengJu" Class="DeliveryAddressDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString2" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.DeliveryAddress" Member="DeliveryAddress">
+    <Type Name="DeliveryAddress">
+      <Column Name="DeliveryAddressUID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="UserUID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="LocationProvince" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LocationCity" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LocationDistrict" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MoreLocation" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNum" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RealName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
