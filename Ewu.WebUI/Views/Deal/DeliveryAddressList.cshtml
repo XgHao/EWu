@@ -1,0 +1,49 @@
+﻿@using Ewu.Domain.Db
+@model IEnumerable<DeliveryAddress>
+
+<div class="faq-title">
+    <span class="lnr lnr-file-add"></span>
+    <h4>@("我的收货地址(" + Model.Count() + ")")</h4>
+</div>
+<div class="faqs">
+    <div class="panel-group accordion" role="tablist" id="accordion">
+        @{
+            int cnt = 0;
+            foreach (var address in Model)
+            {
+                cnt++;
+                <div class="panel accordion__single" id="panel-one">
+                    <div class="single_acco_title">
+                        <h4>
+                            <a data-toggle="collapse" href=@("#collapse"+cnt) class="collapsed" aria-expanded="false" data-target=@("#collapse"+cnt) aria-controls=@("collapse"+cnt)>
+                                <span>@address.MoreLocation</span>
+                                <i class="lnr indicator lnr-chevron-down"></i>
+                            </a>
+                        </h4>
+                    </div>
+
+                    <div id=@("collapse"+cnt) class="panel-collapse collapse" aria-labelledby="panel-one" data-parent="#accordion" style="">
+                        <div class="panel-body">
+                            <ul>
+                                <li>
+                                    @address.LocationProvince
+                                </li>
+                                <li>
+                                    @address.LocationCity
+                                </li>
+                                <li>
+                                    @address.LocationDistrict
+                                </li>
+                                <li>
+                                    @address.MoreLocation
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div>
+</div>

@@ -30,6 +30,9 @@ namespace Ewu.Domain.Db
 		
     #region 可扩展性方法定义
     partial void OnCreated();
+    partial void InsertDeliveryAddress(DeliveryAddress instance);
+    partial void UpdateDeliveryAddress(DeliveryAddress instance);
+    partial void DeleteDeliveryAddress(DeliveryAddress instance);
     #endregion
 		
 		public DeliveryAddressDataContext() : 
@@ -72,8 +75,10 @@ namespace Ewu.Domain.Db
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeliveryAddress")]
-	public partial class DeliveryAddress
+	public partial class DeliveryAddress : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private string _DeliveryAddressUID;
 		
@@ -91,11 +96,34 @@ namespace Ewu.Domain.Db
 		
 		private string _RealName;
 		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeliveryAddressUIDChanging(string value);
+    partial void OnDeliveryAddressUIDChanged();
+    partial void OnUserUIDChanging(string value);
+    partial void OnUserUIDChanged();
+    partial void OnLocationProvinceChanging(string value);
+    partial void OnLocationProvinceChanged();
+    partial void OnLocationCityChanging(string value);
+    partial void OnLocationCityChanged();
+    partial void OnLocationDistrictChanging(string value);
+    partial void OnLocationDistrictChanged();
+    partial void OnMoreLocationChanging(string value);
+    partial void OnMoreLocationChanged();
+    partial void OnPhoneNumChanging(string value);
+    partial void OnPhoneNumChanged();
+    partial void OnRealNameChanging(string value);
+    partial void OnRealNameChanged();
+    #endregion
+		
 		public DeliveryAddress()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryAddressUID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryAddressUID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string DeliveryAddressUID
 		{
 			get
@@ -106,7 +134,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._DeliveryAddressUID != value))
 				{
+					this.OnDeliveryAddressUIDChanging(value);
+					this.SendPropertyChanging();
 					this._DeliveryAddressUID = value;
+					this.SendPropertyChanged("DeliveryAddressUID");
+					this.OnDeliveryAddressUIDChanged();
 				}
 			}
 		}
@@ -122,7 +154,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._UserUID != value))
 				{
+					this.OnUserUIDChanging(value);
+					this.SendPropertyChanging();
 					this._UserUID = value;
+					this.SendPropertyChanged("UserUID");
+					this.OnUserUIDChanged();
 				}
 			}
 		}
@@ -138,7 +174,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._LocationProvince != value))
 				{
+					this.OnLocationProvinceChanging(value);
+					this.SendPropertyChanging();
 					this._LocationProvince = value;
+					this.SendPropertyChanged("LocationProvince");
+					this.OnLocationProvinceChanged();
 				}
 			}
 		}
@@ -154,7 +194,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._LocationCity != value))
 				{
+					this.OnLocationCityChanging(value);
+					this.SendPropertyChanging();
 					this._LocationCity = value;
+					this.SendPropertyChanged("LocationCity");
+					this.OnLocationCityChanged();
 				}
 			}
 		}
@@ -170,7 +214,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._LocationDistrict != value))
 				{
+					this.OnLocationDistrictChanging(value);
+					this.SendPropertyChanging();
 					this._LocationDistrict = value;
+					this.SendPropertyChanged("LocationDistrict");
+					this.OnLocationDistrictChanged();
 				}
 			}
 		}
@@ -186,7 +234,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._MoreLocation != value))
 				{
+					this.OnMoreLocationChanging(value);
+					this.SendPropertyChanging();
 					this._MoreLocation = value;
+					this.SendPropertyChanged("MoreLocation");
+					this.OnMoreLocationChanged();
 				}
 			}
 		}
@@ -202,7 +254,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._PhoneNum != value))
 				{
+					this.OnPhoneNumChanging(value);
+					this.SendPropertyChanging();
 					this._PhoneNum = value;
+					this.SendPropertyChanged("PhoneNum");
+					this.OnPhoneNumChanged();
 				}
 			}
 		}
@@ -218,8 +274,32 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._RealName != value))
 				{
+					this.OnRealNameChanging(value);
+					this.SendPropertyChanging();
 					this._RealName = value;
+					this.SendPropertyChanged("RealName");
+					this.OnRealNameChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

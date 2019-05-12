@@ -49,59 +49,64 @@
                         </div>
                         <div class="modules__content">
                             <div class="collapsible-content">
-                                <div class="form-group">
+                                @using (Html.BeginForm("AddDeliveryAddress", "Deal")) 
+                                {
+                                    <div class="form-group">
 
-                                </div>
-                                <div class="form-group">
-                                    <div class="city-picker-selector" id="city-picker-search">
-                                        <div class="selector-item storey province">
-                                            <a href="javascript:;" class="selector-name reveal df-color ">请选择省份</a>
-                                            <input type="hidden" name="userProvinceId" class="input-price val-error" value="" data-required="userProvinceId">
-                                            <div class="selector-list listing hide">
-                                                <div class="selector-search">
-                                                    <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
-                                                </div>
-                                                <ul>
-                                                    <li>北京市</li>
-                                                    <li>天津市</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="selector-item storey city">
-                                            <a href="javascript:;" class="selector-name reveal df-color forbid">请选择城市</a>
-                                            <input type="hidden" name="userCityId" class="input-price val-error" value="" data-required="userCityId">
-                                            <div class="selector-list listing hide">
-                                                <div class="selector-search">
-                                                    <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
-                                                </div>
-                                                <ul></ul>
-                                            </div>
-                                        </div>
-                                        <div class="selector-item storey district">
-                                            <a href="javascript:;" class="selector-name reveal df-color forbid">请选择区县</a>
-                                            <input type="hidden" name="userDistrictId" class="input-price val-error" value="" data-required="userDistrictId">
-                                            <div class="selector-list listing hide">
-                                                <div class="selector-search">
-                                                    <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
-                                                </div>
-                                                <ul></ul>
-                                            </div>
-                                        </div>
                                     </div>
-                                    @Html.HiddenFor(t => t.NewdeliveryAddress.LocationProvince)
-                                    @Html.HiddenFor(t => t.NewdeliveryAddress.LocationCity)
-                                    @Html.HiddenFor(t => t.NewdeliveryAddress.LocationDistrict)
+                                    <div class="form-group">
+                                        <div class="city-picker-selector" id="city-picker-search">
+                                            <div class="selector-item storey province">
+                                                <a href="javascript:;" class="selector-name reveal df-color ">请选择省份</a>
+                                                <input type="hidden" name="userProvinceId" class="input-price val-error" value="" data-required="userProvinceId">
+                                                <div class="selector-list listing hide">
+                                                    <div class="selector-search">
+                                                        <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
+                                                    </div>
+                                                    <ul>
+                                                        <li>北京市</li>
+                                                        <li>天津市</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="selector-item storey city">
+                                                <a href="javascript:;" class="selector-name reveal df-color forbid">请选择城市</a>
+                                                <input type="hidden" name="userCityId" class="input-price val-error" value="" data-required="userCityId">
+                                                <div class="selector-list listing hide">
+                                                    <div class="selector-search">
+                                                        <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
+                                                    </div>
+                                                    <ul></ul>
+                                                </div>
+                                            </div>
+                                            <div class="selector-item storey district">
+                                                <a href="javascript:;" class="selector-name reveal df-color forbid">请选择区县</a>
+                                                <input type="hidden" name="userDistrictId" class="input-price val-error" value="" data-required="userDistrictId">
+                                                <div class="selector-list listing hide">
+                                                    <div class="selector-search">
+                                                        <input type="text" class="input-search" value="" placeholder="拼音、中文搜索">
+                                                    </div>
+                                                    <ul></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @Html.HiddenFor(t => t.NewdeliveryAddress.LocationProvince)
+                                        @Html.HiddenFor(t => t.NewdeliveryAddress.LocationCity)
+                                        @Html.HiddenFor(t => t.NewdeliveryAddress.LocationDistrict)
+                                        @Html.HiddenFor(t => t.CurrentRole)
 
-                                    @Html.Hidden("NowProvince", Model.NewdeliveryAddress.LocationProvince ?? "请你选择省份")
-                                    @Html.Hidden("NowCity", Model.NewdeliveryAddress.LocationCity ?? "请你选择城市")
-                                    @Html.Hidden("NowDistrict", Model.NewdeliveryAddress.LocationDistrict ?? "请你选择地区")
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextArea("test")
-                                </div>
-                                <div class="form-group">
-                                    <a href="#" class="btn btn--round btn--sm btn--faq btn--fullwidth">添加收货地址</a>
-                                </div>
+                                        @Html.Hidden("NowProvince", "请你选择省份")
+                                        @Html.Hidden("NowCity", "请你选择城市")
+                                        @Html.Hidden("NowDistrict", "请你选择地区")
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(t => t.NewdeliveryAddress.MoreLocation, new { placeholder = "请填写详细地址信息" })
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="AddDeliveryAddress" type="button" class="btn btn--round btn--sm btn--faq btn--fullwidth btn-success" value="添加收货地址" />
+                                        <input id="SubmitForm" type="submit" hidden="hidden"/>
+                                    </div>
+                                }
                             </div>
                         </div>
                         
@@ -109,302 +114,7 @@
 
                     <!--我的收货地址-->
                     <div class="sidebar-card faq--sidebar">
-                        <div class="faq-title">
-                            <span class="lnr lnr-file-add"></span>
-                            <h4>@("我的收货地址(" + Model.DeliveryAddresses.Count() + ")")</h4>
-                        </div>
-                        <div class="faqs">
-                            <div class="panel-group accordion" role="tablist" id="accordion">
-                                <div class="panel accordion__single" id="panel-one">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse1" class="collapsed" aria-expanded="false" data-target="#collapse1" aria-controls="collapse1">
-                                                <span>How to write the changelog for theme updates?</span>
-                                                <i class="lnr indicator lnr-chevron-down"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse1" class="panel-collapse collapse" aria-labelledby="panel-one" data-parent="#accordion" style="">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-two">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse2" class="collapsed" aria-expanded="false" data-target="#collapse2" aria-controls="collapse2">
-                                                <span>Why do I need to login to purchase an item on DigiPro?</span>
-                                                <i class="lnr indicator lnr-chevron-down"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse2" class="panel-collapse collapse" aria-labelledby="panel-two" data-parent="#accordion" style="">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-three">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse3" class="collapsed" aria-expanded="false" data-target="#collapse3" aria-controls="collapse3">
-                                                <span>How to create an account on DigiPro?</span>
-                                                <i class="lnr indicator lnr-chevron-down"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse3" class="panel-collapse collapse" aria-labelledby="panel-three" data-parent="#accordion" style="">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-four">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse4" class="collapsed" aria-expanded="false" data-target="#collapse4" aria-controls="collapse4">
-                                                <span>How to write the changelog for theme updates?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse4" class="panel-collapse collapse" aria-labelledby="panel-four" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-five">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse5" class="collapsed" aria-expanded="false" data-target="#collapse5" aria-controls="collapse5">
-                                                <span>Do you recommend using a download manager software?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse5" class="panel-collapse collapse" aria-labelledby="panel-five" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-six">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse6" class="collapsed" aria-expanded="false" data-target="#collapse6" aria-controls="collapse6">
-                                                <span>How to purchase an item on DigiPro?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse6" class="panel-collapse collapse" aria-labelledby="panel-six" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-seven">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse7" class="collapsed" aria-expanded="false" data-target="#collapse7" aria-controls="collapse7">
-                                                <span>How to write the changelog for theme updates?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse7" class="panel-collapse collapse" aria-labelledby="panel-seven" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-eight">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse8" class="collapsed" aria-expanded="false" data-target="#collapse8" aria-controls="collapse8">
-                                                <span>Why do I need to login to purchase an item on DigiPro?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse8" class="panel-collapse collapse" aria-labelledby="panel-eight" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-nine">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse9" class="collapsed" aria-expanded="false" data-target="#collapse9" aria-controls="collapse9">
-                                                <span>How to create an account on DigiPro?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse9" class="panel-collapse collapse" aria-labelledby="panel-nine" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-ten">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse10" class="collapsed" aria-expanded="false" data-target="#collapse10" aria-controls="collapse10">
-                                                <span>How to write the changelog for theme updates?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse10" class="panel-collapse collapse" aria-labelledby="panel-ten" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-eleven">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse11" class="collapsed" aria-expanded="false" data-target="#collapse11" aria-controls="collapse11">
-                                                <span>Do you recommend using a download manager software?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse11" class="panel-collapse collapse" aria-labelledby="panel-eleven" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel accordion__single" id="panel-twelve">
-                                    <div class="single_acco_title">
-                                        <h4>
-                                            <a data-toggle="collapse" href="#collapse12" class="collapsed" aria-expanded="false" data-target="#collapse12" aria-controls="collapse12">
-                                                <span>How to purchase an item on DigiPro?</span>
-                                                <i class="lnr lnr-chevron-down indicator"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse12" class="panel-collapse collapse" aria-labelledby="panel-twelve" data-parent="#accordion">
-                                        <div class="panel-body">
-                                            <p>
-                                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @Html.Action("DeliveryAddressList", "Deal")
                     </div>
                 </aside>
             </div>

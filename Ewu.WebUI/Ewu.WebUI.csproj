@@ -175,6 +175,7 @@
     <Content Include="images\test\pic5.png" />
     <Content Include="images\test\right1.png" />
     <Content Include="images\test\right2.png" />
+    <Content Include="Scripts\AddDeliveryAddress.js" />
     <Content Include="Scripts\bootstrap-table-zh-CN.js" />
     <Content Include="Scripts\bootstrap-table.min.css" />
     <Content Include="Scripts\bootstrap-table.min.js" />
@@ -854,6 +855,7 @@
     <Content Include="Views\Account\DealingLog.cshtml" />
     <Content Include="Views\Shared\_AddressLayout.cshtml" />
     <Content Include="Views\Deal\ChooseDeliveryAddress.cshtml" />
+    <Content Include="Views\Deal\DeliveryAddressList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

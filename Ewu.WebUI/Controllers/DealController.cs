@@ -428,6 +428,57 @@ namespace Ewu.WebUI.Controllers
             return View("Error");
         }
 
+        /// <summary>
+        /// 增加收货地址
+        /// </summary>
+        /// <param name="deliveryAddress"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AddDeliveryAddress(MyDeliveryAddress myDeliveryAddress)
+        {
+            //首先判断信息是否为空
+            if((!string.IsNullOrEmpty(myDeliveryAddress.NewdeliveryAddress.LocationCity))&& (!string.IsNullOrEmpty(myDeliveryAddress.NewdeliveryAddress.LocationDistrict)) && (!string.IsNullOrEmpty(myDeliveryAddress.NewdeliveryAddress.LocationProvince)) && (!string.IsNullOrEmpty(myDeliveryAddress.NewdeliveryAddress.MoreLocation)) && (!string.IsNullOrEmpty(myDeliveryAddress.CurrentRole)))
+            {
+                //获取当前用户ID,联系方式,真实姓名
+                string userid = CurrentUser.Id;
+                string phoneNum = CurrentUser.PhoneNumber;
+                string realName = CurrentUser.RealName;
+                //增加收货地址
+                using(var db = new DeliveryAddressDataContext())
+                {
+                    db.DeliveryAddress.InsertOnSubmit(new DeliveryAddress
+                    {
+                        DeliveryAddressUID = Guid.NewGuid().ToString(),
+                        LocationCity = myDeliveryAddress.NewdeliveryAddress.LocationCity,
+                        LocationDistrict = myDeliveryAddress.NewdeliveryAddress.LocationDistrict,
+                        LocationProvince = myDeliveryAddress.NewdeliveryAddress.LocationProvince,
+                        MoreLocation = myDeliveryAddress.NewdeliveryAddress.MoreLocation,
+                        PhoneNum = phoneNum,
+                        RealName = realName,
+                        UserUID = userid
+                    });
+                    db.SubmitChanges();
+                    return View("ChooseDeliveryAddress");
+                }
+            }
+
+            return View("Error","错误");
+        }
+
+        /// <summary>
+        /// 收货地址列表
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult DeliveryAddressList()
+        {
+            //获取当前用户ID
+            string uid = CurrentUser.Id;
+            using(var db = new DeliveryAddressDataContext())
+            {
+                var lists = db.DeliveryAddress.Where(d => d.UserUID == uid).ToList();
+                return PartialView(lists.AsEnumerable());
+            }
+        }
         #endregion
 
 
