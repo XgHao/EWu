@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Ewu.WebUI.Controllers
 {
+    [Authorize]
     public class DealController : Controller
     {
         private ITreasuresRepository repository;
@@ -578,13 +579,37 @@ namespace Ewu.WebUI.Controllers
         /// <returns></returns>
         public JsonResult InquireDeliveryNum()
         {
-            string result = "";
             string DeliveryNum = Request["DeliveryNum"];
             string DLogUID = Request["DLogUID"];
             string CurrentRole = Request["CurrentRole"];
 
-            new Identity().GetDeliveryInfo(DeliveryNum);
-            return Json(result,JsonRequestBehavior.AllowGet);
+            Delivery delivery = new Identity().GetDeliveryInfo(DeliveryNum);
+
+            //查询成功
+            if (delivery.msg == "查询成功")
+            {
+                using (var db = new trackingDataContext())
+                {
+                    var log = db.Tracking.Where(l => l.DLogUID == DLogUID).FirstOrDefault();
+                    if (log != null)
+                    {
+                        //角色身份
+                        if (CurrentRole == "Recipient")
+                        {
+                            log.RecipientTrackingNum = delivery.No;
+                            log.RecipientTrackingDate = DateTime.Now;
+                        }
+                        else if (CurrentRole == "Sponsor")
+                        {
+                            log.SponsorTrackingNum = delivery.No;
+                            log.SponsorTrackingDate = DateTime.Now;
+                        }
+                    }
+                    db.SubmitChanges();
+                }
+            }
+
+            return Json(delivery.msg,JsonRequestBehavior.AllowGet);
         }
         #endregion
 

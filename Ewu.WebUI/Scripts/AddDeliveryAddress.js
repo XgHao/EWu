@@ -74,7 +74,6 @@ function SetDeliveryNum() {
     var DLogUID = $("#DLogUID").val();
     var CurrentRole = $("#CurrentRole").val();
 
-    alert(DeliveryNum);
     $.ajax({
         type: "POST",
         dataType: "text",
@@ -88,11 +87,11 @@ function SetDeliveryNum() {
             alert("请求失败，请联系管理员(zxh957553851@gmail.com)。错误信息：" + msg);
         },
         success: function (result) {
-            //验证成功
-            if (data == "\"OK\"") {
-
+            $("#ValidDeliveryNum").text(result);
+            if (result == "\"查询成功\"") {
+                //跳转到正在交易页面
+                window.location.href = "/Account/DealingLog";
             }
-            //
         }
     });
 }

@@ -13,6 +13,7 @@ using qcloudsms_csharp;
 using qcloudsms_csharp.json;
 using qcloudsms_csharp.httpclient;
 using System.Net.Mail;
+using Ewu.Domain.Entities;
 
 namespace Ewu.WebUI.API
 {
@@ -490,7 +491,7 @@ namespace Ewu.WebUI.API
         #endregion
 
         #region 全国快递查询
-        public void GetDeliveryInfo(string DeliveryNum)
+        public Delivery GetDeliveryInfo(string DeliveryNum)
         {
             const string host = "https://goexpress.market.alicloudapi.com";
             const string path = "/goexpress";
@@ -539,21 +540,78 @@ namespace Ewu.WebUI.API
             Stream st = httpResponse.GetResponseStream();
             StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
             JObject DeliveryInfo = JObject.Parse(reader.ReadToEnd());
+
             //结果保存在字典集
             Dictionary<string, string> result = new Dictionary<string, string>();
+            
+            //新建一个快递信息集合
+            Delivery delivery = new Delivery();
+            
             //查询成功
             if (DeliveryInfo["code"].ToString() == "OK")
             {
+                //添加信息
+                delivery.code = DeliveryInfo["code"].ToString();
+                delivery.msg = DeliveryInfo["msg"].ToString();
+                delivery.name = DeliveryInfo["name"].ToString();
+                delivery.No = DeliveryInfo["no"].ToString();
+                #region State设置
+                switch (DeliveryInfo["state"].ToString())
+                {
+                    case "-1":
+                        delivery.StateInfo = "单号或代码错误";
+                        break;
+                    case "0":
+                        delivery.StateInfo = "暂无轨迹";
+                        break;
+                    case "1":
+                        delivery.StateInfo = "快递收件";
+                        break;
+                    case "2":
+                        delivery.StateInfo = "在途中";
+                        break;
+                    case "3":
+                        delivery.StateInfo = "签收";
+                        break;
+                    case "4":
+                        delivery.StateInfo = "问题件";
+                        break;
+                    case "5":
+                        delivery.StateInfo = "疑难件";
+                        break;
+                    case "6":
+                        delivery.StateInfo = "退件签收";
+                        break;
+                    case "7":
+                        delivery.StateInfo = "快递收件（揽件）";
+                        break;
+                    default:
+                        delivery.StateInfo = "未知";
+                        break;
+                }
+                #endregion
+                #region 物流信息集合
+                //新建一个快递信息List
+                List<DeliveryInfo> deliveryInfos = new List<DeliveryInfo>();
                 //获取所有list
                 var DeliveryInfoList = DeliveryInfo["list"];
+                //遍历所有信息
                 foreach(var item in DeliveryInfoList)
                 {
-                    var test = item;
-                    var content = test["content"].ToString();
-                    var time = test["time"].ToString();
+                    deliveryInfos.Add(new DeliveryInfo
+                    {
+                        time = item["time"].ToString(),
+                        content = item["content"].ToString()
+                    });
                 }
+                delivery.deliveryInfos = deliveryInfos.AsEnumerable();
+                #endregion
             }
-            
+            else
+            {
+                delivery.msg = DeliveryInfo["msg"].ToString();  
+            }
+            return delivery;
         }
         #endregion
 

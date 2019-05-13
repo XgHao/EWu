@@ -39,6 +39,21 @@ namespace Ewu.Domain.Entities
         /// 查询信息
         /// </summary>
         public string msg { get; set; }
+
+        /// <summary>
+        /// 快递公司名称
+        /// </summary>
+        public string name { get; set; }
+
+        /// <summary>
+        /// 快递公司LOGO
+        /// </summary>
+        public string logo { get; set; }
+
+        /// <summary>
+        /// 快递信息集合
+        /// </summary>
+        public IEnumerable<DeliveryInfo> deliveryInfos { get; set; }
     }
 
     /// <summary>
