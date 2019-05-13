@@ -10,6 +10,7 @@
       <Column Name="MoreLocation" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="PhoneNum" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="RealName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IsRepeal" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

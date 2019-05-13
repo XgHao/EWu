@@ -24,20 +24,40 @@
 
                     <div id=@("collapse"+cnt) class="panel-collapse collapse" aria-labelledby="panel-one" data-parent="#accordion" style="">
                         <div class="panel-body">
-                            <ul>
-                                <li>
-                                    @address.LocationProvince
-                                </li>
-                                <li>
-                                    @address.LocationCity
-                                </li>
-                                <li>
-                                    @address.LocationDistrict
-                                </li>
-                                <li>
-                                    @address.MoreLocation
-                                </li>
-                            </ul>
+                            <div class="location_address">
+                                <div class="addres_module">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>
+                                                <span class="fa fa-user-o"></span>&nbsp;@address.RealName
+                                            </p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>
+                                                <span class="fa fa-phone"></span>&nbsp;@address.PhoneNum
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p>
+                                                <span class="fa fa-truck"></span>&nbsp;@(address.LocationProvince+" "+(address.LocationProvince==address.LocationCity?"":address.LocationCity)+" "+address.LocationDistrict+" "+address.MoreLocation)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn--icon btn-sm btn--bordered btn-success pull-right" onclick="SetDeliveryAddress(@("'"+address.DeliveryAddressUID+"'"))">
+                                                <span class="fa fa-check"></span>选择
+                                            </button>
+                                            <button class="btn btn--icon btn-sm btn--bordered btn-danger pull-right" onclick="DeleteDeliveryAddress(@("'"+address.DeliveryAddressUID+"'"))">
+                                                <span class="fa fa-close"></span>删除
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

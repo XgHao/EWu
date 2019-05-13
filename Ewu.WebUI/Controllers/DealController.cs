@@ -10,6 +10,7 @@ using Ewu.Domain.Entities;
 using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models.ViewModel;
+using Ewu.WebUI.API;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -401,27 +402,22 @@ namespace Ewu.WebUI.Controllers
                 //获取当前用户ID
                 string CurrentID = CurrentUser.Id;
 
-                using (var db = new DeliveryAddressDataContext())
+                //获取当前用户的收货地址
+                using(var db2 = new LogDealDataContext())
                 {
-                    //获取当前用户的收货地址
-                    var DealiveryAddresses = db.DeliveryAddress.Where(d => d.UserUID == CurrentID).ToList();
-                    using(var db2 = new LogDealDataContext())
+                    //获取当前交易订单
+                    var logdeal = db2.LogDeal.Where(l => l.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+                    if (logdeal != null)
                     {
-                        //获取当前交易订单
-                        var logdeal = db2.LogDeal.Where(l => l.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
-                        if (logdeal != null)
+                        MyDeliveryAddress myDeliveryAddress = new MyDeliveryAddress
                         {
-                            MyDeliveryAddress myDeliveryAddress = new MyDeliveryAddress
-                            {
-                                DeliveryAddresses = DealiveryAddresses.AsEnumerable(),
-                                CurrentLogDeal = logdeal,
-                                CurrentRole = CurrentRole,
-                                NewdeliveryAddress=new DeliveryAddress()
-                            };
+                            CurrentLogDeal = logdeal,
+                            CurrentRole = CurrentRole,
+                            NewdeliveryAddress=new DeliveryAddress()
+                        };
 
-                            //返回视图模型
-                            return View(myDeliveryAddress);
-                        }
+                        //返回视图模型
+                        return View(myDeliveryAddress);
                     }
                 }
             }
@@ -429,11 +425,82 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 设置收货地址
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult SetDeliveryAddress()
+        {
+            //获取信息
+            string role = Request["CurrentRole"];
+            string LogDealUID = Request["DLogUID"];
+            string DeliveryAddressUID = Request["DeliveryAddressUID"];
+            
+            //初始化结果
+            string result = "Error";
+
+            if (!string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(LogDealUID) && !string.IsNullOrEmpty(DeliveryAddressUID))
+            {
+                //添加收货信息
+                using (var db = new LogDealDataContext())
+                {
+                    var log = db.LogDeal.Where(l => l.DLogUID == Guid.Parse(LogDealUID)).FirstOrDefault();
+                    if (log != null)
+                    {
+                        //当前登录用户是接收人
+                        if(role== "Recipient")
+                        {
+                            log.DeliveryAddressRecipientID = DeliveryAddressUID;
+                            db.SubmitChanges();
+                            result = "OK";
+                        }
+                        //当前登录用户是发起人
+                        else if(role== "Sponsor")
+                        {
+                            log.DeliveryAddressSponsorID = DeliveryAddressUID;
+                            db.SubmitChanges();
+                            result = "OK";
+                        }
+                    }
+                }
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 废除收货地址
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult DeleteDeliveryAddress()
+        {
+            //获取信息
+            string DeliveryAddressUID = Request["DeliveryAddressUID"];
+
+            //初始化结果
+            string result = "Error";
+
+            if (!string.IsNullOrEmpty(DeliveryAddressUID))
+            {
+                using (var db = new DeliveryAddressDataContext())
+                {
+                    var address = db.DeliveryAddress.Where(a => a.DeliveryAddressUID == DeliveryAddressUID).FirstOrDefault();
+                    if (address != null)
+                    {
+                        address.IsRepeal = true;
+                        db.SubmitChanges();
+                        result = "OK";
+                    }
+                }
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// 增加收货地址
         /// </summary>
         /// <param name="deliveryAddress"></param>
         /// <returns></returns>
-        [HttpPost]
         public ActionResult AddDeliveryAddress(MyDeliveryAddress myDeliveryAddress)
         {
             //首先判断信息是否为空
@@ -455,7 +522,8 @@ namespace Ewu.WebUI.Controllers
                         MoreLocation = myDeliveryAddress.NewdeliveryAddress.MoreLocation,
                         PhoneNum = phoneNum,
                         RealName = realName,
-                        UserUID = userid
+                        UserUID = userid,
+                        IsRepeal = false
                     });
                     db.SubmitChanges();
                     return View("ChooseDeliveryAddress");
@@ -475,12 +543,50 @@ namespace Ewu.WebUI.Controllers
             string uid = CurrentUser.Id;
             using(var db = new DeliveryAddressDataContext())
             {
-                var lists = db.DeliveryAddress.Where(d => d.UserUID == uid).ToList();
+                var lists = db.DeliveryAddress.Where(d => (d.UserUID == uid) && (d.IsRepeal == false)).ToList();
                 return PartialView(lists.AsEnumerable());
             }
         }
         #endregion
 
+
+        #region 物流信息
+        /// <summary>
+        /// 填写物流单号
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult FillDeliveryNum(string DLogUID = "", string CurrentRole = "")
+        {
+            //信息不为空
+            if (!string.IsNullOrEmpty(DLogUID) && !string.IsNullOrEmpty(CurrentRole))
+            {
+                return View(new DeliveryNum
+                {
+                    DLogUID = DLogUID,
+                    CurrentRole = CurrentRole
+                });
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        /// <summary>
+        /// 查询物流单号
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult InquireDeliveryNum()
+        {
+            string result = "";
+            string DeliveryNum = Request["DeliveryNum"];
+            string DLogUID = Request["DLogUID"];
+            string CurrentRole = Request["CurrentRole"];
+
+            new Identity().GetDeliveryInfo(DeliveryNum);
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
         /// <summary>
         /// 获取当前用户

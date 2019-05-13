@@ -96,6 +96,8 @@ namespace Ewu.Domain.Db
 		
 		private string _RealName;
 		
+		private System.Nullable<bool> _IsRepeal;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -116,6 +118,8 @@ namespace Ewu.Domain.Db
     partial void OnPhoneNumChanged();
     partial void OnRealNameChanging(string value);
     partial void OnRealNameChanged();
+    partial void OnIsRepealChanging(System.Nullable<bool> value);
+    partial void OnIsRepealChanged();
     #endregion
 		
 		public DeliveryAddress()
@@ -279,6 +283,26 @@ namespace Ewu.Domain.Db
 					this._RealName = value;
 					this.SendPropertyChanged("RealName");
 					this.OnRealNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRepeal", DbType="Bit")]
+		public System.Nullable<bool> IsRepeal
+		{
+			get
+			{
+				return this._IsRepeal;
+			}
+			set
+			{
+				if ((this._IsRepeal != value))
+				{
+					this.OnIsRepealChanging(value);
+					this.SendPropertyChanging();
+					this._IsRepeal = value;
+					this.SendPropertyChanged("IsRepeal");
+					this.OnIsRepealChanged();
 				}
 			}
 		}

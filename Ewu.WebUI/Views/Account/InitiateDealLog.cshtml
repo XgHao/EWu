@@ -90,7 +90,7 @@
                                                     <li>
                                                         <p class="text-warning">
                                                             <span class="fa fa-map-marker"></span>
-                                                            @(logs.InitiateTreasures.LocationProvince + " " + logs.InitiateTreasures.LocationCity + " " + logs.InitiateTreasures.LocationDistrict)
+                                                            @(logs.InitiateTreasures.LocationProvince + " " + (logs.InitiateTreasures.LocationCity==logs.InitiateTreasures.LocationProvince?"":logs.InitiateTreasures.LocationCity) + " " + logs.InitiateTreasures.LocationDistrict)
                                                         </p>
                                                     </li>
                                                     <li>

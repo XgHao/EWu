@@ -139,6 +139,7 @@
     <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Deal.cs" />
+    <Compile Include="Entities\Delivery.cs" />
     <Compile Include="Entities\Favorite.cs" />
     <Compile Include="Entities\Notice.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />

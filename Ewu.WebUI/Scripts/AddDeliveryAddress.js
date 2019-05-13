@@ -1,4 +1,109 @@
-﻿window.onload = function () {
+﻿//设置收货地址
+function SetDeliveryAddress(DeliveryAddressUID) {
+    //获取当前登录人的角色
+    var role = $("#CurrentRole").val();
+
+    //获取当前交易订单号
+    var LogDealUID = $("#CurrentLogDeal_DLogUID").val();
+
+    //信息都不为空
+    if ((role != null) && (role != "") && (LogDealUID != null) && (LogDealUID != "") && (DeliveryAddressUID != null) && (DeliveryAddressUID != "")) {
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: "/Deal/SetDeliveryAddress",
+            data: {
+                "CurrentRole": role,
+                "DLogUID": LogDealUID,
+                "DeliveryAddressUID": DeliveryAddressUID
+            },
+            error: function (msg) {
+                alert("请求失败，请联系管理员(zxh957553851@gmail.com)。错误信息：" + msg);
+            },
+            success: function (result) {
+                //成功
+                if (result == "\"OK\"") {
+                    //跳转到正在交易页面
+                    window.location.href = "/Account/DealingLog";
+                }
+                else {
+                    //请求失败,刷新页面
+                    alert("未知错误，将刷新页面");
+                    window.location.reload();
+                }
+            }
+        });
+    }
+}
+
+//删除收货地址
+function DeleteDeliveryAddress(DeliveryAddressUID) {
+
+    //信息都不为空
+    if ((DeliveryAddressUID != null) && (DeliveryAddressUID != "")) {
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: "/Deal/DeleteDeliveryAddress",
+            data: {
+                "DeliveryAddressUID": DeliveryAddressUID
+            },
+            error: function (msg) {
+                alert("请求失败，请联系管理员(zxh957553851@gmail.com)。错误信息：" + msg);
+            },
+            success: function (result) {
+                //成功
+                if (result == "\"OK\"") {
+                    alert("删除成功！");
+                    window.location.reload();
+                }
+                else {
+                    //请求失败,刷新页面
+                    alert("未知错误，将刷新页面");
+                    window.location.reload();
+                }
+            }
+        });
+    }
+}
+
+//验证填写物流单号
+function SetDeliveryNum() {
+    //获取物流单号,订单号,当前角色
+    var DeliveryNum = $("#DeliveryNum").val();
+    var DLogUID = $("#DLogUID").val();
+    var CurrentRole = $("#CurrentRole").val();
+
+    alert(DeliveryNum);
+    $.ajax({
+        type: "POST",
+        dataType: "text",
+        url: "/Deal/InquireDeliveryNum",
+        data: {
+            "CurrentRole": CurrentRole,
+            "DLogUID": DLogUID,
+            "DeliveryNum": DeliveryNum
+        },
+        error: function (msg) {
+            alert("请求失败，请联系管理员(zxh957553851@gmail.com)。错误信息：" + msg);
+        },
+        success: function (result) {
+            //验证成功
+            if (data == "\"OK\"") {
+
+            }
+            //
+        }
+    });
+}
+
+window.onload = function () {
+    //清空信息
+    $("#userProvinceId").text("");
+    $("#userCityId").text("");
+    $("#userDistrictId").text("");
+    $("#NewdeliveryAddress_MoreLocation").text("");
+
     //增加收货地址按钮
     $("#AddDeliveryAddress").click(function () {
         //获取地址

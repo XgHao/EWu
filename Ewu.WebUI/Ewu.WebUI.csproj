@@ -856,6 +856,7 @@
     <Content Include="Views\Shared\_AddressLayout.cshtml" />
     <Content Include="Views\Deal\ChooseDeliveryAddress.cshtml" />
     <Content Include="Views\Deal\DeliveryAddressList.cshtml" />
+    <Content Include="Views\Deal\FillDeliveryNum.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

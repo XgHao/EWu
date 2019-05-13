@@ -287,7 +287,7 @@ namespace Ewu.WebUI.Models.ViewModel
         /// <summary>
         /// 收货地址集合
         /// </summary>
-        public IEnumerable<DeliveryAddress> DeliveryAddresses { get; set; }
+        //public IEnumerable<DeliveryAddress> DeliveryAddresses { get; set; }
 
         /// <summary>
         /// 新的收货地址
@@ -301,6 +301,22 @@ namespace Ewu.WebUI.Models.ViewModel
 
         /// <summary>
         /// 当前账户角色
+        /// </summary>
+        public string CurrentRole { get; set; }
+    }
+
+    /// <summary>
+    /// 物流信息模型
+    /// </summary>
+    public class DeliveryNum
+    {
+        /// <summary>
+        /// 订单号
+        /// </summary>
+        public string DLogUID { get; set; }
+
+        /// <summary>
+        /// 当前用户角色
         /// </summary>
         public string CurrentRole { get; set; }
     }

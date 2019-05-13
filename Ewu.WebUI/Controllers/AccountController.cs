@@ -361,9 +361,10 @@ namespace Ewu.WebUI.Controllers
                             {
                                 LogDeal = log,
                                 My = CurrentUser,
+                                //我的物品-如果这个接受物品所属人的ID不是当前登录人ID，则当前登录人即我是发起人
                                 MyTreasure = TreaR.HolderID == Id ? TreaR : TreaS,
                                 Ta = TaInfo,
-                                TaTreasure = TreaR.HolderID == TaID ? TreaS : TreaS,
+                                TaTreasure = TreaR.HolderID == TaID ? TreaR : TreaS,
                                 Tracking = tracking,
                                 //当前用户在本次交易中是什么角色
                                 CurrentUserRole = TreaR.HolderID == Id ? "Recipient" : "Sponsor"

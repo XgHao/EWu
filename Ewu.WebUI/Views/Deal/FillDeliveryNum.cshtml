@@ -1,0 +1,62 @@
+﻿@model Ewu.WebUI.Models.ViewModel.DeliveryNum
+
+@{
+    ViewBag.Title = "FillDeliveryNum";
+    Layout = "~/Views/Shared/_AddressLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>
+                                <a href="#">交易信息</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">填写物流单号</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">LogDeal</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="blog_area section--padding2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <aside class="sidebar sidebar--blog">
+                    <div class="sidebar-card card--search card--blog_sidebar">
+                        <div class="card-title">
+                            <h4 class="font-weight-bold">你的物流单号</h4>
+                        </div>
+                        <div class="card_content">
+                            <div class="searc-wrap">
+                                <input id="DeliveryNum" type="number" placeholder="在这里输入你寄出物品的快递单号">
+                                <span id="ValidDeliveryNum" class="text-danger pull-right">请输入快递单号</span>
+                                <button class="search-wrap__btn" onclick="SetDeliveryNum()">
+                                    <span class="fa fa-paper-plane"></span>
+                                </button>
+                                @Html.HiddenFor(d => d.DLogUID)
+                                @Html.HiddenFor(d => d.CurrentRole)
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>

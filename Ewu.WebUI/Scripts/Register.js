@@ -174,7 +174,7 @@
                 url: "/Register/validCode", // 目标地址    
                 data: { "Code": phoCode, "Type": "Pho" },
                 error: function (msg) {
-                    alert("请求失败，请联系管理员");
+                    alert("请求失败，请联系管理员(zxh957553851@gmail.com)。错误信息：" + msg);
                 },
                 success: function (data) {
                     //验证成功
@@ -317,7 +317,7 @@
                 url: "/Register/isExistUserName",
                 data: { "Name": username },
                 error: function (msg) {
-                    alert("请求失败，请联系管理员");
+                    alert("请求失败，请联系管理员。错误信息：" + msg);
                 },
                 success: function (isExist) {
                     //存在

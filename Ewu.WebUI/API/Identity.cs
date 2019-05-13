@@ -489,6 +489,74 @@ namespace Ewu.WebUI.API
 
         #endregion
 
+        #region 全国快递查询
+        public void GetDeliveryInfo(string DeliveryNum)
+        {
+            const string host = "https://goexpress.market.alicloudapi.com";
+            const string path = "/goexpress";
+            const string method = "GET";
+            const string appcode = "4b677fa79cc14896a78936a7dde89445";
+
+            string querys = "no=" + DeliveryNum + "&type=";
+            string bodys = "";
+            string url = host + path;
+            HttpWebRequest httpRequest = null;
+            HttpWebResponse httpResponse = null;
+
+            if (0 < querys.Length)
+            {
+                url = url + "?" + querys;
+            }
+
+            if (host.Contains("https://"))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                httpRequest = (HttpWebRequest)WebRequest.CreateDefault(new Uri(url));
+            }
+            else
+            {
+                httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            }
+            httpRequest.Method = method;
+            httpRequest.Headers.Add("Authorization", "APPCODE " + appcode);
+            if (0 < bodys.Length)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(bodys);
+                using (Stream stream = httpRequest.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+            try
+            {
+                httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            }
+            catch (WebException ex)
+            {
+                httpResponse = (HttpWebResponse)ex.Response;
+            }
+
+            Stream st = httpResponse.GetResponseStream();
+            StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
+            JObject DeliveryInfo = JObject.Parse(reader.ReadToEnd());
+            //结果保存在字典集
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            //查询成功
+            if (DeliveryInfo["code"].ToString() == "OK")
+            {
+                //获取所有list
+                var DeliveryInfoList = DeliveryInfo["list"];
+                foreach(var item in DeliveryInfoList)
+                {
+                    var test = item;
+                    var content = test["content"].ToString();
+                    var time = test["time"].ToString();
+                }
+            }
+            
+        }
+        #endregion
+
         public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {
             return true;

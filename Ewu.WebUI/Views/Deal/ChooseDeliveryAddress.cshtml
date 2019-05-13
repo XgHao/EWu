@@ -94,6 +94,8 @@
                                         @Html.HiddenFor(t => t.NewdeliveryAddress.LocationCity)
                                         @Html.HiddenFor(t => t.NewdeliveryAddress.LocationDistrict)
                                         @Html.HiddenFor(t => t.CurrentRole)
+                                        @Html.HiddenFor(t => t.CurrentLogDeal.DLogUID)
+
 
                                         @Html.Hidden("NowProvince", "请你选择省份")
                                         @Html.Hidden("NowCity", "请你选择城市")
@@ -154,12 +156,7 @@
                     </div>
                 </aside>
             </div>
-
-
-            <!-- end /.col-md-4 -->
         </div>
-        <!-- end /.row -->
     </div>
-    <!-- end /.container -->
 </section>
 
