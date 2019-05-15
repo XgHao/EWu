@@ -168,9 +168,12 @@ namespace Ewu.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(Treasure treasure)
         {
+            //验证视图模型
             if (ModelState.IsValid)
             {
+                //保存物品对象
                 repository.SaveTreasure(treasure);
+                //重定向到我的物品页面
                 return RedirectToAction("MyList", "Treasure");
             }
             return View(treasure);
@@ -204,32 +207,46 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult AllDealLog()
         {
+            //获取当前用户ID
             string currID = CurrentUser.Id;
-            UserDeal userDeal = new UserDeal();
             //新建List
             List<LogDealTableInfo> logDealTableInfos = new List<LogDealTableInfo>();
             //获取当前登录用户的交易记录
             using(var db = new LogDealDataContext())
             {
-                //获取发起人是当前登录用户的交易信息
-                var deals = db.LogDeal.Where(d => d.TraderSponsorID == currID);
-                if (deals != null)
+                //获取有当前登录用户参与的交易信息
+                var deals = db.LogDeal.Where(d => ((d.TraderSponsorID == currID) || (d.TraderRecipientID == currID))).ToList().AsEnumerable();
+              
+                //遍历所有交易信息
+                foreach (var deal in deals)
                 {
-                    foreach (var deal in deals)
+                    //获取对方用户对象
+                    var TradeID = deal.TraderRecipientID == currID ? deal.TraderSponsorID : deal.TraderRecipientID;
+                    var Trader = UserManager.FindById(TradeID);
+
+                    //添加交易记录
+                    logDealTableInfos.Add(new LogDealTableInfo
                     {
-                        logDealTableInfos.Add(new LogDealTableInfo
+                        //交易信息
+                        LogDeal = deal,
+                        //对方用户对象
+                        Trader = new BasicUserInfo
                         {
-                            LogDeal = deal,
-                            TraderRecipientName = UserManager.FindById(deal.TraderRecipientID).UserName,
-                            DealInTreaName = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID)).FirstOrDefault().TreasureName,
-                            DealOutTreaName = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID)).FirstOrDefault().TreasureName
-                        });
-                    }
-                    userDeal.LogDealTableInfos = logDealTableInfos;
-                    return View(userDeal);
+                            UserID = Trader.Id,
+                            UserName = Trader.UserName,
+                            RealName = Trader.RealName
+                        },
+                        //换入物品-即对方的物品
+                        DealInTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TraderRecipientID == currID ? deal.TreasureSponsorID : deal.TreasureRecipientID)).FirstOrDefault(),
+                        //换出物品-即我的物品
+                        DealOutTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TraderRecipientID == currID ? deal.TreasureRecipientID : deal.TreasureSponsorID)).FirstOrDefault()
+                    });
                 }
+                return View(new UserDeal
+                {
+                    LogDealTableInfos = logDealTableInfos.AsEnumerable()
+                });
             }
-            return View("Error");
         }
 
         /// <summary>
@@ -247,7 +264,7 @@ namespace Ewu.WebUI.Controllers
             //获取当前登录用户接受到交易申请的记录集合
             using(var db=new LogDealDataContext())
             {
-                var deals = db.LogDeal.Where(d => (d.TraderRecipientID == userid));
+                var deals = db.LogDeal.Where(d => ((d.TraderRecipientID == userid)&&(d.DealStatus.Contains("待确认"))));
                 foreach(var deal in deals)
                 {
                     //收到交易的物品

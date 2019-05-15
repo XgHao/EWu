@@ -180,6 +180,7 @@
                             <div class="information__set profile_images toggle_module collapse show" id="collapse5">
                                 <textarea cols="20" id="Remark" name="Remark" placeholder="选填拒绝本次交易申请的理由" rows="2"></textarea>
                                 @Html.HiddenFor(t => t.DealLogID)
+                                @Html.HiddenFor(t=>t.DealInTreasure.TreasureUID)
                             </div>
                         </div>
                     </div>

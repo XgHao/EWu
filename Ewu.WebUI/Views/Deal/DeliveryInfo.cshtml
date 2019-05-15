@@ -1,0 +1,72 @@
+﻿@model Ewu.Domain.Entities.Delivery
+
+@{
+    ViewBag.Title = "DeliveryInfo";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>
+                                <a href="#">交易记录</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">物流查询</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">@Model.StateInfo</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="section--padding">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="timeline">
+                        @foreach (var tracking in Model.deliveryInfos)
+                        {
+                            <li class="happening">
+                                <div class="happening--period">
+                                    <p>@tracking.time</p>
+                                </div>
+                                <div class="happening--detail">
+                                    <h4 class="title">
+                                        @if (tracking.content.Length >= 18)
+                                        {
+                                            @(tracking.content.Substring(0,18)+"...")
+                                        }
+                                        else
+                                        {
+                                            @(tracking.content)
+                                        }
+                                    </h4>
+                                    <p>
+                                        @tracking.content
+                                    </p>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -93,8 +93,14 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult MakeDeal(string TreasureSponsorID, string TreasureRecipientID)
         {
+            //参数为空，报错
+            if (string.IsNullOrEmpty(TreasureSponsorID) || string.IsNullOrEmpty(TreasureRecipientID))
+            {
+                return View("Error","出错");
+            }
+
             //首先要先验证该订单是不是出现过
-            using(var db=new LogDealDataContext())
+            using (var db=new LogDealDataContext())
             {
                 //获取与当前交易相同的记录
                 var deallogs = db.LogDeal.Where(d => d.TreasureSponsorID == TreasureSponsorID && d.TreasureRecipientID == TreasureRecipientID);
@@ -104,16 +110,11 @@ namespace Ewu.WebUI.Controllers
                     //当记录中出现以下哞种情况（即订单未完成），说明当前交易订单还在处理，这不允许创建订单，返回Error页面
                     if (dlog.DealStatus == "待确认" || dlog.DealStatus == "接受" || dlog.DealStatus == "交易中")
                     {
-                        return View("Error");
+                        return View("Error","订单已存在，请勿重复申请！");
                     }
                 }
             }
-
-
-            if (string.IsNullOrEmpty(TreasureSponsorID) || string.IsNullOrEmpty(TreasureRecipientID))
-            {
-                return View();
-            }
+            
             //当前登录用户UID
             string CurId = CurrentUser.Id;
 
@@ -282,11 +283,18 @@ namespace Ewu.WebUI.Controllers
             {
                 using(var db=new LogDealDataContext())
                 {
+                    //更改订单状态
                     var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DealLogUID)).FirstOrDefault();
                     if (log != null)
                     {
                         log.DealStatus = "交易取消";
+                        log.DealEndTime = DateTime.Now;
                         db.SubmitChanges();
+
+                        //删除物品中的订单号
+                        var treaS = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureSponsorID)).FirstOrDefault();
+                        treaS.DLogUID = null;
+                        repository.SaveTreasure(treaS);
                         result = "OK";
                     }
                 }
@@ -340,31 +348,29 @@ namespace Ewu.WebUI.Controllers
                 return View("Error");
             }
             //获取当前交易信息
-            LogDeal deal = new LogDeal();
             using (var db = new LogDealDataContext())
             {
-                deal = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
-            }
+                var deal = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
 
-            //换入物品-对于接收人来说，换入物品是本次申请的发起人物品
-            var treaR = repository.Treasures
-                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
-                                .FirstOrDefault();
-            //换出物品-对于接收人来说，换出物品是本次申请的接收人物品
-            var treaS = repository.Treasures
-                                .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
-                                .FirstOrDefault();
-            if (treaR != null && treaS != null)
-            {
-                return View(new DealLogCreate
+                //换入物品-对于接收人来说，换入物品是本次申请的发起人物品
+                var treaR = repository.Treasures
+                                    .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                    .FirstOrDefault();
+                //换出物品-对于接收人来说，换出物品是本次申请的接收人物品
+                var treaS = repository.Treasures
+                                    .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                    .FirstOrDefault();
+                if (treaR != null && treaS != null)
                 {
-                    DealInTreasure = treaR,
-                    DealOutTreasure = treaS,
-                    Remark = deal.RemarkSToR,
-                    DealLogID = DLogUID
-                });
+                    return View(new DealLogCreate
+                    {
+                        DealInTreasure = treaR,
+                        DealOutTreasure = treaS,
+                        Remark = deal.RemarkSToR,
+                        DealLogID = DLogUID
+                    });
+                }
             }
-
             return View("Error");
         }
 
@@ -377,16 +383,24 @@ namespace Ewu.WebUI.Controllers
         [HttpPost]
         public ActionResult DisagreeDeal(DealLogCreate dealLogCreate)
         {
+            //更新物品信息
+            //发起人的物品-因为发起人的物品在发起申请时就会记录订单号，所以拒绝后清空订单号，以便可以进行其他交易
+            //接收人的物品-接收人在接受申请时，物品不会被记录订单号，即原来就可以自由交易，只有在接受交易或者自己发起交易后才会记录订单号
+            var treaS = repository.Treasures.Where(t => t.TreasureUID == dealLogCreate.DealInTreasure.TreasureUID).FirstOrDefault();
+            treaS.DLogUID = null;
+            repository.SaveTreasure(treaS);
+
             //更新本次订单的记录
             using (var db = new LogDealDataContext())
             {
                 var log = db.LogDeal.Where(d => d.DLogUID == Guid.Parse(dealLogCreate.DealLogID)).FirstOrDefault();
                 log.RemarkRToS = dealLogCreate.Remark;
-                log.DealStatus = "拒接";
+                log.DealStatus = "拒绝";
                 log.DealEndTime = DateTime.Now;
                 db.SubmitChanges();
             }
-            return View();
+
+            return RedirectToAction("AllDealLog", "Account");
         }
         #endregion
 
@@ -555,6 +569,8 @@ namespace Ewu.WebUI.Controllers
         /// <summary>
         /// 填写物流单号
         /// </summary>
+        /// <param name="DLogUID">订单号</param>
+        /// <param name="CurrentRole">当前角色</param>
         /// <returns></returns>
         public ActionResult FillDeliveryNum(string DLogUID = "", string CurrentRole = "")
         {
@@ -588,6 +604,7 @@ namespace Ewu.WebUI.Controllers
             //查询成功
             if (delivery.msg == "查询成功")
             {
+                //保存物流信息
                 using (var db = new trackingDataContext())
                 {
                     var log = db.Tracking.Where(l => l.DLogUID == DLogUID).FirstOrDefault();
@@ -611,7 +628,81 @@ namespace Ewu.WebUI.Controllers
 
             return Json(delivery.msg,JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 查看物流信息
+        /// </summary>
+        /// <param name="DLogUID">订单号</param>
+        /// <param name="Role">查看物流的角色</param>
+        /// <returns></returns>
+        public ActionResult DeliveryInfo(string DLogUID="", string Role="")
+        {
+            //获取当前登录人的ID
+            string userId = CurrentUser.Id;
+
+            //当前物流单号
+            string DeliveryNum = string.Empty;
+
+            //获取订单信息
+            using(var db = new LogDealDataContext())
+            {
+                var log = db.LogDeal.Where(l => l.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+                if (log != null)
+                {
+                    using(var db2 = new trackingDataContext())
+                    {
+                        //获取物流对象
+                        var tracking = db2.Tracking.Where(t => t.DLogUID == DLogUID).FirstOrDefault();
+
+                        //从订单信息中获取当前用户在本次交易中的角色
+                        //是接收人
+                        if (log.TraderRecipientID == userId)
+                        {
+                            //从Role中判断，用户要查询自己的还是对方的物流信息
+                            if (Role == "Ta")
+                            {
+                                DeliveryNum = tracking.SponsorTrackingNum ?? "";
+                            }
+                            else if (Role == "My")
+                            {
+                                DeliveryNum = tracking.RecipientTrackingNum ?? "";
+                            }
+                        }
+                        //发起人
+                        else if (log.TraderSponsorID == userId)
+                        {
+                            //从Role中判断，用户要查询自己的还是对方的物流信息
+                            if (Role == "Ta")
+                            {
+                                DeliveryNum = tracking.RecipientTrackingNum ?? "";
+                            }
+                            else if (Role == "My")
+                            {
+                                DeliveryNum = tracking.SponsorTrackingNum ?? "";
+                            }
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    return View("Error", "错误");
+                }
+            }
+
+            //查询物流信息
+            if (!string.IsNullOrEmpty(DeliveryNum))
+            {
+                Delivery delivery = new Identity().GetDeliveryInfo(DeliveryNum);
+                return View(delivery);
+            }
+
+            return View("Error","错误");
+        }
+
         #endregion
+
+
 
         /// <summary>
         /// 获取当前用户

@@ -2,181 +2,253 @@
 @model IEnumerable<LogDealTableInfo>
 
 @foreach (var logdeal in Model)
+{
+    if (logdeal.LogDeal.DealStatus.Contains("待确认"))
     {
-        if (logdeal.LogDeal.DealStatus.Contains("待确认"))
-        {
-            <tr class="warning">
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
-                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
-                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
-                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
-                @if(logdeal.LogDeal.DealEndTime != null)
-                {
-                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
-                }
-                else
-                {
-                    <td style="white-space:nowrap">---</td>
-                }
-                <td style="white-space:nowrap" class="">
-                    <a href="#">
-                        <span class="fa fa-trash" style="font-size:25px"></span>
-                    </a>
-                    <a href="#">
-                        <span class="fa fa-dashboard" style="font-size:25px"></span>
-                    </a>
-                </td>
-            </tr>
-        }
-        else if (logdeal.LogDeal.DealStatus.Contains("接受"))
-        {
-            <tr class="info">
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
-                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
-                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
-                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
-                @if(logdeal.LogDeal.DealEndTime != null)
-                {
-                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
-                }
-                else
-                {
-                    <td style="white-space:nowrap">---</td>
-                }
-                <td style="white-space:nowrap">
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                    }
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                    }
-                </td>
-            </tr>
-        }
-        else if (logdeal.LogDeal.DealStatus.Contains("拒绝"))
-        {
-            <tr class="danger">
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
-                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
-                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
-                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
-                @if(logdeal.LogDeal.DealEndTime != null)
-                {
-                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
-                }
-                else
-                {
-                    <td style="white-space:nowrap">---</td>
-                }
-                <td style="white-space:nowrap">
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                    }
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                    }
-                </td>
-            </tr>
-        }
-        else if (logdeal.LogDeal.DealStatus.Contains("完成交易"))
-        {
-            <tr class="success">
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
-                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
-                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
-                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
-                @if(logdeal.LogDeal.DealEndTime != null)
-                {
-                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
-                }
-                else
-                {
-                    <td style="white-space:nowrap">---</td>
-                }
-                <td style="white-space:nowrap">
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                    }
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                    }
-                </td>
-            </tr>
-        }
-        else if (logdeal.LogDeal.DealStatus == "取消")
-        {
-            <tr class="active">
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
-                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
-                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
-                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
-                @if(logdeal.LogDeal.DealEndTime != null)
-                {
-                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
-                }
-                else
-                {
-                    <td style="white-space:nowrap">---</td>
-                }
-                <td style="white-space:nowrap">
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                    }
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                    }
-                </td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-                <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
-                <td style="white-space:nowrap">@logdeal.DealOutTreaName</td>
-                <td style="white-space:nowrap">@logdeal.DealInTreaName</td>
-                <td style="white-space:nowrap">@logdeal.TraderRecipientName</td>
-                @if(logdeal.LogDeal.DealEndTime != null)
-                {
-                    <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
-                }
-                else
-                {
-                    <td style="white-space:nowrap">---</td>
-                }
-                <td style="white-space:nowrap">
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                    }
-                    @using (Html.BeginForm("", ""))
-                    {
-                        @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                        <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                    }
-                </td>
-            </tr>
-        }
+        <tr class="warning">
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealOutTrea.Link >
+                    @logdeal.DealOutTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealInTrea.Link >
+                    @logdeal.DealInTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.Trader.UserID >
+                    @logdeal.Trader.UserName
+                </a>
+            </td>
+            @if(logdeal.LogDeal.DealEndTime != null)
+            {
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
+            }
+            else
+            {
+                <td style="white-space:nowrap">进行中</td>
+            }
+            <td style="white-space:nowrap" class="">
+                <a href="#">
+                    <span class="fa fa-trash" style="font-size:25px"></span>
+                </a>
+                <a href="#">
+                    <span class="fa fa-dashboard" style="font-size:25px"></span>
+                </a>
+            </td>
+        </tr>
     }
+    else if (logdeal.LogDeal.DealStatus.Contains("交易中"))
+    {
+        <tr class="info">
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealOutTrea.Link >
+                    @logdeal.DealOutTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealInTrea.Link >
+                    @logdeal.DealInTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.Trader.UserID >
+                    @logdeal.Trader.UserName
+                </a>
+            </td>
+            @if(logdeal.LogDeal.DealEndTime != null)
+            {
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
+            }
+            else
+            {
+                <td style="white-space:nowrap">进行中</td>
+            }
+            <td style="white-space:nowrap">
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                }
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                }
+            </td>
+        </tr>
+    }
+    else if (logdeal.LogDeal.DealStatus.Contains("拒绝"))
+    {
+        <tr class="danger">
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealOutTrea.Link >
+                    @logdeal.DealOutTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealInTrea.Link >
+                    @logdeal.DealInTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.Trader.UserID >
+                    @logdeal.Trader.UserName
+                </a>
+            </td>
+            @if(logdeal.LogDeal.DealEndTime != null)
+            {
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
+            }
+            else
+            {
+                <td style="white-space:nowrap">进行中</td>
+            }
+            <td style="white-space:nowrap">
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                }
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                }
+            </td>
+        </tr>
+    }
+    else if (logdeal.LogDeal.DealStatus.Contains("交易成功"))
+    {
+        <tr class="success">
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealOutTrea.Link >
+                    @logdeal.DealOutTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealInTrea.Link >
+                    @logdeal.DealInTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.Trader.UserID >
+                    @logdeal.Trader.UserName
+                </a>
+            </td>
+            @if(logdeal.LogDeal.DealEndTime != null)
+            {
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
+            }
+            else
+            {
+                <td style="white-space:nowrap">进行中</td>
+            }
+            <td style="white-space:nowrap">
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                }
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                }
+            </td>
+        </tr>
+    }
+    else if (logdeal.LogDeal.DealStatus.Contains("交易取消"))
+    {
+        <tr class="active">
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealOutTrea.Link >
+                    @logdeal.DealOutTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealInTrea.Link >
+                    @logdeal.DealInTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.Trader.UserID >
+                    @logdeal.Trader.UserName
+                </a>
+            </td>
+            @if(logdeal.LogDeal.DealEndTime != null)
+            {
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
+            }
+            else
+            {
+                <td style="white-space:nowrap">进行中</td>
+            }
+            <td style="white-space:nowrap">
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                }
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                }
+            </td>
+        </tr>
+    }
+    else if (logdeal.LogDeal.DealStatus.Contains("交易失败"))
+    {
+        <tr>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
+            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealOutTrea.Link >
+                    @logdeal.DealOutTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.DealInTrea.Link >
+                    @logdeal.DealInTrea.TreasureName
+                </a>
+            </td>
+            <td style="white-space:nowrap">
+                <a href=@logdeal.Trader.UserID >
+                    @logdeal.Trader.UserName
+                </a>
+            </td>
+            @if(logdeal.LogDeal.DealEndTime != null)
+            {
+                <td style="white-space:nowrap">@logdeal.LogDeal.DealEndTime</td>
+            }
+            else
+            {
+                <td style="white-space:nowrap">进行中</td>
+            }
+            <td style="white-space:nowrap">
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
+                }
+                @using (Html.BeginForm("", ""))
+                {
+                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
+                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
+                }
+            </td>
+        </tr>
+    }
+}

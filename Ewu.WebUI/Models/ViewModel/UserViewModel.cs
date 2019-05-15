@@ -195,21 +195,42 @@ namespace Ewu.WebUI.Models.ViewModel
         public LogDeal LogDeal { get; set; }
 
         /// <summary>
-        /// 交易用户名称
+        /// 交易用户对象
         /// </summary>
-        public string TraderRecipientName { get; set; }
+        public BasicUserInfo Trader { get; set; }
 
         /// <summary>
-        /// 交换得到的物品名称
+        /// 交换得到的物品对象
         /// </summary>
-        public string DealInTreaName { get; set; }
+        public Treasure DealInTrea { get; set; }
 
         /// <summary>
-        /// 交换换出的物品名称
+        /// 交换换出的物品对象
         /// </summary>
-        public string DealOutTreaName { get; set; }
+        public Treasure DealOutTrea { get; set; }
 
         
+    }
+
+    /// <summary>
+    /// 用户基本信息模型
+    /// </summary>
+    public class BasicUserInfo
+    {
+        /// <summary>
+        /// 用户UID
+        /// </summary>
+        public string UserID { get; set; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 用户真实姓名
+        /// </summary>
+        public string RealName { get; set; }
     }
 
     /// <summary>
