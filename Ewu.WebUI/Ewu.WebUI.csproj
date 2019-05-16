@@ -181,6 +181,7 @@
     <Content Include="Scripts\bootstrap-table.min.js" />
     <Content Include="Scripts\CancelDeal.js" />
     <Content Include="Scripts\carousel.js" />
+    <Content Include="Scripts\Score.js" />
     <Content Include="Scripts\TreasureInfo.js" />
     <Content Include="Scripts\UploadItem.js" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -858,6 +859,8 @@
     <Content Include="Views\Deal\DeliveryAddressList.cshtml" />
     <Content Include="Views\Deal\FillDeliveryNum.cshtml" />
     <Content Include="Views\Deal\DeliveryInfo.cshtml" />
+    <Content Include="Views\Shared\_ScoreLayout.cshtml" />
+    <Content Include="Views\Deal\Signing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

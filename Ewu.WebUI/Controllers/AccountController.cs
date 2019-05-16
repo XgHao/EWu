@@ -367,6 +367,38 @@ namespace Ewu.WebUI.Controllers
                     //发起人的物品
                     var TreaS = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureSponsorID)).FirstOrDefault();
 
+                    //检查当前用户是否已经评价
+                    bool IsEvaluation = false;
+                    using(var db3 = new EvaluationDataContext())
+                    {
+                        var eva = db3.Evaluation.Where(e => e.DLogUID == log.DLogUID.ToString()).FirstOrDefault();
+                        //如果当前订单的评价信息存在
+                        if (eva != null)
+                        {
+                            //判断当前用户是否已经评价
+                            if (Id == log.TraderSponsorID)
+                            {
+                                //当前用户时发起人
+                                if (eva.IsRecommendSToR != null)
+                                {
+                                    IsEvaluation = true;
+                                }
+                            }
+                            else if (Id == log.TraderRecipientID)
+                            {
+                                if (eva.IsRecommendRToS != null)
+                                {
+                                    IsEvaluation = true;
+                                }
+                            }
+                            else
+                            {
+                                return View("Error");
+                            }
+
+                        }
+                    }
+
                     //添加视图模型
                     if (TreaR != null && TreaS != null)
                     {
@@ -384,7 +416,8 @@ namespace Ewu.WebUI.Controllers
                                 TaTreasure = TreaR.HolderID == TaID ? TreaR : TreaS,
                                 Tracking = tracking,
                                 //当前用户在本次交易中是什么角色
-                                CurrentUserRole = TreaR.HolderID == Id ? "Recipient" : "Sponsor"
+                                CurrentUserRole = TreaR.HolderID == Id ? "Recipient" : "Sponsor",
+                                IsEvaluation = IsEvaluation
                             });
                         }
                     }

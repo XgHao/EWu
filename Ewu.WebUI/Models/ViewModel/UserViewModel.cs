@@ -231,6 +231,11 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 用户真实姓名
         /// </summary>
         public string RealName { get; set; }
+
+        /// <summary>
+        /// 用户头像
+        /// </summary>
+        public string HeadImg { get; set; }
     }
 
     /// <summary>
@@ -298,6 +303,11 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 当前用户在本次订单中是什么角色
         /// </summary>
         public string CurrentUserRole { get; set; }
+
+        /// <summary>
+        /// 是否已经评价
+        /// </summary>
+        public bool IsEvaluation { get; set; }
     }
 
     /// <summary>
@@ -340,6 +350,50 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 当前用户角色
         /// </summary>
         public string CurrentRole { get; set; }
+    }
+
+    /// <summary>
+    /// 评价视图模型
+    /// </summary>
+    public class Score
+    {
+        /// <summary>
+        /// 当前交易收货的物品-对方的物品
+        /// </summary>
+        public Treasure CurTreasure { get; set; }
+
+        /// <summary>
+        /// 对方信息
+        /// </summary>
+        public BasicUserInfo SideUser { get; set; }
+
+        /// <summary>
+        /// 当前订单对象
+        /// </summary>
+        public LogDeal LogDeal { get; set; }
+
+        /// <summary>
+        /// 订单评价
+        /// </summary>
+        public NowEvaluation NowEvaluation { get; set; }
+    }
+
+    /// <summary>
+    /// 当前评价信息
+    /// </summary>
+    public class NowEvaluation
+    {
+        /// <summary>
+        /// 是否推荐
+        /// </summary>
+        [Required(ErrorMessage = "该信息是必须的")]
+        public bool IsRecommend { get; set; }
+
+        /// <summary>
+        /// 评价信息
+        /// </summary>
+        [Required(ErrorMessage = "该信息是必须的")]
+        public string EvaluationInfo { get; set; }
     }
 
     public class UserViewModel

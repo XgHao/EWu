@@ -158,7 +158,7 @@
                                                             if (logs.Tracking.SponsorTrackingNum == null)
                                                             {
                                                                 <button class="btn btn-default btn-dark" disabled="disabled">
-                                                                    <span class="fa fa-ambulance" style="font-size:large"></span> 暂无对方物流单号
+                                                                    <span class="fa fa-frown-o" style="font-size:large"></span> 暂无对方物流单号
                                                                 </button>
                                                             }
                                                             else
@@ -257,14 +257,36 @@
                                                         }
                                                     </div>
                                                 }
-                                                @if ((logs.CurrentUserRole == "Recipient" && (logs.LogDeal.DeliveryAddressRecipientID != null && (logs.Tracking.SponsorTrackingNum != null)) || (logs.CurrentUserRole == "Sponsor") && (logs.LogDeal.DeliveryAddressSponsorID != null) && (logs.Tracking.RecipientTrackingNum != null))) 
+                                                <!--收货地址-->
+                                                @if (((logs.CurrentUserRole == "Recipient") && (logs.LogDeal.DeliveryAddressSponsorID != null) && (logs.Tracking.RecipientTrackingNum == null)) || (logs.CurrentUserRole == "Sponsor") && (logs.LogDeal.DeliveryAddressRecipientID != null) && (logs.Tracking.SponsorTrackingNum == null))
                                                 {
-                                                    <br />
                                                     <div class="row">
-                                                        <button class="btn btn--icon btn-sm btn--round btn-success btn--fullwidth" onclick="@("window.location.href='/Deal/Signing?DLogUID="+logs.LogDeal.DLogUID+"'")">
-                                                            <span class="fa fa-gift" style="font-size:large"></span> 确认收货
+                                                        <button class="btn btn--bordered btn-danger text-center btn--fullwidth" onclick="@("window.location.href='/Deal/ViewDeliveryInfo?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                            <span class="fa fa-map-marker" style="font-size:large"></span> @("查看" + (logs.Ta.Gender == "男" ? "他" : "她") + "的收货地址")
                                                         </button>
                                                     </div>
+                                                }
+                                                <!--评价-->
+                                                @if ((logs.CurrentUserRole == "Recipient" && (logs.LogDeal.DeliveryAddressRecipientID != null && (logs.Tracking.SponsorTrackingNum != null)) || (logs.CurrentUserRole == "Sponsor") && (logs.LogDeal.DeliveryAddressSponsorID != null) && (logs.Tracking.RecipientTrackingNum != null)))
+                                                {
+                                                    if (logs.IsEvaluation)
+                                                    {
+                                                        <br />
+                                                        <div class="row">
+                                                            <button class="btn btn--icon btn-sm btn--round btn-info btn--fullwidth" onclick="@("window.location.href='/Deal/ViewEvaluation?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                                <span class="fa fa-gift" style="font-size:large"></span> 查看我的评价
+                                                            </button>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <br />
+                                                        <div class="row">
+                                                            <button class="btn btn--icon btn-sm btn--round btn-success btn--fullwidth" onclick="@("window.location.href='/Deal/Signing?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                                <span class="fa fa-gift" style="font-size:large"></span> 确认收货及评价
+                                                            </button>
+                                                        </div>
+                                                    }
                                                 }
                                             </div>
                                             

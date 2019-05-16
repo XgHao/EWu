@@ -703,6 +703,143 @@ namespace Ewu.WebUI.Controllers
         #endregion
 
 
+        #region 评价阶段
+        /// <summary>
+        /// 评价-确认收货
+        /// </summary>
+        /// <param name="DLogUID"></param>
+        /// <returns></returns>
+        public ActionResult Signing(string DLogUID = "")
+        {
+            //获取当前用户的uid
+            string userId = CurrentUser.Id;
+
+            //获取本次交易订单对象
+            if (!string.IsNullOrEmpty(DLogUID))
+            {
+                using(var db = new LogDealDataContext())
+                {
+                    var log = db.LogDeal.Where(l => l.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+
+                    if (log != null)
+                    {
+                        //获取对方在本次交易中的对象
+                        AppUser SideUser = UserManager.FindById(log.TraderSponsorID == userId ? log.TraderRecipientID : log.TraderSponsorID);
+                        //获取对方在本次交易中的物品对象
+                        Treasure treasure = repository.Treasures
+                                                      .Where(t => t.TreasureUID == Guid.Parse(log.TraderSponsorID == userId ? log.TreasureRecipientID : log.TreasureSponsorID))
+                                                      .FirstOrDefault();
+                        if (SideUser != null && treasure != null)
+                        {
+                            return View(new Score
+                            {
+                                CurTreasure = treasure,
+                                LogDeal = log,
+                                SideUser = new BasicUserInfo
+                                {
+                                    RealName = SideUser.RealName,
+                                    UserID = SideUser.Id,
+                                    UserName = SideUser.UserName,
+                                    HeadImg = SideUser.HeadPortrait
+                                },
+                                NowEvaluation = new NowEvaluation { IsRecommend = true },
+                            });
+                        }
+                    }
+                }
+            }
+
+            return View("Error");
+        }
+
+        /// <summary>
+        /// 评价-确认收货[httppost]
+        /// </summary>
+        /// <param name="score"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Signing(Score score)
+        {
+            if (!string.IsNullOrEmpty(score.LogDeal.DLogUID.ToString()))
+            {
+                //首先判断当前用户在本次订单中的身份
+                string userid = CurrentUser.Id;
+
+                //增加评论记录
+                using (var db = new EvaluationDataContext())
+                {
+                    using(var db2 = new LogDealDataContext())
+                    {
+                        //获取记录对象
+                        var log = db2.LogDeal.Where(l => l.DLogUID == score.LogDeal.DLogUID).FirstOrDefault();
+                        //首先判断当前订单号的记录是否已经存在
+                        var eveluation = db.Evaluation.Where(e => e.DLogUID == score.LogDeal.DLogUID.ToString()).FirstOrDefault();
+
+                        if (log != null)
+                        {
+                            //根据当前用户的身份插入评论记录
+                            if (userid == log.TraderRecipientID)
+                            {
+                                //不存在，则插入新的数据
+                                if (eveluation == null)
+                                {
+                                    db.Evaluation.InsertOnSubmit(new Evaluation
+                                    {
+                                        DLogUID = score.LogDeal.DLogUID.ToString(),
+                                        EvaluationRToS = score.NowEvaluation.EvaluationInfo,
+                                        EvaTimeRToS = DateTime.Now,
+                                        IsRecommendRToS = score.NowEvaluation.IsRecommend
+                                    });
+                                }
+                                //存在，则更新
+                                else
+                                {
+                                    eveluation.EvaluationRToS = score.NowEvaluation.EvaluationInfo;
+                                    eveluation.EvaTimeRToS = DateTime.Now;
+                                    eveluation.IsRecommendRToS = score.NowEvaluation.IsRecommend;
+                                }
+                            }
+                            else if (userid == log.TraderSponsorID)
+                            {
+                                //不存在
+                                if (eveluation == null)
+                                {
+                                    db.Evaluation.InsertOnSubmit(new Evaluation
+                                    {
+                                        DLogUID = score.LogDeal.DLogUID.ToString(),
+                                        EvaluationSToR = score.NowEvaluation.EvaluationInfo,
+                                        EvaTimeSToR = DateTime.Now,
+                                        IsRecommendSToR = score.NowEvaluation.IsRecommend
+                                    });
+                                }
+                                //存在更新
+                                else
+                                {
+                                    eveluation.EvaluationSToR = score.NowEvaluation.EvaluationInfo;
+                                    eveluation.EvaTimeSToR = DateTime.Now;
+                                    eveluation.IsRecommendSToR = score.NowEvaluation.IsRecommend;
+                                }
+                                
+                            }
+
+                            //判断评价信息是否双方都完成-如果评价信息原本就存在，说明双方都评价完成了
+                            if (eveluation != null)
+                            {
+                                
+                                log.DealStatus = "交易成功";
+                                db2.SubmitChanges();
+                            }
+                        }
+                    }
+                    //保存数据
+                    db.SubmitChanges();
+                    return RedirectToAction("DealingLog", "Account");
+                }
+            }
+            return View("Error","出错");
+        }
+        #endregion
+
 
         /// <summary>
         /// 获取当前用户
