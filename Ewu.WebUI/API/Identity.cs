@@ -391,7 +391,7 @@ namespace Ewu.WebUI.API
         /// <param name="code">验证码</param>
         public void SendMail(string email, string code)
         {
-            const string EwuEmail = "Admin@YiWu.zxh";
+            const string EwuEmail = "Ewu@beishui.xyz";
             const string EwuPd = "526114";
 
             //实例化一个发送邮件类
@@ -410,7 +410,7 @@ namespace Ewu.WebUI.API
             mailMessage.Body = "您的验证码为:" + code + "，如不是本人操作，请忽略！";
 
             SmtpClient client = new SmtpClient();
-            client.Host = "139.199.82.204";
+            client.Host = "139.219.140.73";
             client.EnableSsl = false;
             client.Credentials = new NetworkCredential(EwuEmail, EwuPd);
             client.Send(mailMessage);

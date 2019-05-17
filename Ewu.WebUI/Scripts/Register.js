@@ -79,7 +79,7 @@
             url: "/Register/GetEmailCode", // 目标地址    
             data: { "Code": emailcode, "Email": email },
             error: function (msg) {
-                alert("请求失败，请联系管理员");
+                alert("请求失败，请联系管理员" + msg);
             },
             success: function (data) {
                 
