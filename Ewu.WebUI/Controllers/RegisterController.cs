@@ -14,12 +14,6 @@ using System.Globalization;
 using Ewu.WebUI.Models.ViewModel;
 using Ewu.Domain.Db;
 
-//腾讯云短信
-using qcloudsms_csharp;
-using qcloudsms_csharp.json;
-using qcloudsms_csharp.httpclient;
-using Newtonsoft.Json.Linq;
-
 
 
 namespace Ewu.WebUI.Controllers
@@ -264,6 +258,22 @@ namespace Ewu.WebUI.Controllers
             //该邮箱已存在(即appUser不为空)返回YES，否则返回NO
             string result = appUser != null ? "YES" : "NO";
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 检查当前手机号码是否已存在
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult isExistPhoNum()
+        {
+            string PhoNum = Request["PhoNum"];
+            using (var db = new AspNetUserDataContext())
+            {
+                var appUser = db.AspNetUsers.Where(a => a.PhoneNumber == PhoNum).FirstOrDefault();
+                //该邮箱已存在(即appUser不为空)返回YES，否则返回NO
+                string result = appUser != null ? "YES" : "NO";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
 
 

@@ -391,17 +391,15 @@ namespace Ewu.WebUI.API
         /// <param name="code">验证码</param>
         public void SendMail(string email, string code)
         {
-            const string EwuEmail = "Ewu@beishui.xyz";
-            const string EwuPd = "526114";
+            const string EwuEmail = "ewu@beishui.xyz";
+            const string EwuPd = "Zxh10916114";
+
+            //接收人邮箱
+            MailAddress toMail = new MailAddress(email);
+            MailAddress fromMail = new MailAddress(EwuEmail,"易物");
 
             //实例化一个发送邮件类
-            MailMessage mailMessage = new MailMessage();
-
-            //发件人邮箱地址
-            mailMessage.From = new MailAddress(EwuEmail);
-
-            //收件人
-            mailMessage.To.Add(email);
+            MailMessage mailMessage = new MailMessage(fromMail, toMail);
 
             //标题
             mailMessage.Subject = "【易物】验证码";
@@ -410,9 +408,12 @@ namespace Ewu.WebUI.API
             mailMessage.Body = "您的验证码为:" + code + "，如不是本人操作，请忽略！";
 
             SmtpClient client = new SmtpClient();
-            client.Host = "139.219.140.73";
+            client.Host = "smtp.exmail.qq.com";
+            client.UseDefaultCredentials = false;
             client.EnableSsl = false;
+            //client.Port = 465;
             client.Credentials = new NetworkCredential(EwuEmail, EwuPd);
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.Send(mailMessage);
         }
         #endregion

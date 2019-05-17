@@ -279,6 +279,32 @@
         }
     });
 
+    //监听手机号码-是否已经注册
+    $("#PhoneNumber").change(function () {
+        var PhoneNumber = $("#PhoneNumber").val();
+        if (PhoneNumber != "") {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/Register/isExistPhoNum",
+                data: { "PhoNum": PhoneNumber },
+                error: function (msg) {
+                    alert("请求失败，请联系管理员" + msg);
+                },
+                success: function (data) {
+                    //存在YES
+                    if (data == "\"YES\"") {
+                        alert("该手机已被注册，换一个吧");
+                        $("#PhoneNumber").val("");
+                        $("#setPhoCode").attr("disabled");
+                    } else {
+                        $("#setPhoCode").removeAttr("disabled");
+                    }
+                }
+            });
+        }
+    });
+
     //监听邮箱-是否已经注册
     $("#Email").change(function () {
         var email = $("#Email").val();
@@ -289,13 +315,16 @@
                 url: "/Register/isExistEmail",
                 data: { "Email": email },
                 error: function (msg) {
-                    alert("请求失败，请联系管理员");
+                    alert("请求失败，请联系管理员" + msg);
                 },
                 success: function (data) {
                     //存在YES
                     if (data == "\"YES\"") {
                         alert("该邮箱已被注册，换一个吧");
                         $("#Email").val("");
+                        $("#setEmailCode").attr("disabled");
+                    } else {
+                        $("#setEmailCode").removeAttr("disabled");
                     }
                 }
             });
@@ -481,7 +510,7 @@
     $("#Name").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "只能由数字和字母组成，长度为3-20字符");
     $("#Password").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "长度为6-16字符，大小写字母都需至少一个");
     $("#ConfirmedPassWd").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "right").attr("data-content", "再输入一次密码");
-    $("#Email").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "left").attr("data-content", "为了确保能够邮件正常接收，请将Admin@YiWu.zxh添加到你的白名单");
+    $("#Email").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "left").attr("data-content", "如果接收不到邮件，请将Ewu@beishui.xyz添加到你的邮箱白名单或者将beishui.xyz添加到域名白名单");
 
     //提示框
     $(function () {
