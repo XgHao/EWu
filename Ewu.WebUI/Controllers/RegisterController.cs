@@ -254,10 +254,13 @@ namespace Ewu.WebUI.Controllers
         public JsonResult isExistEmail()
         {
             string email = Request["Email"];
-            AppUser appUser = UserManager.FindByEmail(email);
-            //该邮箱已存在(即appUser不为空)返回YES，否则返回NO
-            string result = appUser != null ? "YES" : "NO";
-            return Json(result, JsonRequestBehavior.AllowGet);
+            using(var db = new AspNetUserDataContext())
+            {
+                var appUser = db.AspNetUsers.Where(a => a.Email == email).FirstOrDefault();
+                //该邮箱已存在(即appUser不为空)返回YES，否则返回NO
+                string result = appUser != null ? "YES" : "NO";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
 
         /// <summary>

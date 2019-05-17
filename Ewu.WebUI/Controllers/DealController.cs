@@ -317,8 +317,26 @@ namespace Ewu.WebUI.Controllers
                 {
                     log.DealStatus = "交易中";
                     db.SubmitChanges();
+
+                    //接受申请后，两个物品需要加入订单号
+                    var treasureR = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureRecipientID)).FirstOrDefault();
+                    var treasureS = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureSponsorID)).FirstOrDefault();
+                    if (treasureR != null)
+                    {
+                        treasureR.DLogUID = log.DLogUID.ToString();
+                        repository.SaveTreasure(treasureR);
+                    }
+                    if (treasureS != null)
+                    {
+                        treasureS.DLogUID = log.DLogUID.ToString();
+                        repository.SaveTreasure(treasureS);
+                    }
+
                 }
             }
+            //使其他包含这两样物品的交易申请失效
+
+
             //在物流信息中添加一项
             using (var db=new trackingDataContext())
             {
@@ -587,6 +605,16 @@ namespace Ewu.WebUI.Controllers
             {
                 return View("Error");
             }
+        }
+
+        /// <summary>
+        /// 查看收货地址
+        /// </summary>
+        /// <param name="DLogUID"></param>
+        /// <returns></returns>
+        public ActionResult ViewDeliveryInfo(string DLogUID = "")
+        {
+            return View();
         }
 
         /// <summary>

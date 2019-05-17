@@ -46,8 +46,8 @@ namespace Ewu.WebUI.Controllers
         {
             //1.首先获取当前条件下的所有物品集合
             var Treasures = repository.Treasures
-                                //筛选-1.当前类或者类型为空的 2.不能选择图片为空的(图片为空当作未完成项)
-                                .Where(t => (category == null || t.TreasureType == category) && (t.Cover != null && t.DetailPic != null))
+                                //筛选-1.当前类或者类型为空的 2.不能选择图片为空的(图片为空当作未完成项) 3.有正在交易的订单
+                                .Where(t => (category == null || t.TreasureType == category) && (t.Cover != null && t.DetailPic != null) && (t.DLogUID == null))
                                 .OrderBy(t => t.TreasureName)
                                 .Skip((page - 1) * PageSize)
                                 .Take(PageSize);

@@ -37,6 +37,7 @@
 <section class="dashboard-area dashboard_purchase">
     <div class="dashboard_menu_area">
         <div class="container">
+            <p id="Copy" hidden="hidden"></p>
             @Html.Partial("PartialLayout/Menu","进行中的交易")
         </div>
     </div>
@@ -261,10 +262,15 @@
                                                 @if (((logs.CurrentUserRole == "Recipient") && (logs.LogDeal.DeliveryAddressSponsorID != null) && (logs.Tracking.RecipientTrackingNum == null)) || (logs.CurrentUserRole == "Sponsor") && (logs.LogDeal.DeliveryAddressRecipientID != null) && (logs.Tracking.SponsorTrackingNum == null))
                                                 {
                                                     <div class="row">
-                                                        <button class="btn btn--bordered btn-danger text-center btn--fullwidth" onclick="@("window.location.href='/Deal/ViewDeliveryInfo?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                        <button class="btn btn--bordered btn-danger text-center btn--fullwidth" data-toggle="modal" data-target=@("#myModa"+logs.LogDeal.DLogUID.ToString())>
                                                             <span class="fa fa-map-marker" style="font-size:large"></span> @("查看" + (logs.Ta.Gender == "男" ? "他" : "她") + "的收货地址")
                                                         </button>
                                                     </div>
+                                                    <!--物流信息-->
+                                                    if (logs.DeliveryAddress != null)
+                                                    {
+                                                        @Html.Partial("Summary/DeliveryAddressInfo", logs)
+                                                    }
                                                 }
                                                 <!--评价-->
                                                 @if ((logs.CurrentUserRole == "Recipient" && (logs.LogDeal.DeliveryAddressRecipientID != null && (logs.Tracking.SponsorTrackingNum != null)) || (logs.CurrentUserRole == "Sponsor") && (logs.LogDeal.DeliveryAddressSponsorID != null) && (logs.Tracking.RecipientTrackingNum != null)))
@@ -301,4 +307,5 @@
         </div>
     </div>
 </section>
+
 

@@ -308,6 +308,11 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 是否已经评价
         /// </summary>
         public bool IsEvaluation { get; set; }
+
+        /// <summary>
+        /// 对方的收货地址
+        /// </summary>
+        public DeliveryAddress DeliveryAddress{ get; set; }
     }
 
     /// <summary>

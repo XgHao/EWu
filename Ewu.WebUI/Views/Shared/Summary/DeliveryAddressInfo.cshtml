@@ -1,0 +1,56 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model DealingLog
+
+<div class="modal fade rating_modal" id=@("myModa"+Model.LogDeal.DLogUID.ToString()) tabindex="-1" role="dialog" aria-labelledby="rating_modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--关闭按钮-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h3 class="modal-title" id="rating_modal">收货地址</h3>
+                <a href="author.html">@Model.Ta.UserName</a>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <span class="fa fa-user text-danger"></span>
+                            <label class="text-danger font-weight-bold">收件人</label>
+                            <button class="form-control btn btn--round btn--bordered btn-sm btn-danger">@Model.DeliveryAddress.RealName</button>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <span class="fa fa-phone text-warning"></span>
+                            <label class="text-warning font-weight-bold">联系方式</label>
+                            <button class="form-control btn btn--round btn--bordered btn-sm btn-warning">@Model.DeliveryAddress.PhoneNum</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <span class="fa fa-map-marker text-info"></span>
+                            <label class="text-info font-weight-bold">地区</label>
+                            <button class="form-control btn btn--round btn--bordered btn-sm btn-info">@(Model.DeliveryAddress.LocationProvince + " " + (Model.DeliveryAddress.LocationCity == Model.DeliveryAddress.LocationProvince ? "" : (Model.DeliveryAddress.LocationCity + " ")) + Model.DeliveryAddress.LocationDistrict)</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <span class="fa fa-truck text-primary"></span>
+                            <label class="text-primary font-weight-bold">详细信息</label>
+                            <button class="form-control btn btn--round btn--bordered btn-sm btn-primary">@Model.DeliveryAddress.MoreLocation</button>
+                        </div>
+
+                    </div>
+                </div>
+                <button class="btn btn--round modal_close" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

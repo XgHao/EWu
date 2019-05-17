@@ -399,13 +399,26 @@ namespace Ewu.WebUI.Controllers
                         }
                     }
 
+                    //查看对方收货地址
+                    DeliveryAddress deliveryAddress = new DeliveryAddress();
+                    using(var db4 = new DeliveryAddressDataContext())
+                    {
+                        if (log.TraderRecipientID == TaID)
+                        {
+                            deliveryAddress = db4.DeliveryAddress.Where(a => a.DeliveryAddressUID == log.DeliveryAddressRecipientID).FirstOrDefault();
+                        }
+                        else
+                        {
+                            deliveryAddress = db4.DeliveryAddress.Where(a => a.DeliveryAddressUID == log.DeliveryAddressSponsorID).FirstOrDefault();
+                        }
+                    }
+
                     //添加视图模型
                     if (TreaR != null && TreaS != null)
                     {
                         using (var db2 = new trackingDataContext())
                         {
                             var tracking = db2.Tracking.Where(t => t.DLogUID == log.DLogUID.ToString()).FirstOrDefault();
-
                             dealingLogs.Add(new DealingLog
                             {
                                 LogDeal = log,
@@ -417,7 +430,8 @@ namespace Ewu.WebUI.Controllers
                                 Tracking = tracking,
                                 //当前用户在本次交易中是什么角色
                                 CurrentUserRole = TreaR.HolderID == Id ? "Recipient" : "Sponsor",
-                                IsEvaluation = IsEvaluation
+                                IsEvaluation = IsEvaluation,
+                                DeliveryAddress = deliveryAddress
                             });
                         }
                     }
