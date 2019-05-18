@@ -47,8 +47,8 @@
                             <div class="searc-wrap">
                                 <input id="DeliveryNum" type="number" placeholder="在这里输入你寄出物品的快递单号">
                                 <span id="ValidDeliveryNum" class="text-danger pull-right">请输入快递单号</span>
-                                <button class="search-wrap__btn" onclick="SetDeliveryNum()">
-                                    <span class="fa fa-paper-plane"></span>
+                                <button id="BtnDelivery" class="search-wrap__btn" onclick="SetDeliveryNum()">
+                                    <span  id="Query" class="fa fa-paper-plane"></span>
                                 </button>
                                 @Html.HiddenFor(d => d.DLogUID)
                                 @Html.HiddenFor(d => d.CurrentRole)

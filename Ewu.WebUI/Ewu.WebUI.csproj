@@ -864,6 +864,7 @@
     <Content Include="Views\Deal\Signing.cshtml" />
     <Content Include="Views\Deal\ViewDeliveryInfo.cshtml" />
     <Content Include="Views\Shared\Summary\DeliveryAddressInfo.cshtml" />
+    <Content Include="Views\Account\CompleteDealLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

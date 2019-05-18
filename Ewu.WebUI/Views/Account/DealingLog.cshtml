@@ -245,13 +245,13 @@
                                                             <!--自己-发起人没有填写订单号-即没有发货-->
                                                             if (logs.Tracking.SponsorTrackingNum == null)
                                                             {
-                                                                <button class="btn btn-default btn-danger" onclick="@("window.location.href='/Deal/AgreeDeal?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                                <button class="btn btn-default btn-danger" onclick="@("window.location.href='/Deal/FillDeliveryNum?DLogUID="+logs.LogDeal.DLogUID+"&CurrentRole=Sponsor'")">
                                                                     <span class="fa fa-pencil" style="font-size:large"></span> 填写我的物流单号
                                                                 </button>
                                                             }
                                                             else
                                                             {
-                                                                <button class="btn btn-default btn-info" onclick="@("window.location.href='/Deal/DisagreeDeal?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                                <button class="btn btn-default btn-info" onclick="@("window.location.href='/Deal/DeliveryInfo?DLogUID="+logs.LogDeal.DLogUID+"&Role=My'")">
                                                                     <span class="fa fa-truck" style="font-size:large"></span> 查看我的物流信息
                                                                 </button>
                                                             }

@@ -69,6 +69,11 @@ function DeleteDeliveryAddress(DeliveryAddressUID) {
 
 //验证填写物流单号
 function SetDeliveryNum() {
+    //禁用按钮
+    $("#BtnDelivery").attr("disabled");
+    //修改样式
+    $("#Query").removeClass("fa-paper-plane").addClass("fa-circle-o-notch fa-spin fa-fw");
+
     //获取物流单号,订单号,当前角色
     var DeliveryNum = $("#DeliveryNum").val();
     var DLogUID = $("#DLogUID").val();
@@ -85,9 +90,17 @@ function SetDeliveryNum() {
         },
         error: function (msg) {
             alert("请求失败，请联系管理员(zxh957553851@gmail.com)。错误信息：" + msg);
+            //启用按钮
+            $("#BtnDelivery").removeAttr("disabled");
+            //修改样式
+            $("#Query").removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-paper-plane");
         },
         success: function (result) {
             $("#ValidDeliveryNum").text(result);
+            //启用按钮
+            $("#BtnDelivery").removeAttr("disabled");
+            //修改样式
+            $("#Query").removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-paper-plane");
             if (result == "\"查询成功\"") {
                 //跳转到正在交易页面
                 window.location.href = "/Account/DealingLog";

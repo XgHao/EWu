@@ -853,7 +853,7 @@ namespace Ewu.WebUI.Controllers
                             //判断评价信息是否双方都完成-如果评价信息原本就存在，说明双方都评价完成了
                             if (eveluation != null)
                             {
-                                
+                                log.DealEndTime = DateTime.Now;
                                 log.DealStatus = "交易成功";
                                 db2.SubmitChanges();
                             }

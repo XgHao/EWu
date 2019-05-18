@@ -331,9 +331,67 @@ namespace Ewu.WebUI.Controllers
         /// 结束的交易
         /// </summary>
         /// <returns></returns>
-        public ActionResult EndDealLog()
+        public ActionResult CompleteDealLog()
         {
-            return View();
+            //新建视图模型List
+            List<CompleteDeal> model = new List<CompleteDeal>();
+            //获取当前登录用户ID
+            string userid = CurrentUser.Id;
+
+            //获取当前登录用结束的交易
+            using(var db = new LogDealDataContext())
+            {
+                var deals = db.LogDeal.Where(l => ((l.TraderRecipientID == userid) || (l.TraderSponsorID == userid)) && l.DealStatus.Contains("交易成功"));
+                foreach(var deal in deals)
+                {
+                    //发起方物品
+                    var TreaS = repository.Treasures
+                                          .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureSponsorID))
+                                          .FirstOrDefault();
+                    //发起人
+                    var UserS = UserManager.FindById(TreaS.HolderID);
+
+                    //接受方物品
+                    var TreaR = repository.Treasures
+                                          .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
+                                          .FirstOrDefault();
+                    //接收人
+                    var UserR = UserManager.FindById(TreaR.HolderID);
+                    using (var db2 = new EvaluationDataContext())
+                    {
+                        var Eva = db2.Evaluation.Where(e => e.DLogUID == deal.DLogUID.ToString()).FirstOrDefault();
+                        
+                        //添加对象
+                        model.Add(new CompleteDeal
+                        {
+                            UserS = new BasicUserInfo
+                            {
+                                UserID = UserS.Id,
+                                RealName = UserS.RealName,
+                                HeadImg = UserS.HeadPortrait,
+                                Sign = UserS.Signature,
+                                BirthDay = UserS.BirthDay.ToString(),
+                                UserName = UserS.UserName
+                            },
+                            UserR = new BasicUserInfo
+                            {
+                                UserID = UserR.Id,
+                                RealName = UserR.RealName,
+                                HeadImg = UserR.HeadPortrait,
+                                Sign = UserR.Signature,
+                                BirthDay = UserR.BirthDay.ToString(),
+                                UserName = UserR.UserName
+                            },
+                            TreasureS = TreaS,
+                            TreasureR = TreaR,
+                            Evaluation = Eva,
+                            LogDeal = deal
+                        });
+                    }
+                }
+            }
+
+            return View(model.AsEnumerable());
         }
 
         /// <summary>

@@ -236,10 +236,20 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 用户头像
         /// </summary>
         public string HeadImg { get; set; }
+
+        /// <summary>
+        /// 用户生日
+        /// </summary>
+        public string BirthDay { get; set; }
+
+        /// <summary>
+        /// 用户签名
+        /// </summary>
+        public string Sign { get; set; }
     }
 
     /// <summary>
-    /// 我收到/收到交易的视图模型
+    /// 我收到/发起/完成交易的视图模型
     /// </summary>
     public class InitiateDealLog
     {
@@ -262,6 +272,26 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 对方个人模型
         /// </summary>
         public AppUser Dealer { get; set; }
+    }
+
+    /// <summary>
+    /// 交易完成订单视图模型
+    /// </summary>
+    public class CompleteDeal
+    {
+        //发起人及物品
+        public BasicUserInfo UserS { get; set; }
+        public Treasure TreasureS { get; set; }
+
+        //接收人及物品
+        public BasicUserInfo UserR { get; set; }
+        public Treasure TreasureR { get; set; }
+
+        //订单对象
+        public LogDeal LogDeal { get; set; }
+
+        //评价
+        public Evaluation Evaluation { get; set; }
     }
 
     /// <summary>

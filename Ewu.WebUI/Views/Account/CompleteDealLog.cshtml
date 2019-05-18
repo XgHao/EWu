@@ -1,0 +1,152 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<CompleteDeal>
+
+@{
+    ViewBag.Title = "CompleteDealLog";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>
+                                <a href="#">交易记录</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">结束的交易</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">The Transaction I Initiated</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="dashboard-area dashboard_purchase">
+    <div class="dashboard_menu_area">
+        <div class="container">
+            @Html.Partial("PartialLayout/Menu", "结束的申请")
+        </div>
+    </div>
+
+    <div class="dashboard_contents">
+        <div class="container">
+            <div class="product_archive">
+                @foreach (var logs in Model)
+                {
+                    <div class="row">
+                        <!--具体内容-->
+                        <div class="col-md-12">
+                            <div class="single_product clearfix">
+                                <div class="row">
+                                    <!--发起人物品-->
+                                    <div class="col-lg-5 col-md-5">
+                                        <!--物品信息-->
+                                        <div class="product__description">
+                                            <a href=@logs.TreasureS.Link>
+                                                <img width="150" src=@logs.TreasureS.Cover alt="Purchase image">
+                                            </a>
+                                            <div class="short_desc">
+                                                <a href=@logs.TreasureS.Link>
+                                                    <h4 class="text-info">
+                                                        <span class="fa fa-hand-o-right"></span>
+                                                        @logs.TreasureS.TreasureName
+                                                    </h4>
+                                                </a>
+                                                <p>
+                                                    <span class="fa fa-quote-left"></span>
+                                                    @logs.TreasureS.DetailContent
+                                                    <span class="fa fa-quote-right"></span>
+                                                </p>
+                                                <div class="author-card">
+                                                    <div class="inline">
+                                                        <!--头像-->
+                                                        <div class="author__avatar">
+                                                            <img height="70" width="70" src=@logs.UserS.HeadImg alt="user avatar">
+                                                        </div>
+
+                                                        <!--昵称-->
+                                                        <div class="autor__info">
+                                                            <h2>
+                                                                @logs.UserS.RealName
+                                                            </h2>
+                                                            <p>
+                                                                <span class="fa fa-birthday-cake"></span>
+                                                                @logs.UserS.BirthDay
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--接受人的物品-->
+                                    <div class="col-lg-5 col-md-5">
+                                        <!--物品信息-->
+                                        <div class="product__description">
+                                            <a href=@logs.TreasureR.Link>
+                                                <img width="150" src=@logs.TreasureR.Cover alt="Purchase image">
+                                            </a>
+                                            <div class="short_desc">
+                                                <a href=@logs.TreasureR.Link>
+                                                    <h4 class="text-info">
+                                                        <span class="fa fa-hand-o-right"></span>
+                                                        @logs.TreasureR.TreasureName
+                                                    </h4>
+                                                </a>
+                                                <p>
+                                                    <span class="fa fa-quote-left"></span>
+                                                    @logs.TreasureR.DetailContent
+                                                    <span class="fa fa-quote-right"></span>
+                                                </p>
+                                                <div class="author-card">
+                                                    <div class="inline">
+                                                        <!--头像-->
+                                                        <div class="author__avatar">
+                                                            <img height="70" width="70" src=@logs.UserR.HeadImg alt="user avatar">
+                                                        </div>
+
+                                                        <!--昵称-->
+                                                        <div class="autor__info">
+                                                            <h2>
+                                                                @logs.UserR.RealName
+                                                            </h2>
+                                                            <p>
+                                                                <span class="fa fa-birthday-cake"></span>
+                                                                @logs.UserR.BirthDay
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--操作-->
+                                    <div class="col-lg-2 col-md-2 col-2 btn-group-vertical">
+                                        <div class="product__price_download">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
