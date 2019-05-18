@@ -239,7 +239,8 @@ namespace Ewu.WebUI.Controllers
                         //换入物品-即对方的物品
                         DealInTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TraderRecipientID == currID ? deal.TreasureSponsorID : deal.TreasureRecipientID)).FirstOrDefault(),
                         //换出物品-即我的物品
-                        DealOutTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TraderRecipientID == currID ? deal.TreasureRecipientID : deal.TreasureSponsorID)).FirstOrDefault()
+                        DealOutTrea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(deal.TraderRecipientID == currID ? deal.TreasureRecipientID : deal.TreasureSponsorID)).FirstOrDefault(),
+                        IsSponsor = deal.TraderSponsorID == currID
                     });
                 }
                 return View(new UserDeal
@@ -370,7 +371,7 @@ namespace Ewu.WebUI.Controllers
                                 RealName = UserS.RealName,
                                 HeadImg = UserS.HeadPortrait,
                                 Sign = UserS.Signature,
-                                BirthDay = UserS.BirthDay.ToString(),
+                                BirthDay = UserS.BirthDay.ToString("yyyy-MM-dd"),
                                 UserName = UserS.UserName
                             },
                             UserR = new BasicUserInfo
@@ -379,7 +380,7 @@ namespace Ewu.WebUI.Controllers
                                 RealName = UserR.RealName,
                                 HeadImg = UserR.HeadPortrait,
                                 Sign = UserR.Signature,
-                                BirthDay = UserR.BirthDay.ToString(),
+                                BirthDay = UserR.BirthDay.ToString("yyyy-MM-dd"),
                                 UserName = UserR.UserName
                             },
                             TreasureS = TreaS,

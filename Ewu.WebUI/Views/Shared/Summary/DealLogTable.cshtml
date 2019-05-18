@@ -7,7 +7,7 @@
     {
         <tr class="warning">
             <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap" class="font-weight-bolder">@logdeal.LogDeal.DealStatus</td>
             <td style="white-space:nowrap">
                 <a href=@logdeal.DealOutTrea.Link >
                     @logdeal.DealOutTrea.TreasureName
@@ -33,11 +33,21 @@
             }
             <td style="white-space:nowrap" class="">
                 <a href="#">
-                    <span class="fa fa-trash" style="font-size:25px"></span>
+                    <span title="详情" class="fa fa-chain text-info" style="font-size:25px"></span>
                 </a>
-                <a href="#">
-                    <span class="fa fa-dashboard" style="font-size:25px"></span>
-                </a>
+                @if (logdeal.IsSponsor == true)
+                {
+                    <a href="/Account/InitiateDealLog">
+                        <span title="转到" class="fa fa-share text-success" style="font-size:25px"></span>
+                    </a>
+                }
+                else if (logdeal.IsSponsor == false) 
+                {
+                    <a href="/Account/RecipientDealLog">
+                        <span title="转到" class="fa fa-share text-success" style="font-size:25px"></span>
+                    </a>
+                }
+
             </td>
         </tr>
     }
@@ -45,7 +55,7 @@
     {
         <tr class="info">
             <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap" class="font-weight-bolder">@logdeal.LogDeal.DealStatus</td>
             <td style="white-space:nowrap">
                 <a href=@logdeal.DealOutTrea.Link >
                     @logdeal.DealOutTrea.TreasureName
@@ -70,16 +80,12 @@
                 <td style="white-space:nowrap">进行中</td>
             }
             <td style="white-space:nowrap">
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                }
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                }
+                <a href="#">
+                    <span title="详情" class="fa fa-chain text-info" style="font-size:25px"></span>
+                </a>
+                <a href="/Account/DealingLog">
+                    <span title="转到" class="fa fa-share text-success" style="font-size:25px"></span>
+                </a>
             </td>
         </tr>
     }
@@ -87,7 +93,7 @@
     {
         <tr class="danger">
             <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap" class="font-weight-bolder">@logdeal.LogDeal.DealStatus</td>
             <td style="white-space:nowrap">
                 <a href=@logdeal.DealOutTrea.Link >
                     @logdeal.DealOutTrea.TreasureName
@@ -112,16 +118,9 @@
                 <td style="white-space:nowrap">进行中</td>
             }
             <td style="white-space:nowrap">
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                }
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                }
+                <a href="#">
+                    <span title="详情" class="fa fa-chain text-info" style="font-size:25px"></span>
+                </a>
             </td>
         </tr>
     }
@@ -129,7 +128,7 @@
     {
         <tr class="success">
             <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap" class="font-weight-bolder">@logdeal.LogDeal.DealStatus</td>
             <td style="white-space:nowrap">
                 <a href=@logdeal.DealOutTrea.Link >
                     @logdeal.DealOutTrea.TreasureName
@@ -154,16 +153,12 @@
                 <td style="white-space:nowrap">进行中</td>
             }
             <td style="white-space:nowrap">
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                }
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                }
+                <a href="#">
+                    <span title="详情" class="fa fa-chain text-info" style="font-size:25px"></span>
+                </a>
+                <a href="/Account/CompleteDealLog">
+                    <span title="转到" class="fa fa-share text-success" style="font-size:25px"></span>
+                </a>
             </td>
         </tr>
     }
@@ -171,7 +166,7 @@
     {
         <tr class="active">
             <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap" class="font-weight-bolder">@logdeal.LogDeal.DealStatus</td>
             <td style="white-space:nowrap">
                 <a href=@logdeal.DealOutTrea.Link >
                     @logdeal.DealOutTrea.TreasureName
@@ -196,16 +191,9 @@
                 <td style="white-space:nowrap">进行中</td>
             }
             <td style="white-space:nowrap">
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                }
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                }
+                <a href="#">
+                    <span title="详情" class="fa fa-chain text-info" style="font-size:25px"></span>
+                </a>
             </td>
         </tr>
     }
@@ -213,7 +201,7 @@
     {
         <tr>
             <td style="white-space:nowrap">@logdeal.LogDeal.DealBeginTime</td>
-            <td style="white-space:nowrap">@logdeal.LogDeal.DealStatus</td>
+            <td style="white-space:nowrap" class="font-weight-bolder">@logdeal.LogDeal.DealStatus</td>
             <td style="white-space:nowrap">
                 <a href=@logdeal.DealOutTrea.Link >
                     @logdeal.DealOutTrea.TreasureName
@@ -238,16 +226,9 @@
                 <td style="white-space:nowrap">进行中</td>
             }
             <td style="white-space:nowrap">
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="详情" />
-                }
-                @using (Html.BeginForm("", ""))
-                {
-                    @Html.Hidden("DLogUID", logdeal.LogDeal.DLogUID)
-                    <input type="submit" class="btn btn-default btn-xs" value="删除" />
-                }
+                <a href="#">
+                    <span title="详情" class="fa fa-chain text-info" style="font-size:25px"></span>
+                </a>
             </td>
         </tr>
     }

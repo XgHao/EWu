@@ -38,7 +38,7 @@
 <section class="dashboard-area dashboard_purchase">
     <div class="dashboard_menu_area">
         <div class="container">
-            @Html.Partial("PartialLayout/Menu", "结束的申请")
+            @Html.Partial("PartialLayout/Menu", "成功的交易")
         </div>
     </div>
 
@@ -66,30 +66,44 @@
                                                         @logs.TreasureS.TreasureName
                                                     </h4>
                                                 </a>
-                                                <p>
-                                                    <span class="fa fa-quote-left"></span>
-                                                    @logs.TreasureS.DetailContent
-                                                    <span class="fa fa-quote-right"></span>
-                                                </p>
+                                                <br />
                                                 <div class="author-card">
                                                     <div class="inline">
                                                         <!--头像-->
                                                         <div class="author__avatar">
-                                                            <img height="70" width="70" src=@logs.UserS.HeadImg alt="user avatar">
+                                                            <img height="60" width="60" src=@logs.UserS.HeadImg alt="user avatar">
                                                         </div>
 
                                                         <!--昵称-->
                                                         <div class="autor__info">
-                                                            <h2>
+                                                            <h2 class="text-danger">
                                                                 @logs.UserS.RealName
                                                             </h2>
                                                             <p>
-                                                                <span class="fa fa-birthday-cake"></span>
-                                                                @logs.UserS.BirthDay
+                                                                @if (logs.Evaluation.IsRecommendSToR == true)
+                                                                {
+                                                                    <span class="fa fa-thumbs-up text-success">&nbsp;推荐</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="fa fa-thumbs-down text-danger">&nbsp;不推荐</span>
+                                                                }
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p title=@logs.Evaluation.EvaluationSToR>
+                                                    <span class="fa fa-quote-left"></span>
+                                                    @if (logs.Evaluation.EvaluationSToR.Count() > 43)
+                                                    {
+                                                        @logs.Evaluation.EvaluationSToR.Substring(0, 41)<text>&middot;&middot;&middot;&middot;&middot;&middot;</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        @logs.Evaluation.EvaluationSToR
+                                                    }
+                                                    <span class="fa fa-quote-right"></span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -108,30 +122,44 @@
                                                         @logs.TreasureR.TreasureName
                                                     </h4>
                                                 </a>
-                                                <p>
-                                                    <span class="fa fa-quote-left"></span>
-                                                    @logs.TreasureR.DetailContent
-                                                    <span class="fa fa-quote-right"></span>
-                                                </p>
+                                                <br />
                                                 <div class="author-card">
                                                     <div class="inline">
                                                         <!--头像-->
                                                         <div class="author__avatar">
-                                                            <img height="70" width="70" src=@logs.UserR.HeadImg alt="user avatar">
+                                                            <img height="60" width="60" src=@logs.UserR.HeadImg alt="user avatar">
                                                         </div>
 
                                                         <!--昵称-->
                                                         <div class="autor__info">
-                                                            <h2>
+                                                            <h2 class="text-danger">
                                                                 @logs.UserR.RealName
                                                             </h2>
                                                             <p>
-                                                                <span class="fa fa-birthday-cake"></span>
-                                                                @logs.UserR.BirthDay
+                                                                @if (logs.Evaluation.IsRecommendRToS == true)
+                                                                {
+                                                                    <span class="fa fa-thumbs-up text-success">&nbsp;推荐</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="fa fa-thumbs-down text-danger">&nbsp;不推荐</span>
+                                                                }
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p title=@logs.Evaluation.EvaluationRToS>
+                                                    <span class="fa fa-quote-left"></span>
+                                                    @if (logs.Evaluation.EvaluationRToS.Count() > 43)
+                                                    {
+                                                        @logs.Evaluation.EvaluationRToS.Substring(0, 41)<text>&middot;&middot;&middot;&middot;&middot;&middot;</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        @logs.Evaluation.EvaluationRToS
+                                                    }
+                                                    <span class="fa fa-quote-right"></span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -139,6 +167,19 @@
                                     <!--操作-->
                                     <div class="col-lg-2 col-md-2 col-2 btn-group-vertical">
                                         <div class="product__price_download">
+                                            <div class="item_action v_middle">
+                                                <div class="row">
+                                                    <button class="btn btn-sm btn-success" onclick="@("window.location.href='/Deal/DealAllInfo?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                        <span class="fa fa-history"></span> 查看详情
+                                                    </button>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <button class="btn btn-sm btn-danger" onclick="@("window.location.href='/Deal/DealFeedback?DLogUID="+logs.LogDeal.DLogUID+"'")">
+                                                        <span class="fa fa-question-circle"></span> 我有疑问
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

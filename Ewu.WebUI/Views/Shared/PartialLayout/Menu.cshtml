@@ -7,7 +7,7 @@
             {
                 <li class="active col-md-2">
                     <a href="/Account/AllDealLog">
-                        <span class="lnr lnr-home"></span>所有交易记录
+                        <span class="fa fa-bars"></span>所有交易记录
                     </a>
                 </li>
             }
@@ -15,7 +15,7 @@
             {
                 <li class="col-md-2">
                     <a href="/Account/AllDealLog">
-                        <span class="lnr lnr-home"></span>所有交易记录
+                        <span class="fa fa-bars"></span>所有交易记录
                     </a>
                 </li>
             }
@@ -23,7 +23,7 @@
             {
                 <li class="active col-md-2">
                     <a href="/Account/RecipientDealLog">
-                        <span class="lnr lnr-chart-bars"></span>我收到的申请
+                        <span class="fa fa-download"></span>我收到的申请
                     </a>
                 </li>
             }
@@ -31,7 +31,7 @@
             {
                 <li class="col-md-2">
                     <a href="/Account/RecipientDealLog">
-                        <span class="lnr lnr-chart-bars"></span>我收到的申请
+                        <span class="fa fa-download"></span>我收到的申请
                     </a>
                 </li>
             }
@@ -39,7 +39,7 @@
             {
                 <li class="active col-md-2">
                     <a href="/Account/InitiateDealLog">
-                        <span class="lnr lnr-cog"></span>我发起的申请
+                        <span class="fa fa-upload"></span>我发起的申请
                     </a>
                 </li>
             }
@@ -47,23 +47,23 @@
             {
                 <li class="col-md-2">
                     <a href="/Account/InitiateDealLog">
-                        <span class="lnr lnr-cog"></span>我发起的申请
+                        <span class="fa fa-upload"></span>我发起的申请
                     </a>
                 </li>
             }
-            @if (Model == "结束的交易")
+            @if (Model == "成功的交易")
             {
                 <li class="active col-md-2">
-                    <a href="dashboard-withdrawal.html">
-                        <span class="lnr lnr-briefcase"></span>结束的交易
+                    <a href="/Account/CompleteDealLog">
+                        <span class="fa fa-handshake-o"></span>成功的交易
                     </a>
                 </li>
             }
             else
             {
                 <li class="col-md-2">
-                    <a href="dashboard-withdrawal.html">
-                        <span class="lnr lnr-briefcase"></span>结束的交易
+                    <a href="/Account/CompleteDealLog">
+                        <span class="fa fa-handshake-o"></span>成功的交易
                     </a>
                 </li>
             }
@@ -71,7 +71,8 @@
             {
                 <li class="active col-md-2">
                     <a href="/Account/DealingLog">
-                        <span class="lnr lnr-briefcase"></span>进行中的交易
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only"></span>进行中的交易
                     </a>
                 </li>
             }
@@ -79,7 +80,8 @@
             {
                 <li class="col-md-2">
                     <a href="/Account/DealingLog">
-                        <span class="lnr lnr-briefcase"></span>进行中的交易
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only"></span>进行中的交易
                     </a>
                 </li>
             }

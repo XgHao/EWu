@@ -209,7 +209,10 @@ namespace Ewu.WebUI.Models.ViewModel
         /// </summary>
         public Treasure DealOutTrea { get; set; }
 
-        
+        /// <summary>
+        /// 当前登录人是什么觉得
+        /// </summary>
+        public bool? IsSponsor { get; set; }
     }
 
     /// <summary>
