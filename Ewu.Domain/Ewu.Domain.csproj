@@ -121,6 +121,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Evaluation.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Db\Favorite.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Favorite.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Db\Log.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -182,6 +187,14 @@
     </None>
     <None Include="Db\Evaluation.dbml.layout">
       <DependentUpon>Evaluation.dbml</DependentUpon>
+    </None>
+    <None Include="Db\Favorite.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Favorite.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Db\Favorite.dbml.layout">
+      <DependentUpon>Favorite.dbml</DependentUpon>
     </None>
     <None Include="Db\Log.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

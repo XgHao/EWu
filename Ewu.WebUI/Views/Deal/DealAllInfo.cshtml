@@ -1,0 +1,373 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model DealAllInfo
+
+@{
+    ViewBag.Title = "DealAllInfo";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>
+                                <a href="#">交易记录</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">交易详情</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">The Transaction I Initiated</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="contact-area section--padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h1>
+                                交易
+                                <span class="highlighted">发起</span>
+                                方
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="contact_tile contact_form cardify">
+                            <div class="contact_form__title">
+                                <h3>@Model.TreasureS.TreasureName</h3>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-10 offset-1">
+                                    <div class="contact_form--wrapper">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <img src=@Model.TreasureS.Cover width="440" height="560" />
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-lg btn-light btn--fullwidth">@Model.TreasureS.TreasureName</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn-secondary btn--fullwidth">@("类别：" + Model.TreasureS.TreasureType)</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn-secondary btn--fullwidth">@("成色：" + Model.TreasureS.DamageDegree)</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--round btn--bordered btn-lg btn-success btn--fullwidth">@("地区：" + Model.TreasureS.LocationProvince + (Model.TreasureS.LocationProvince == Model.TreasureS.LocationCity ? " " : (" " + Model.TreasureS.LocationCity)) + " " + Model.TreasureS.LocationDistrict)</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn-warning btn--fullwidth">@("范围：" + Model.TreasureS.TradeRange)</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn--icon btn-warning btn--fullwidth">
+                                                                <span class="fa fa-heart">@Model.TreasureS.Favorite</span>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <span class="fa fa-eye">@Model.TreasureS.BrowseNum</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--round btn--bordered btn-lg btn-danger btn--fullwidth">@("上传于" + Model.TreasureS.UploadTime.ToString("yyyy-MM-dd"))&nbsp;&nbsp;&nbsp;@("更新于" + Model.TreasureS.UpdateTime.ToString("yyyy-MM-dd"))</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <textarea class="text-info" readonly="readonly" cols="30" rows="10" style="background-color: #FFFFFF;border-left: 1px solid #7dc9e9; border-right: 1px solid #7dc9e9; border-top: 1px solid #7dc9e9; border-bottom:1px solid #7dc9e9">@Model.TreasureS.DetailContent</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact_tile">
+                            <span class="tiles__icon fa fa-truck"></span>
+                            <h4 class="tiles__title font-weight-bold">收货地址</h4>
+                            <div class="tiles__content">
+                                @if (Model.DeliveryAddressS == null)
+                                {
+                                    <p>暂无信息</p>
+                                }
+                                else
+                                {
+                                    <p>@(Model.DeliveryAddressS.LocationProvince + (Model.DeliveryAddressS.LocationProvince == Model.DeliveryAddressS.LocationCity ? " " : (" " + Model.DeliveryAddressS.LocationCity)) + " " + Model.DeliveryAddressS.LocationDistrict)</p>
+                                    <p>@Model.DeliveryAddressS.MoreLocation</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact_tile">
+                            <span>
+                                <img src=@Model.BasicUserInfoS.HeadImg width="48" height="48">
+                            </span>
+                            <h4 class="tiles__title font-weight-bold">@Model.BasicUserInfoS.RealName</h4>
+                            <div class="tiles__content">
+                                <p>
+                                    <span class="fa fa-phone"></span>
+                                    @Model.BasicUserInfoS.PhoNum
+                                </p>
+                                <p>
+                                    <span class="fa fa-envelope"></span>
+                                    @Model.BasicUserInfoS.Email
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact_tile">
+                            @if (Model.Evaluation == null)
+                            {
+                                <span class="tiles__icon fa fa-question-circle"></span>
+                                <h4 class="tiles__title font-weight-bold">暂无</h4>
+                                <div class="tiles__content">
+                                    <p>暂无评价信息</p>
+                                </div>
+                            }
+                            else if (Model.Evaluation.IsRecommendSToR == true)
+                            {
+                                <span class="tiles__icon fa fa-thumbs-up text-success"></span>
+                                <h4 class="tiles__title font-weight-bold">推荐</h4>
+                                <div class="tiles__content">
+                                    <p>@Model.Evaluation.EvaluationSToR</p>
+                                </div>
+                            }
+                            else if (Model.Evaluation.IsRecommendSToR == false)
+                            {
+                                <span class="tiles__icon fa fa-thumbs-down text-danger"></span>
+                                <h4 class="tiles__title font-weight-bold">不推荐</h4>
+                                <div class="tiles__content">
+                                    <p>@Model.Evaluation.EvaluationSToR</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h1>
+                                交易
+                                <span class="highlighted">接收</span>
+                                方
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="contact_tile contact_form cardify">
+                            <div class="contact_form__title">
+                                <h3>@Model.TreasureR.TreasureName</h3>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-10 offset-1">
+                                    <div class="contact_form--wrapper">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <img src=@Model.TreasureR.Cover width="440" height="560" />
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-lg btn-light btn--fullwidth">@Model.TreasureR.TreasureName</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn-secondary btn--fullwidth">@("类别：" + Model.TreasureR.TreasureType)</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn-secondary btn--fullwidth">@("成色：" + Model.TreasureR.DamageDegree)</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--round btn--bordered btn-lg btn-success btn--fullwidth">@("地区：" + Model.TreasureR.LocationProvince + (Model.TreasureR.LocationProvince == Model.TreasureR.LocationCity ? " " : (" " + Model.TreasureR.LocationCity)) + " " + Model.TreasureR.LocationDistrict)</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn-warning btn--fullwidth">@("范围：" + Model.TreasureR.TradeRange)</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--bordered btn-lg btn--icon btn-warning btn--fullwidth">
+                                                                <span class="fa fa-heart">@Model.TreasureR.Favorite</span>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <span class="fa fa-eye">@Model.TreasureR.BrowseNum</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn--round btn--bordered btn-lg btn-danger btn--fullwidth">@("上传于" + Model.TreasureR.UploadTime.ToString("yyyy-MM-dd"))&nbsp;&nbsp;&nbsp;@("更新于" + Model.TreasureR.UpdateTime.ToString("yyyy-MM-dd"))</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <textarea class="text-info" readonly="readonly" cols="30" rows="10" style="background-color: #FFFFFF;border-left: 1px solid #7dc9e9; border-right: 1px solid #7dc9e9; border-top: 1px solid #7dc9e9; border-bottom:1px solid #7dc9e9">@Model.TreasureR.DetailContent</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact_tile">
+                            <span class="tiles__icon fa fa-truck"></span>
+                            <h4 class="tiles__title font-weight-bold">收货地址</h4>
+                            <div class="tiles__content">
+                                @if (Model.DeliveryAddressR == null)
+                                {
+                                    <p>暂无信息</p>
+                                }
+                                else
+                                {
+                                    <p>@(Model.DeliveryAddressR.LocationProvince + (Model.DeliveryAddressR.LocationProvince == Model.DeliveryAddressR.LocationCity ? " " : (" " + Model.DeliveryAddressR.LocationCity)) + " " + Model.DeliveryAddressR.LocationDistrict)</p>
+                                    <p>@Model.DeliveryAddressR.MoreLocation</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact_tile">
+                            <span>
+                                <img src=@Model.BasicUserInfoR.HeadImg width="48" height="48">
+                            </span>
+                            <h4 class="tiles__title font-weight-bold">@Model.BasicUserInfoR.RealName</h4>
+                            <div class="tiles__content">
+                                <p>
+                                    <span class="fa fa-phone"></span>
+                                    @Model.BasicUserInfoR.PhoNum
+                                </p>
+                                <p>
+                                    <span class="fa fa-envelope"></span>
+                                    @Model.BasicUserInfoR.Email
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact_tile">
+                            @if (Model.Evaluation == null)
+                            {
+                                <span class="tiles__icon fa fa-question-circle"></span>
+                                <h4 class="tiles__title font-weight-bold">暂无</h4>
+                                <div class="tiles__content">
+                                    <p>暂无评价信息</p>
+                                </div>
+                            }
+                            else if (Model.Evaluation.IsRecommendRToS == true)
+                            {
+                                <span class="tiles__icon fa fa-thumbs-up text-success"></span>
+                                <h4 class="tiles__title font-weight-bold">推荐</h4>
+                                <div class="tiles__content">
+                                    <p>@Model.Evaluation.IsRecommendRToS</p>
+                                </div>
+                            }
+                            else if (Model.Evaluation.IsRecommendRToS == false)
+                            {
+                                <span class="tiles__icon fa fa-thumbs-down text-danger"></span>
+                                <h4 class="tiles__title font-weight-bold">不推荐</h4>
+                                <div class="tiles__content">
+                                    <p>@Model.Evaluation.IsRecommendRToS</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -868,6 +868,80 @@ namespace Ewu.WebUI.Controllers
         }
         #endregion
 
+        #region 订单详情
+        /// <summary>
+        /// 订单详情信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DealAllInfo(string DLogUID = "")
+        {
+            if (!string.IsNullOrEmpty(DLogUID))
+            {
+                //获取订单对象
+                using(var db = new LogDealDataContext())
+                {
+                    var log = db.LogDeal.Where(l => l.DLogUID == Guid.Parse(DLogUID)).FirstOrDefault();
+                    if (log != null)
+                    {
+                        #region 获取物品对象
+                        var TreasureS = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureSponsorID)).FirstOrDefault();
+                        var TreasureR = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(log.TreasureRecipientID)).FirstOrDefault();
+                        #endregion
+
+                        #region 获取收货信息
+                        DeliveryAddress deliveryAddressS = new DeliveryAddress();
+                        DeliveryAddress deliveryAddressR = new DeliveryAddress();
+                        using (var db2 = new DeliveryAddressDataContext())
+                        {
+                            deliveryAddressS = db2.DeliveryAddress.Where(d => d.DeliveryAddressUID == log.DeliveryAddressSponsorID).FirstOrDefault();
+                            deliveryAddressR = db2.DeliveryAddress.Where(d => d.DeliveryAddressUID == log.DeliveryAddressRecipientID).FirstOrDefault();
+                        }
+                        #endregion
+
+                        #region 用户信息
+                        BasicUserInfo basicUserInfoS = new BasicUserInfo();
+                        BasicUserInfo basicUserInfoR = new BasicUserInfo();
+                        var userS = UserManager.FindById(log.TraderSponsorID);
+                        var userR = UserManager.FindById(log.TraderRecipientID);
+                        if (userS != null && userR != null)
+                        {
+                            basicUserInfoS.HeadImg = userS.HeadPortrait;
+                            basicUserInfoS.RealName = userS.RealName;
+                            basicUserInfoS.PhoNum = userS.PhoneNumber;
+                            basicUserInfoS.Email = userS.Email;
+
+                            basicUserInfoR.HeadImg = userR.HeadPortrait;
+                            basicUserInfoR.RealName = userR.RealName;
+                            basicUserInfoR.PhoNum = userR.PhoneNumber;
+                            basicUserInfoR.Email = userR.Email;
+                        }
+                        #endregion
+
+                        #region 评价信息
+                        Evaluation evaluation = new Evaluation();
+                        using(var db3 = new EvaluationDataContext())
+                        {
+                            evaluation = db3.Evaluation.Where(e => e.DLogUID == log.DLogUID.ToString()).FirstOrDefault();
+                        }
+                        #endregion
+
+                        //返回视图模型
+                        return View(new DealAllInfo
+                        {
+                            BasicUserInfoR = basicUserInfoR,
+                            BasicUserInfoS = basicUserInfoS,
+                            DeliveryAddressR = deliveryAddressR,
+                            DeliveryAddressS = deliveryAddressS,
+                            Evaluation = evaluation,
+                            TreasureR = TreasureR,
+                            TreasureS = TreasureS
+                        });
+                    }
+                }
+            }
+            return View("Error");
+        }
+        #endregion
 
         /// <summary>
         /// 获取当前用户

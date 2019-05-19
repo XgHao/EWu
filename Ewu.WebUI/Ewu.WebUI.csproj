@@ -774,6 +774,7 @@
       <DependentUpon>201904020817201_IDCardProperty.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ViewModel\AccountInfoViewModel.cs" />
     <Compile Include="Models\ViewModel\ChangeInfoViewModel.cs" />
     <Compile Include="Models\ViewModel\FavoriteIndexViewModel.cs" />
     <Compile Include="Models\ViewModel\LoginViewModel.cs" />
@@ -865,6 +866,8 @@
     <Content Include="Views\Deal\ViewDeliveryInfo.cshtml" />
     <Content Include="Views\Shared\Summary\DeliveryAddressInfo.cshtml" />
     <Content Include="Views\Account\CompleteDealLog.cshtml" />
+    <Content Include="Views\Deal\DealAllInfo.cshtml" />
+    <Content Include="Views\Account\AccountInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

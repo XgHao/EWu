@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LinJiaoFengJu" Class="FavoriteDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString2" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Favorite" Member="Favorite">
+    <Type Name="Favorite">
+      <Column Name="UserID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TreasureID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FavoriteTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

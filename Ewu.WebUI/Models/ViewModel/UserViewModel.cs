@@ -249,6 +249,16 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 用户签名
         /// </summary>
         public string Sign { get; set; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string PhoNum { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
     }
 
     /// <summary>
@@ -432,6 +442,48 @@ namespace Ewu.WebUI.Models.ViewModel
         /// </summary>
         [Required(ErrorMessage = "该信息是必须的")]
         public string EvaluationInfo { get; set; }
+    }
+
+    /// <summary>
+    /// 订单详情视图模型
+    /// </summary>
+    public class DealAllInfo
+    {
+        /// <summary>
+        /// 发起方物品
+        /// </summary>
+        public Treasure TreasureS { get; set; }
+
+        /// <summary>
+        /// 接收方物品
+        /// </summary>
+        public Treasure TreasureR { get; set; }
+
+        /// <summary>
+        /// 发起方收货信息
+        /// </summary>
+        public DeliveryAddress DeliveryAddressS { get; set; }
+
+        /// <summary>
+        /// 接收方收货信息
+        /// </summary>
+        public DeliveryAddress DeliveryAddressR { get; set; }
+
+        /// <summary>
+        /// 发起人
+        /// </summary>
+        public BasicUserInfo BasicUserInfoS { get; set; }
+
+        /// <summary>
+        /// 接收人
+        /// </summary>
+        public BasicUserInfo BasicUserInfoR { get; set; }
+
+        /// <summary>
+        /// 评价
+        /// </summary>
+        public Evaluation Evaluation { get; set; }
+
     }
 
     public class UserViewModel

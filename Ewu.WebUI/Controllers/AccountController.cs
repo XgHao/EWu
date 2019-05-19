@@ -507,6 +507,105 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 用户个人信息
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public ActionResult AccountInfo(string UserID = "")
+        {
+            //新建视图模型
+            AccountInfoViewModel model = new AccountInfoViewModel
+            {
+                TotalBrowseNum = 0,
+                TotalFavorite = 0,
+                TotalTreasureNum = 0
+            };
+
+            if (!string.IsNullOrEmpty(UserID))
+            {
+                //获取查看的用户对象
+                var user = UserManager.FindById(UserID);
+                if (user != null)
+                {
+                    //添加用户对象
+                    model.TargetUser = user;
+                    //获取该用户的物品集合
+                    var treasures = repository.Treasures.Where(t => t.HolderID == UserID);
+                    if (treasures != null)
+                    {
+                        //遍历
+                        foreach (var trea in treasures)
+                        {
+                            model.TotalBrowseNum += trea.BrowseNum;
+                            model.TotalFavorite += trea.Favorite;
+                            model.TotalTreasureNum++;
+                        }
+                        //添加物品集合，选择前三个，按时间排序
+                        var TargetTrea = treasures.OrderBy(t => t.UploadTime).Take(3);
+
+                        using(var db = new FavoriteDataContext())
+                        {
+                            string FavoriteTreaID = string.Empty;
+                            var favorites = db.Favorite.Where(f => f.UserID == UserID).OrderBy(f => f.FavoriteTime).Take(3);
+                            foreach(var favo in favorites)
+                            {
+                                FavoriteTreaID = "|||" + favo.TreasureID;
+                            }
+                            //获取收藏的物品
+                            var favoriteTrea = repository.Treasures.Where(t => FavoriteTreaID.Contains(t.TreasureUID.ToString()));
+
+                            //根据Treasure生成对应的TreasureCard
+                            List<TreasureCard> treasureCards_T = new List<TreasureCard>();
+                            foreach(var trea in TargetTrea)
+                            {
+                                treasureCards_T.Add(new TreasureCard
+                                {
+                                    Treasure = trea,
+                                    TreasureHolder = UserManager.FindById(trea.HolderID)
+                                });
+                            }
+
+                            List<TreasureCard> treasureCards_F = new List<TreasureCard>();
+                            foreach(var trea in favoriteTrea)
+                            {
+                                treasureCards_F.Add(new TreasureCard
+                                {
+                                    Treasure = trea,
+                                    TreasureHolder = UserManager.FindById(trea.HolderID)
+                                });
+                            }
+
+                            //添加视图
+                            model.TargetFavorite = treasureCards_T.AsEnumerable();
+                            model.TargetTreasures = treasureCards_F.AsEnumerable();
+                        }
+
+                        //评价
+                        using(var db2 = new LogDealDataContext())
+                        {
+                            //首先获取有当前用户的所有订单
+                            var logs = db2.LogDeal.Where(l => (l.TraderRecipientID == UserID || l.TraderSponsorID == UserID));
+
+                            foreach(var log in logs)
+                            {
+                                using (var db3 = new EvaluationDataContext())
+                                {
+                                    //用户是接收人，则需要的评论是发起人
+                                    if (log.TraderRecipientID == UserID)
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View();
+        }
+
+        /// <summary>
         /// 获取当前用户
         /// </summary>
         private AppUser CurrentUser
