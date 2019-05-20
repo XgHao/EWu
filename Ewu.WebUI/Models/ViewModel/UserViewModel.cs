@@ -259,6 +259,11 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 邮箱
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// 注册时间
+        /// </summary>
+        public DateTime RegisterTime { get; set; }
     }
 
     /// <summary>

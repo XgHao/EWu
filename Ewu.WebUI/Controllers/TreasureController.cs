@@ -140,6 +140,125 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 用户物品列表
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public ActionResult AccountList(string UserID = "")
+        {
+            if (!string.IsNullOrEmpty(UserID))
+            {
+                var appuser = UserManager.FindById(UserID);
+                if (appuser != null)
+                {
+                    //获取当前用户的ID
+                    var curUserid = CurrentUser.Id;
+
+                    //如果显示的列表是当前登录用户，则跳转到MyList
+                    if (curUserid == UserID)
+                    {
+                        return RedirectToAction("MyList");
+                    }
+
+                    //获取用户列表
+                    var treasures = repository.Treasures.Where(t => (t.HolderID == UserID) && (t.DLogUID == null)).OrderBy(t => t.UploadTime);
+
+                    if (treasures != null)
+                    {
+                        //新建视图模型
+                        List<TreasureCard> model = new List<TreasureCard>();
+
+
+                        //遍历
+                        foreach (var trea in treasures)
+                        {
+                            //获取对应物品的用户
+                            var holder = UserManager.FindById(trea.HolderID);
+                            model.Add(new TreasureCard
+                            {
+                                Treasure = trea,
+                                userInfo = new BasicUserInfo
+                                {
+                                    UserName = appuser.UserName
+                                }
+                            });
+                        }
+                        return View(model.AsEnumerable());
+                    }
+                }
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// 用户收藏列表
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult AccountFavorite(string UserID = "")
+        {
+            if (!string.IsNullOrEmpty(UserID))
+            {
+                var appuser = UserManager.FindById(UserID);
+                if (appuser != null)
+                {
+                    //获取当前用户的ID
+                    var curUserid = CurrentUser.Id;
+
+                    //获取收藏列表
+                    List<string> favoriteList = new List<string>();
+                    using (var db = new FavoriteDataContext())
+                    {
+                        var favorites = db.Favorite.Where(f => f.UserID == UserID).OrderBy(f => f.FavoriteTime);
+                        foreach(var favo in favorites)
+                        {
+                            favoriteList.Add(favo.TreasureID);
+                        }
+                    }
+
+                    //根据收藏列表取出对应的物品列表
+                    List<Treasure> favoriteTrea = new List<Treasure>();
+                    foreach(var favo in favoriteList)
+                    {
+                        var favoT = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(favo)).FirstOrDefault();
+                        if (favoT != null)
+                        {
+                            favoriteTrea.Add(favoT);
+                        }
+                    }
+
+                    //新建视图模型
+                    List<TreasureCard> model = new List<TreasureCard>();
+
+                    //遍历
+                    foreach (var trea in favoriteTrea)
+                    {
+                        //获取对应物品的用户
+                        var holder = UserManager.FindById(trea.HolderID);
+                        model.Add(new TreasureCard
+                        {
+                            Treasure = trea,
+                            TreasureHolder = new BasicUserInfo
+                            {
+                                UserID = holder.Id,
+                                HeadImg = holder.HeadPortrait,
+                                UserName = holder.UserName
+                            },
+                            userInfo = new BasicUserInfo
+                            {
+                                UserName = appuser.UserName
+                            },
+                        });
+                    }
+                    return View(model.AsEnumerable());
+                }
+            }
+            return View("Error");
+        }
+
+        /// <summary>
         /// 物品详情页
         /// </summary>
         /// <returns></returns>

@@ -111,6 +111,7 @@ namespace Ewu.WebUI.Controllers
                             PhoneNumber = model.PhoneNumber,                    //手机号码
                             EmailConfirmed = true,                              //电子邮箱验证是否通过
                             PhoneNumberConfirmed = true,                        //手机号码验证是否通过
+                            Signature = model.Gender == "男" ? "他什么也没留下" : "她什么也没留下"     //初始化个性签名
                         };
 
 

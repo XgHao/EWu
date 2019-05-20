@@ -1,0 +1,110 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<TreasureCard>
+
+@{
+    ViewBag.Title = (Model.Count() == 0 ? "暂无收藏" : (Model.First().userInfo.UserName + "的收藏"));
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">收藏</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">@(Model.Count() == 0 ? "暂无收藏" : (Model.First().userInfo.UserName + "的收藏"))</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<!--物品-->
+<section class="blog-page1">
+    <div class="container">
+        <br />
+        <!--物品-->
+        <div class="row">
+            @foreach (var treasure in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="product product--card">
+                        <!--图片缩略图-->
+                        <div class="product__thumbnail">
+                            <!--图片-->
+                            <img height="480" width="350" src=@treasure.Treasure.Cover alt="Product Image">
+                            <!--悬浮按钮-->
+                            <div class="prod_btn">
+                                <a href=@treasure.Treasure.Link class="transparent btn--sm btn--round">查看详情</a>
+                            </div>
+                        </div>
+
+                        <!--物品详情-->
+                        <div class="product-desc">
+                            <!--标题-->
+                            <a href=@treasure.Treasure.Link class="product_title">
+                                <h4>@treasure.Treasure.TreasureName</h4>
+                            </a>
+
+                            <!--所有者-->
+                            <ul class="titlebtm">
+                                <!--所有者-->
+                                <li>
+                                    <img class="auth-img" src=@treasure.TreasureHolder.HeadImg alt="author image">
+                                    <p>
+                                        <a href=@("/Account/AccountInfo?UserID=" + treasure.TreasureHolder.UserID)>@treasure.TreasureHolder.UserName</a>
+                                    </p>
+                                </li>
+                                <!--物品分类-->
+                                <li class="product_cat">
+                                    <a href=@("/Treasure/List/"+treasure.Treasure.TreasureType)>
+                                        <span class="fa fa-tag"></span>@treasure.Treasure.TreasureType
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!--介绍-->
+                            <p>
+                                @treasure.Treasure.DetailContent
+                            </p>
+                        </div>
+
+                        <!--信息-->
+                        <div class="product-purchase">
+                            <!--时间-->
+                            <div class="price_love">
+                                <span>@treasure.Treasure.UploadTime.ToShortDateString()</span>
+                                <!--收藏数-->
+                                <p>
+                                    <span class="lnr lnr-heart"></span> @treasure.Treasure.Favorite
+                                </p>
+                            </div>
+                            <!--浏览量-->
+                            <div class="sell">
+                                <p>
+                                    <span class="lnr lnr-eye"></span>
+                                    <span>@treasure.Treasure.BrowseNum</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+

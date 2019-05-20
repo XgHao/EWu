@@ -181,6 +181,7 @@
     <Content Include="Scripts\bootstrap-table.min.js" />
     <Content Include="Scripts\CancelDeal.js" />
     <Content Include="Scripts\carousel.js" />
+    <Content Include="Scripts\Favorite.js" />
     <Content Include="Scripts\Score.js" />
     <Content Include="Scripts\TreasureInfo.js" />
     <Content Include="Scripts\UploadItem.js" />
@@ -868,6 +869,8 @@
     <Content Include="Views\Account\CompleteDealLog.cshtml" />
     <Content Include="Views\Deal\DealAllInfo.cshtml" />
     <Content Include="Views\Account\AccountInfo.cshtml" />
+    <Content Include="Views\Treasure\AccountFavorite.cshtml" />
+    <Content Include="Views\Treasure\AccountList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

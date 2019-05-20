@@ -41,7 +41,7 @@
             success: function (data) {
                 var dataStr = JSON.stringify(data);
                 //发送成功，定时60秒
-                if (data == "\"OK\"") {
+                if (data == "\"OK\"" || data == "OK") {
                     phocurCount = 60;
                     InterValObjPho = setInterval(SetRemainTimePho, 1000);
                 }
@@ -84,7 +84,7 @@
             success: function (data) {
                 
                 //发送成功，定时60秒
-                if (data == "\"OK\"") {
+                if (data == "\"OK\"" || data == "OK") {
                     emailcurCount = 60;
                     InterValObjEmail = setInterval(SetRemainTimeEmail, 1000);
                 }
@@ -178,7 +178,7 @@
                 },
                 success: function (data) {
                     //验证成功
-                    if (data == "\"OK\"") {
+                    if (data == "\"OK\"" || data == "OK") {
                         //验证成功后修改验证样式
                         $("#validPho").attr("class", "btn btn--fullwidth btn-success");
                         $("#validPho").val("验证通过");
@@ -191,12 +191,12 @@
 
                     }
                     //验证失败
-                    else if (data == "\"Fail\"") {
+                    else if (data == "\"Fail\"" || data == "Fail") {
                         //验证失败后修改验证样式
                         $("#validPho").attr("class", "btn btn--fullwidth btn-danger");
                         $("#validPho").val("验证失败，点击重试");
                     }
-                    else if (data == "\"Error\"") {
+                    else if (data == "\"Error\"" || data == "Error") {
                         alert("请先获取验证码！");
                     }
                     else {
@@ -228,7 +228,7 @@
                 },
                 success: function (data) {
                     //验证成功
-                    if (data == "\"OK\"") {
+                    if (data == "\"OK\"" || data == "OK") {
                         //验证成功后修改验证样式
                         $("#validEmail").attr("class", "btn btn--fullwidth btn-success");
                         $("#validEmail").val("验证通过");
@@ -241,12 +241,12 @@
                         
                     }
                     //验证失败
-                    else if (data == "\"Fail\"") {
+                    else if (data == "\"Fail\"" || data == "Fail") {
                         //验证失败后修改验证样式
                         $("#validEmail").attr("class", "btn btn--fullwidth btn-danger");
                         $("#validEmail").val("验证失败，点击重试");
                     }
-                    else if (data == "\"Error\"") {
+                    else if (data == "\"Error\"" || data == "Error") {
                         //出错，验证码为空
                         alert("请先获取验证码！");
                     }
@@ -293,7 +293,7 @@
                 },
                 success: function (data) {
                     //存在YES
-                    if (data == "\"YES\"") {
+                    if (data == "\"YES\"" || data == "YES") {
                         alert("该手机已被注册，换一个吧");
                         $("#PhoneNumber").val("");
                         $("#setPhoCode").attr("disabled");
@@ -319,7 +319,7 @@
                 },
                 success: function (data) {
                     //存在YES
-                    if (data == "\"YES\"") {
+                    if (data == "\"YES\"" || data == "YES") {
                         alert("该邮箱已被注册，换一个吧");
                         $("#Email").val("");
                         $("#setEmailCode").attr("disabled");
@@ -350,12 +350,12 @@
                 },
                 success: function (isExist) {
                     //存在
-                    if (isExist == "\"YES\"") {
+                    if (isExist == "\"YES\"" || isExist == "YES") {
                         $("#NameIsExistValid").removeAttr("hidden");
                         $("#NameIsExistValid").text("该用户名已存在");
                     }
                     //不存在,可行
-                    else if (isExist == "\"NO\"") {
+                    else if (isExist == "\"NO\"" || isExist == "NO") {
                         $("#NameIsExistValid").attr("hidden", "true");
                         $("#NameIsExistValid").text("验证通过");
                     }
@@ -402,12 +402,12 @@
             },
             success: function (data) {
                 //可以创建
-                if (data == "\"OK\"") {
+                if (data == "\"OK\"" || data == "OK") {
                     $("#PassWdIsExistValid").attr("hidden", "true");
                     $("#PassWdIsExistValid").text("验证通过");
                 }
                 //出错
-                else if (data == "\"Error\"") {
+                else if (data == "\"Error\"" || data == "Error") {
                 }
                 //条件不满足
                 else {

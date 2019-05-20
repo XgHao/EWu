@@ -22,7 +22,7 @@ function SetDeliveryAddress(DeliveryAddressUID) {
             },
             success: function (result) {
                 //成功
-                if (result == "\"OK\"") {
+                if (result == "\"OK\"" || result == "OK") {
                     //跳转到正在交易页面
                     window.location.href = "/Account/DealingLog";
                 }
@@ -53,7 +53,7 @@ function DeleteDeliveryAddress(DeliveryAddressUID) {
             },
             success: function (result) {
                 //成功
-                if (result == "\"OK\"") {
+                if (result == "\"OK\"" || result == "OK") {
                     alert("删除成功！");
                     window.location.reload();
                 }
@@ -101,7 +101,7 @@ function SetDeliveryNum() {
             $("#BtnDelivery").removeAttr("disabled");
             //修改样式
             $("#Query").removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-paper-plane");
-            if (result == "\"查询成功\"") {
+            if (result == "\"查询成功\"" || result == "查询成功") {
                 //跳转到正在交易页面
                 window.location.href = "/Account/DealingLog";
             }

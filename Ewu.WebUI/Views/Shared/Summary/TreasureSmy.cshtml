@@ -9,8 +9,7 @@
             <img height="480" width="350" src=@Model.Treasure.Cover alt="Product Image">
             <!--悬浮按钮-->
             <div class="prod_btn">
-                <a href=@Model.Treasure.Link class="transparent btn--sm btn--round">More Info</a>
-                <a href=@Model.Treasure.Link class="transparent btn--sm btn--round">Live Demo</a>
+                <a href=@Model.Treasure.Link class="transparent btn--sm btn--round">查看详情</a>
             </div>
         </div>
 
@@ -44,20 +43,20 @@
             </p>
         </div>
 
-        <!--购买信息-->
+        <!--信息-->
         <div class="product-purchase">
-            <!--价格-->
+            <!--时间-->
             <div class="price_love">
                 <span>@Model.Treasure.UpdateTime.ToShortDateString()</span>
                 <!--收藏数-->
-                <p>
-                    <span class="lnr lnr-heart"></span> @Model.Treasure.Favorite
-                </p>
+                <a href="javascript:void(0);" onclick=@("AddFavorite('"+Model.Treasure.TreasureUID+"')")>
+                    <span id=@("Favorite_"+Model.Treasure.TreasureUID) class="fa fa-heart-o text-danger">@Model.Treasure.Favorite</span>
+                </a>
             </div>
-            <!--交易量-->
+            <!--浏览量-->
             <div class="sell">
                 <p>
-                    <span class="lnr lnr-eye"></span>
+                    <span class="fa fa-eye"></span>
                     <span>@Model.Treasure.BrowseNum</span>
                 </p>
             </div>

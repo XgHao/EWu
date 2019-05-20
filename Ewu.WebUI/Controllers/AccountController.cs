@@ -509,7 +509,7 @@ namespace Ewu.WebUI.Controllers
         /// <summary>
         /// 用户个人信息
         /// </summary>
-        /// <param name="UserID"></param>
+        /// <param name="UserID">对象用户UID</param>
         /// <returns></returns>
         public ActionResult AccountInfo(string UserID = "")
         {
@@ -529,7 +529,7 @@ namespace Ewu.WebUI.Controllers
                 {
                     //添加用户对象
                     model.TargetUser = user;
-                    //获取该用户的物品集合
+                    //获取该用户的物品集合,且没有交易
                     var treasures = repository.Treasures.Where(t => t.HolderID == UserID);
                     if (treasures != null)
                     {
@@ -540,20 +540,11 @@ namespace Ewu.WebUI.Controllers
                             model.TotalFavorite += trea.Favorite;
                             model.TotalTreasureNum++;
                         }
-                        //添加物品集合，选择前三个，按时间排序
-                        var TargetTrea = treasures.OrderBy(t => t.UploadTime).Take(3);
+                        //添加物品集合，选择前三个，按时间排序，并且没有正在的交易
+                        var TargetTrea = treasures.Where(t => t.DLogUID == null).OrderBy(t => t.UploadTime).Take(3);
 
                         using(var db = new FavoriteDataContext())
                         {
-                            string FavoriteTreaID = string.Empty;
-                            var favorites = db.Favorite.Where(f => f.UserID == UserID).OrderBy(f => f.FavoriteTime).Take(3);
-                            foreach(var favo in favorites)
-                            {
-                                FavoriteTreaID = "|||" + favo.TreasureID;
-                            }
-                            //获取收藏的物品
-                            var favoriteTrea = repository.Treasures.Where(t => FavoriteTreaID.Contains(t.TreasureUID.ToString()));
-
                             //根据Treasure生成对应的TreasureCard
                             List<TreasureCard> treasureCards_T = new List<TreasureCard>();
                             foreach(var trea in TargetTrea)
@@ -561,23 +552,41 @@ namespace Ewu.WebUI.Controllers
                                 treasureCards_T.Add(new TreasureCard
                                 {
                                     Treasure = trea,
-                                    TreasureHolder = UserManager.FindById(trea.HolderID)
                                 });
                             }
+                            model.TargetTreasures = treasureCards_T.AsEnumerable();
 
+                            //收藏
+                            string FavoriteTreaID = string.Empty;
+                            var favorites = db.Favorite.Where(f => f.UserID == UserID).OrderBy(f => f.FavoriteTime).Take(3);
+                            foreach (var favo in favorites)
+                            {
+                                FavoriteTreaID += "|||" + favo.TreasureID;
+                            }
+                            //获取收藏的物品
+                            var favoriteTrea = repository.Treasures.Where(t => FavoriteTreaID.Contains(t.TreasureUID.ToString()));
+
+                            //收藏物品
                             List<TreasureCard> treasureCards_F = new List<TreasureCard>();
                             foreach(var trea in favoriteTrea)
                             {
+                                //获取物品所属人
+                                var holder = UserManager.FindById(trea.HolderID);
+
                                 treasureCards_F.Add(new TreasureCard
                                 {
                                     Treasure = trea,
-                                    TreasureHolder = UserManager.FindById(trea.HolderID)
+                                    TreasureHolder = new BasicUserInfo
+                                    {
+                                        UserID = holder.Id,
+                                        UserName = holder.UserName,
+                                        HeadImg = holder.HeadPortrait
+                                    }
                                 });
                             }
 
                             //添加视图
-                            model.TargetFavorite = treasureCards_T.AsEnumerable();
-                            model.TargetTreasures = treasureCards_F.AsEnumerable();
+                            model.TargetFavorite = treasureCards_F.AsEnumerable();
                         }
 
                         //评价
@@ -585,25 +594,149 @@ namespace Ewu.WebUI.Controllers
                         {
                             //首先获取有当前用户的所有订单
                             var logs = db2.LogDeal.Where(l => (l.TraderRecipientID == UserID || l.TraderSponsorID == UserID));
-
-                            foreach(var log in logs)
+                            List<UserEvaluation> userEvaluations = new List<UserEvaluation>();
+                            //遍历所有订单，获取获取每个订单中的评价
+                            foreach (var log in logs)
                             {
                                 using (var db3 = new EvaluationDataContext())
                                 {
-                                    //用户是接收人，则需要的评论是发起人
-                                    if (log.TraderRecipientID == UserID)
+                                    //获取订单中的评价信息
+                                    var evaluation = db3.Evaluation.Where(e => e.DLogUID == log.DLogUID.ToString()).FirstOrDefault();
+                                    //如果有评价信息
+                                    if (evaluation != null)
                                     {
+                                        //用户是接收人，则需要的评论是发起人
+                                        if (log.TraderRecipientID == UserID)
+                                        {
+                                            //获取评论人对象
+                                            var evaUser = UserManager.FindById(log.TraderSponsorID);
 
+                                            //添加评价信息
+                                            userEvaluations.Add(new UserEvaluation
+                                            {
+                                                Time = evaluation.EvaTimeSToR,
+                                                EvaluationInfo = evaluation.EvaluationSToR,
+                                                Holder = new BasicUserInfo
+                                                {
+                                                    HeadImg = evaUser.HeadPortrait,
+                                                    UserName = evaUser.UserName,
+                                                    UserID = evaUser.Id
+                                                },
+                                                IsReaommend = evaluation.IsRecommendSToR
+                                            });
+                                        }
+                                        else if (log.TraderSponsorID == UserID)
+                                        {
+                                            //获取评论人对象
+                                            var evaUser = UserManager.FindById(log.TraderRecipientID);
+
+                                            //添加评价信息
+                                            userEvaluations.Add(new UserEvaluation
+                                            {
+                                                Time = evaluation.EvaTimeRToS,
+                                                EvaluationInfo = evaluation.EvaluationRToS,
+                                                Holder = new BasicUserInfo
+                                                {
+                                                    HeadImg = evaUser.HeadPortrait,
+                                                    UserName = evaUser.UserName,
+                                                    UserID = evaUser.Id
+                                                },
+                                                IsReaommend = evaluation.IsRecommendRToS
+                                            });
+                                        }
                                     }
+                                    //添加数据
+                                    model.Evaluations = userEvaluations;
                                 }
                             }
+
+                            return View(model);
                         }
                     }
                 }
             }
 
-            return View();
+            return View("Error");
         }
+
+        /// <summary>
+        /// 添加收藏
+        /// </summary>
+        /// <param name="TreaUID"></param>
+        /// <returns></returns>
+        public JsonResult AddFavorite(string TreaUID="")
+        {
+            string result = "Fail";
+            //获取当前用户id
+            var curruserid = CurrentUser.Id;
+
+            if (!string.IsNullOrEmpty(TreaUID))
+            {
+                using(var db = new FavoriteDataContext())
+                {
+                    //首先检查是不是已经收藏了
+                    var fav = db.Favorite.Where(f => (f.UserID == curruserid && f.TreasureID == TreaUID)).FirstOrDefault();
+                    //为空，则添加记录
+                    if (fav == null)
+                    {
+                        db.Favorite.InsertOnSubmit(new Domain.Db.Favorite
+                        {
+                            FavoriteUID = Guid.NewGuid().ToString(),
+                            FavoriteTime = DateTime.Now,
+                            TreasureID = TreaUID,
+                            UserID = curruserid
+                        });
+                        db.SubmitChanges();
+                        result = "OK";
+                        //相应的物品收藏量加一
+                        var trea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(TreaUID)).FirstOrDefault();
+                        if (trea != null)
+                        {
+                            trea.Favorite++;
+                            repository.SaveTreasure(trea);
+                        }
+                    }
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 取消收藏
+        /// </summary>
+        /// <param name="TreaUID"></param>
+        /// <returns></returns>
+        public JsonResult CancelFavorite(string TreaUID = "")
+        {
+            string result = "Fail";
+            //获取当前用户id
+            var curruserid = CurrentUser.Id;
+
+            if (!string.IsNullOrEmpty(TreaUID))
+            {
+                using (var db = new FavoriteDataContext())
+                {
+                    //首先检查是不是已经收藏了
+                    var fav = db.Favorite.Where(f => (f.UserID == curruserid && f.TreasureID == TreaUID)).FirstOrDefault();
+                    //为空，则删除记录
+                    if (fav != null)
+                    {
+                        db.Favorite.DeleteOnSubmit(fav);
+                        db.SubmitChanges();
+                        result = "OK";
+                        //相应的物品收藏量减一
+                        var trea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(TreaUID)).FirstOrDefault();
+                        if (trea != null)
+                        {
+                            trea.Favorite--;
+                            repository.SaveTreasure(trea);
+                        }
+                    }
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// 获取当前用户

@@ -30,6 +30,9 @@ namespace Ewu.Domain.Db
 		
     #region 可扩展性方法定义
     partial void OnCreated();
+    partial void InsertFavorite(Favorite instance);
+    partial void UpdateFavorite(Favorite instance);
+    partial void DeleteFavorite(Favorite instance);
     #endregion
 		
 		public FavoriteDataContext() : 
@@ -72,8 +75,12 @@ namespace Ewu.Domain.Db
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Favorite")]
-	public partial class Favorite
+	public partial class Favorite : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _FavoriteUID;
 		
 		private string _UserID;
 		
@@ -81,8 +88,43 @@ namespace Ewu.Domain.Db
 		
 		private System.Nullable<System.DateTime> _FavoriteTime;
 		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnFavoriteUIDChanging(string value);
+    partial void OnFavoriteUIDChanged();
+    partial void OnUserIDChanging(string value);
+    partial void OnUserIDChanged();
+    partial void OnTreasureIDChanging(string value);
+    partial void OnTreasureIDChanged();
+    partial void OnFavoriteTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnFavoriteTimeChanged();
+    #endregion
+		
 		public Favorite()
 		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FavoriteUID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string FavoriteUID
+		{
+			get
+			{
+				return this._FavoriteUID;
+			}
+			set
+			{
+				if ((this._FavoriteUID != value))
+				{
+					this.OnFavoriteUIDChanging(value);
+					this.SendPropertyChanging();
+					this._FavoriteUID = value;
+					this.SendPropertyChanged("FavoriteUID");
+					this.OnFavoriteUIDChanged();
+				}
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="VarChar(50)")]
@@ -96,7 +138,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._UserID != value))
 				{
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
 					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
 				}
 			}
 		}
@@ -112,7 +158,11 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._TreasureID != value))
 				{
+					this.OnTreasureIDChanging(value);
+					this.SendPropertyChanging();
 					this._TreasureID = value;
+					this.SendPropertyChanged("TreasureID");
+					this.OnTreasureIDChanged();
 				}
 			}
 		}
@@ -128,8 +178,32 @@ namespace Ewu.Domain.Db
 			{
 				if ((this._FavoriteTime != value))
 				{
+					this.OnFavoriteTimeChanging(value);
+					this.SendPropertyChanging();
 					this._FavoriteTime = value;
+					this.SendPropertyChanged("FavoriteTime");
+					this.OnFavoriteTimeChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

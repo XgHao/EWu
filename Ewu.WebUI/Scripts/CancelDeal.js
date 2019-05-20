@@ -12,7 +12,7 @@
             },
             success: function (data) {
                 //删除成功
-                if (data == "\"OK\"") {
+                if (data == "\"OK\"" || data == "OK") {
                     //刷新页面
                     location.reload();
                 }

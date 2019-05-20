@@ -56,7 +56,12 @@ namespace Ewu.WebUI.Models.ViewModel
         /// <summary>
         /// 所属人
         /// </summary>
-        public AppUser TreasureHolder { get; set; }
+        public BasicUserInfo TreasureHolder { get; set; }
+
+        /// <summary>
+        /// 当前用户信息
+        /// </summary>
+        public BasicUserInfo userInfo { get; set; }
     }
 
     /// <summary>
@@ -67,7 +72,7 @@ namespace Ewu.WebUI.Models.ViewModel
         /// <summary>
         /// 是否推荐
         /// </summary>
-        public bool IsReaommend { get; set; }
+        public bool? IsReaommend { get; set; }
 
         /// <summary>
         /// 评价信息
@@ -77,7 +82,7 @@ namespace Ewu.WebUI.Models.ViewModel
         /// <summary>
         /// 评价时间
         /// </summary>
-        public DateTime Time { get; set; }
+        public DateTime? Time { get; set; }
 
         /// <summary>
         /// 评论人
