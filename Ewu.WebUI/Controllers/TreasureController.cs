@@ -44,6 +44,9 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ViewResult List(string category, int page = 1, int PageSize = 12)
         {
+            //获取当前用户ID
+            string id = CurrentUser.Id;
+
             //1.首先获取当前条件下的所有物品集合
             var Treasures = repository.Treasures
                                 //筛选-1.当前类或者类型为空的 2.不能选择图片为空的(图片为空当作未完成项) 3.有正在交易的订单
@@ -58,10 +61,23 @@ namespace Ewu.WebUI.Controllers
             foreach (var trea in Treasures)
             {
                 AppUser holder = UserManager.FindById(trea.HolderID);
+                bool IsFavorite = false;
+                //检查是否已收藏
+                using(var db = new FavoriteDataContext())
+                {
+                    var fav = db.Favorite.Where(f => (f.UserID == id && f.TreasureID == trea.TreasureUID.ToString())).FirstOrDefault();
+                    //不等于空，既有收藏记录
+                    if (fav != null)
+                    {
+                        IsFavorite = true;
+                    }
+                }
+                //添加模型
                 treasureAndHolders.Add(new TreasureAndHolderInfo
                 {
                     Treasure = trea,
-                    Holder = holder
+                    Holder = holder,
+                    IsFavorite = IsFavorite
                 });
             }
 
@@ -265,28 +281,54 @@ namespace Ewu.WebUI.Controllers
         [Authorize]
         public ActionResult TreasureInfo(string TreasureUID = "")
         {
+            //获取当前用户id
+            string id = CurrentUser.Id;
+
             if (!string.IsNullOrEmpty(TreasureUID))
             {
-                //#region 增加一次浏览量
-                //using (var db = new LogDataContext())
-                //{
-                //    db.LogBrowse.InsertOnSubmit(new LogBrowse
-                //    {
-                //        TreasureID = TreasureUID,
-                //        BLogUID = Guid.NewGuid(),
-                //        BrowserID = CurrentUser.Id,
-                //        BrowserTime = DateTime.Now,
-                       
-                //    });
-                //    db.SubmitChanges();
-                //}
-                //#endregion
-
                 Guid Treasureguid = Guid.Parse(TreasureUID);
+
+                #region 增加一次浏览量
+                //判断当前用户，当前物品的浏览记录是否已经存在
+                using (var db = new LogDataContext())
+                {
+                    var logbrowse = db.LogBrowse.Where(b => (b.TreasureID == TreasureUID && b.BrowserID == id)).FirstOrDefault();
+
+                    //不存在记录，则增加一条
+                    if (logbrowse == null)
+                    {
+                        db.LogBrowse.InsertOnSubmit(new LogBrowse
+                        {
+                            BLogUID = Guid.NewGuid(),
+                            BrowserID = id,
+                            TreasureID = TreasureUID,
+                            BrowserTime = DateTime.Now
+                        });
+                        db.SubmitChanges();
+                        //物品浏览量加一
+                        var trea = repository.Treasures.Where(t => t.TreasureUID == Treasureguid).FirstOrDefault();
+                        trea.BrowseNum++;
+                        repository.SaveTreasure(trea);
+                    }
+                }
+                #endregion
+
                 Treasure treasure = repository.Treasures.Where(t => t.TreasureUID == Treasureguid).FirstOrDefault();
                 var imgs = treasure.DetailPic.Split('|');
                 if (treasure != null)
                 {
+                    //判断是否已经收藏
+                    bool isFavarite = false;
+                    using(var db = new FavoriteDataContext())
+                    {
+                        var fav = db.Favorite.Where(f => (f.UserID == id && f.TreasureID == TreasureUID)).FirstOrDefault();
+                        //若不为空，即存在记录，则说明已经收藏
+                        if (fav != null)
+                        {
+                            isFavarite = true;
+                        }
+                    }
+
                     //定义一个视图模型
                     TreaInfo treaInfo = new TreaInfo
                     {
@@ -294,7 +336,8 @@ namespace Ewu.WebUI.Controllers
                         LoginUserInfo = CurrentUser,
                         treasureInfo = treasure,
                         //108是生成图片路径的固定的长度
-                        DetailImgs = imgs.Where(t => t.Length == 108)
+                        DetailImgs = imgs.Where(t => t.Length == 108),
+                        IsFavorite = isFavarite
                     };
                     return View(treaInfo);
                 }

@@ -108,7 +108,8 @@ namespace Ewu.WebUI.Models.ViewModel
         public AppUser LoginUserInfo { get; set; }
         //图片集合
         public IEnumerable<string> DetailImgs { get; set; }
-        
+        //是否收藏
+        public bool IsFavorite { get; set; }
     }
 
     /// <summary>

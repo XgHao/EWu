@@ -60,14 +60,24 @@
                                 @if (Model.HolderInfo.Id != Model.LoginUserInfo.Id)
                                 {
                                     <text>
-                                    <a href=@("/Deal/CreateDeal?TreasureUID="+Model.treasureInfo.TreasureUID) class="btn btn--round btn--lg btn--icon">
-                                        <span class="fa fa-hand-paper"></span>发起交易
-                                    </a>
+                                        <a href=@("/Deal/CreateDeal?TreasureUID="+Model.treasureInfo.TreasureUID) class="btn btn--round btn--lg btn--icon">
+                                            <span class="fa fa-hand-paper"></span>发起交易
+                                        </a>
                                     </text>
                                 }
-                                <a href="#" class="btn btn--round btn--lg btn--icon">
-                                    <span class="fa fa-heart"></span>添加收藏
-                                </a>
+                                <!--判断收藏-->
+                            <a href="javascript:void(0);" class="btn btn--round btn--lg btn--icon" onclick=@("AddFavorite('"+Model.treasureInfo.TreasureUID.ToString()+"')")>
+                                @if (Model.IsFavorite)
+                                {
+                                    <!--取消收藏-->
+                                    <span id=@("Favorite_"+Model.treasureInfo.TreasureUID.ToString()) class="fa fa-heart">取消收藏</span>
+                                }
+                                else
+                                {
+                                    <!--添加收藏-->
+                                    <span id=@("Favorite_"+Model.treasureInfo.TreasureUID.ToString()) class="fa fa-heart-o">添加收藏</span>
+                                }
+                            </a>
                             </div>
                         </div>
 
@@ -92,19 +102,14 @@
                                                     <div class="rating product--rating">
                                                         <ul>
                                                             <li>
-                                                                <span class="fa fa-star"></span>
+                                                                <a href="#" class="btn btn--round btn--bordered btn-success btn--icon">
+                                                                    <span class="fa fa-thumbs-up" style="font-size:large"></span>8个推荐
+                                                                </a>
                                                             </li>
                                                             <li>
-                                                                <span class="fa fa-star"></span>
-                                                            </li>
-                                                            <li>
-                                                                <span class="fa fa-star"></span>
-                                                            </li>
-                                                            <li>
-                                                                <span class="fa fa-star"></span>
-                                                            </li>
-                                                            <li>
-                                                                <span class="fa fa-star-half-o"></span>
+                                                                <a href="#" class="btn btn--round btn--bordered btn-danger btn--icon">
+                                                                    <span class="fa fa-thumbs-down" style="font-size:large"></span>2个不推荐
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -274,13 +279,13 @@
                             <li>
                                 <p class="data-label font-weight-bold">上传时间</p>
                                 <p class="info">
-                                    <button class="btn btn-success">@Model.treasureInfo.UploadTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
+                                    <button class="btn btn--bordered btn-secondary">@Model.treasureInfo.UploadTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
                                 </p>
                             </li>
                             <li>
                                 <p class="data-label font-weight-bold">信息更新时间</p>
                                 <p class="info">
-                                    <button class="btn btn-danger">@Model.treasureInfo.UpdateTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
+                                    <button class="btn btn--bordered btn-secondary">@Model.treasureInfo.UpdateTime.ToString("yyyy年MM月dd日 HH:mm:ss")</button>
                                 </p>
                             </li>
                             <li>
@@ -306,21 +311,7 @@
                                 <!--个人签名-->
                                 <p>@(Model.HolderInfo.Signature ?? "")</p>
                             </div>
-                            <!--评分信息-->
-                            <div class="social">
-                                <ul>
-                                    <li>
-                                        <a href="#" class="btn btn--sm btn--color5 btn--icon">
-                                            <span class="fa fa-thumbs-o-up" style="font-size:large"></span> 8个推荐&nbsp;
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="btn btn--sm btn--color5 btn--icon">
-                                            <span class="fa fa-thumbs-o-down" style="font-size:large"></span> 2个不推荐
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                           
                             <!--社交信息-->
                             <div class="social">
                                 <ul>

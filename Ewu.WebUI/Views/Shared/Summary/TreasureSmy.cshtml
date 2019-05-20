@@ -50,7 +50,15 @@
                 <span>@Model.Treasure.UpdateTime.ToShortDateString()</span>
                 <!--收藏数-->
                 <a href="javascript:void(0);" onclick=@("AddFavorite('"+Model.Treasure.TreasureUID+"')")>
-                    <span id=@("Favorite_"+Model.Treasure.TreasureUID) class="fa fa-heart-o text-danger">@Model.Treasure.Favorite</span>
+                    <!--已收藏-->
+                    @if (Model.IsFavorite)
+                    {
+                        <span id=@("Favorite_"+Model.Treasure.TreasureUID) class="fa fa-heart text-danger">@Model.Treasure.Favorite</span>
+                    }
+                    else
+                    {
+                        <span id=@("Favorite_"+Model.Treasure.TreasureUID) class="fa fa-heart-o text-danger">@Model.Treasure.Favorite</span>
+                    }
                 </a>
             </div>
             <!--浏览量-->

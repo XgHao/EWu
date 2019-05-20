@@ -50,5 +50,7 @@ namespace Ewu.WebUI.Models.ViewModel
     {
         public Treasure Treasure { get; set; }
         public AppUser Holder { get; set; }
+
+        public bool IsFavorite { get; set; }
     }
 }
