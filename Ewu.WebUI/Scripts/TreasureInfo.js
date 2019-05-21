@@ -1,4 +1,5 @@
-﻿function AddFavorite(treasureid) {
+﻿//收藏
+function AddFavorite(treasureid) {
     //获取对象
     var Heart = $("#Favorite_" + treasureid);
 
@@ -71,12 +72,58 @@
             }
         });
     }
-
-
-
-
 }
 
+//留言
+function Comment(userid) {
+    //获取评论框对象,按钮对象
+    var comBox = $("#comment");
+    var btn = $("#Icon");
+
+    if (btn.hasClass("fa-paper-plane-o")) {
+        //获取评论信息
+        var comment = comBox.val();
+        if (comment != "" || comment != null) {
+            btn.removeClass("fa-paper-plane-o").addClass("fa-circle-o-notch fa-spin fa-fw");
+
+            //添加留言信息
+            $.ajax({
+                type: "POST",
+                dateType: "text",
+                url: "/Account/Comment",
+                data: {
+                    "UserID": userid,
+                    "Comment": comment,
+                },
+                error: function (msg) {
+                    alert("请求失败，请联系957553851@qq.com" + msg);
+                    btn.removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-paper-plane-o");
+                },
+                success: function (data) {
+                    //成功
+                    if (data == "OK" || data == "\"OK\"") {
+                        //清空留言栏
+                        btn.text("");
+                        //更改样式
+                        btn.removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-check");
+                    }
+                    //失败
+                    else {
+                        btn.removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-paper-plane-o");
+                    }
+                }
+            });
+        }
+    }
+}
+
+//监听评论-更改后修改btn样式
+$("#comment").change(function () {
+    if($("#Icon").hasClass("fa-check"))
+    {
+        $("#Icon").removeClass("fa-check").addClass("fa-paper-plane-o");
+    }
+});
 
 $(function () {
     $(".carousel-content").carousel({

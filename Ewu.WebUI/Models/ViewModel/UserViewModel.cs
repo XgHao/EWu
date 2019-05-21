@@ -86,6 +86,84 @@ namespace Ewu.WebUI.Models.ViewModel
     }
 
     /// <summary>
+    /// 用户信息
+    /// </summary>
+    public class UserHeadInfo
+    {
+        /// <summary>
+        /// 用户基本信息
+        /// </summary>
+        public BasicUserInfo BasicUserInfo { get; set; }
+
+        /// <summary>
+        /// 通知
+        /// </summary>
+        public IEnumerable<NoticeTongZhi> noticeTongZhis { get; set; }
+        
+        /// <summary>
+        /// 留言
+        /// </summary>
+        public IEnumerable<NoticeLiuYan> noticeLiuYans { get; set; }
+    }
+
+    /// <summary>
+    /// 通知
+    /// </summary>
+    public class NoticeTongZhi
+    {
+        /// <summary>
+        /// 物品
+        /// </summary>
+        public Treasure Treasure { get; set; }
+
+        /// <summary>
+        /// 动作
+        /// </summary>
+        public string Action { get; set; }
+
+        /// <summary>
+        /// 用户基本信息
+        /// </summary>
+        public BasicUserInfo BasicUserInfo { get; set; }
+
+        /// <summary>
+        /// 时间
+        /// </summary>
+        public DateTime Time { get; set; }
+
+        /// <summary>
+        /// 是否已读
+        /// </summary>
+        public bool isRead { get; set; }
+    }
+
+    /// <summary>
+    /// 留言
+    /// </summary>
+    public class NoticeLiuYan
+    {
+        /// <summary>
+        /// 用户基本信息
+        /// </summary>
+        public BasicUserInfo BasicUserInfo { get; set; }
+
+        /// <summary>
+        /// 留言内容
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
+        /// 时间
+        /// </summary>
+        public DateTime Time { get; set; }
+
+        /// <summary>
+        /// 是否已读
+        /// </summary>
+        public bool isRead { get; set; }
+    }
+
+    /// <summary>
     /// 上传图片模型
     /// </summary>
     public class UploadImgs
@@ -110,6 +188,22 @@ namespace Ewu.WebUI.Models.ViewModel
         public IEnumerable<string> DetailImgs { get; set; }
         //是否收藏
         public bool IsFavorite { get; set; }
+        //当前登录人-评论头像显示
+        public BasicUserInfo CurrenUser { get; set; }
+        //浏览记录
+        public IEnumerable<BrowseLog> browseLogs { get; set; }
+    }
+
+    /// <summary>
+    /// 浏览记录
+    /// </summary>
+    public class BrowseLog
+    {
+        //浏览者
+        public BasicUserInfo Browser { get; set; }
+
+        //浏览时间
+        public DateTime BrowserTime { get; set; }
     }
 
     /// <summary>
@@ -230,6 +324,11 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 用户名
         /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public string Gender { get; set; }
 
         /// <summary>
         /// 用户真实姓名

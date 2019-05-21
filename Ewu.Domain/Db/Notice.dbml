@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LinJiaoFengJu" Class="NoticeDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString2" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Notice" Member="Notice">
+    <Type Name="Notice">
+      <Column Name="NoticeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RecipientID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SponsorID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NoticeObject" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NoticeContent" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="NoticeTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TreasureUID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

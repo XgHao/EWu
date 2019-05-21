@@ -304,12 +304,18 @@ namespace Ewu.WebUI.Controllers
                             TreasureID = TreasureUID,
                             BrowserTime = DateTime.Now
                         });
-                        db.SubmitChanges();
                         //物品浏览量加一
                         var trea = repository.Treasures.Where(t => t.TreasureUID == Treasureguid).FirstOrDefault();
                         trea.BrowseNum++;
                         repository.SaveTreasure(trea);
                     }
+                    //若存在则修改访问时间
+                    else
+                    {
+                        logbrowse.BrowserTime = DateTime.Now;
+
+                    }
+                    db.SubmitChanges();
                 }
                 #endregion
 
@@ -329,6 +335,31 @@ namespace Ewu.WebUI.Controllers
                         }
                     }
 
+                    //获取浏览记录
+                    List<BrowseLog> browses = new List<BrowseLog>();
+                    using(var db = new LogDataContext())
+                    {
+                        var logBrowses = db.LogBrowse.Where(b => b.TreasureID == TreasureUID).OrderByDescending(b => b.BrowserTime).Take(6);
+                        foreach(var log in logBrowses)
+                        {
+                            var user = UserManager.FindById(log.BrowserID);
+                            if (user != null)
+                            {
+                                browses.Add(new BrowseLog
+                                {
+                                    Browser = new BasicUserInfo
+                                    {
+                                        HeadImg = user.HeadPortrait,
+                                        UserID = user.Id,
+                                        Gender = user.Gender,
+                                        UserName = user.UserName
+                                    },
+                                    BrowserTime = log.BrowserTime
+                                });
+                            }
+                        }
+                    }
+
                     //定义一个视图模型
                     TreaInfo treaInfo = new TreaInfo
                     {
@@ -337,7 +368,12 @@ namespace Ewu.WebUI.Controllers
                         treasureInfo = treasure,
                         //108是生成图片路径的固定的长度
                         DetailImgs = imgs.Where(t => t.Length == 108),
-                        IsFavorite = isFavarite
+                        IsFavorite = isFavarite,
+                        CurrenUser = new BasicUserInfo
+                        {
+                            HeadImg = CurrentUser.HeadPortrait
+                        },
+                        browseLogs = browses.AsEnumerable()
                     };
                     return View(treaInfo);
                 }

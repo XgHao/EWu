@@ -136,6 +136,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogDeal.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Db\Notice.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Notice.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Db\Tracking1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -211,6 +216,14 @@
     </None>
     <None Include="Db\LogDeal.dbml.layout">
       <DependentUpon>LogDeal.dbml</DependentUpon>
+    </None>
+    <None Include="Db\Notice.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Notice.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Db\Notice.dbml.layout">
+      <DependentUpon>Notice.dbml</DependentUpon>
     </None>
     <None Include="Db\Tracking.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

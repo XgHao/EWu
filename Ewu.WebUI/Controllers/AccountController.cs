@@ -79,18 +79,80 @@ namespace Ewu.WebUI.Controllers
         /// 用户信息
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public PartialViewResult UserInfo()
         {
-            if (CurrentUser != null)
+            //获取当前用户id
+            string userid = CurrentUser.Id;
+
+            //新建通知留言List
+            List<NoticeTongZhi> tongZhis = new List<NoticeTongZhi>();
+            List<NoticeLiuYan> liuYans = new List<NoticeLiuYan>();
+
+            //获取信息
+            using (var db = new NoticeDataContext())
             {
-                return PartialView(CurrentUser);
+                var notices = db.Notice.Where(n => n.RecipientID == userid).OrderByDescending(n => n.NoticeTime);
+                //遍历所有的Notice
+                foreach(var notice in notices)
+                {
+                    //获取当前发起人的信息
+                    var user = UserManager.FindById(notice.SponsorID);
+                    if (user != null)
+                    {
+                        //留言类
+                        if (notice.NoticeObject == "留言")
+                        {
+                            liuYans.Add(new NoticeLiuYan
+                            {
+                                BasicUserInfo = new BasicUserInfo
+                                {
+                                    UserID = user.Id,
+                                    HeadImg = user.HeadPortrait,
+                                    UserName = user.UserName
+                                },
+                                Content = notice.NoticeContent,
+                                isRead = notice.IsRead,
+                                Time = notice.NoticeTime
+                            });
+                        }
+                        //其他通知类
+                        else
+                        {
+                            //获取物品对象
+                            var trea = repository.Treasures.Where(t => t.TreasureUID == Guid.Parse(notice.TreasureUID)).FirstOrDefault();
+                            if (trea != null)
+                            {
+                                tongZhis.Add(new NoticeTongZhi
+                                {
+                                    BasicUserInfo = new BasicUserInfo
+                                    {
+                                        UserID = user.Id,
+                                        UserName = user.UserName,
+                                        HeadImg = user.HeadPortrait
+                                    },
+                                    Action = notice.NoticeObject,
+                                    isRead = notice.IsRead,
+                                    Time = notice.NoticeTime,
+                                    Treasure = trea
+                                });
+                            }
+                        }
+                    }
+                }
             }
-            else
+
+            return PartialView(new UserHeadInfo
             {
-                CurrentUser.UserName = "请登录";
-                CurrentUser.HeadPortrait = "";
-                return PartialView(CurrentUser);
-            }
+                BasicUserInfo = new BasicUserInfo
+                {
+                    HeadImg = CurrentUser.HeadPortrait,
+                    UserID = CurrentUser.Id,
+                    RealName = CurrentUser.RealName
+                },
+                noticeLiuYans = liuYans,
+                noticeTongZhis = tongZhis
+            });
         }
 
         /// <summary>
@@ -737,6 +799,43 @@ namespace Ewu.WebUI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 评价
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <param name="Comment"></param>
+        /// <returns></returns>
+        public JsonResult Comment(string UserID="",string Comment = "")
+        {
+            string result = "Fail";
+            if (!string.IsNullOrEmpty(UserID) && !string.IsNullOrEmpty(Comment))
+            {
+                //获取当前用户id
+                string curruserid = CurrentUser.Id;
+                if (curruserid != UserID)
+                {
+                    if (UserManager.FindById(UserID) != null)
+                    {
+                        using (var db = new NoticeDataContext())
+                        {
+                            db.Notice.InsertOnSubmit(new Domain.Db.Notice
+                            {
+                                IsRead = false,
+                                NoticeContent = Comment,
+                                NoticeObject = "留言",
+                                NoticeTime = DateTime.Now,
+                                NoticeUID = Guid.NewGuid(),
+                                RecipientID = UserID,
+                                SponsorID = curruserid
+                            });
+                            db.SubmitChanges();
+                            result = "OK";
+                        }
+                    }
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         /// <summary>
         /// 获取当前用户
