@@ -55,66 +55,13 @@
     <div class="filter-area">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                     <div class="filter-bar">
                         <!--分类-->
                         @Html.Action("Category", "Nav")
 
                         <!--排序-->
                         @Html.Action("Orderby", "Nav")
-
-                        <!--价格范围-->
-                        <div class="filter__option filter--dropdown filter--range">
-                            <a href="#" id="drop3" class="dropdown-trigger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Price Range
-                                <span class="lnr lnr-chevron-down"></span>
-                            </a>
-                            <div class="custom_dropdown dropdown-menu" aria-labelledby="drop3">
-                                <div class="range-slider price-range"></div>
-
-                                <div class="price-ranges">
-                                    <span class="from rounded">$30</span>
-                                    <span class="to rounded">$300</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--价格排序-->
-                        <div class="filter__option filter--select">
-                            <div class="select-wrap">
-                                <select name="price">
-                                    <option value="low">Price : Low to High</option>
-                                    <option value="high">Price : High to low</option>
-                                </select>
-                                <span class="lnr lnr-chevron-down"></span>
-                            </div>
-                        </div>
-
-                        <!--每页项-->
-                        <div class="filter__option filter--select">
-                            <div class="select-wrap">
-                                <select name="price">
-                                    <option value="12">12 Items per page</option>
-                                    <option value="15">15 Items per page</option>
-                                    <option value="25">25 Items per page</option>
-                                </select>
-                                <span class="lnr lnr-chevron-down"></span>
-                            </div>
-                        </div>
-
-                        <!--显示样式-->
-                        <div class="filter__option filter--layout">
-                            <a href="all-products.html">
-                                <div class="svg-icon">
-                                    <img class="svg" src="~/images/svg/grid.svg" alt="it's just a layout control folks!">
-                                </div>
-                            </a>
-                            <a href="all-products-list.html">
-                                <div class="svg-icon">
-                                    <img class="svg" src="~/images/svg/list.svg" alt="it's just a layout control folks!">
-                                </div>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>

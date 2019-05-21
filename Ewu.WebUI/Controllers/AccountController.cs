@@ -10,6 +10,7 @@ using Ewu.WebUI.Infrastructure.Abstract;
 using Ewu.WebUI.Infrastructure.Identity;
 using Ewu.WebUI.Models.ViewModel;
 using Ewu.WebUI.HtmlHelpers;
+using Ewu.WebUI.API;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -92,7 +93,7 @@ namespace Ewu.WebUI.Controllers
             //获取信息
             using (var db = new NoticeDataContext())
             {
-                var notices = db.Notice.Where(n => n.RecipientID == userid).OrderByDescending(n => n.NoticeTime);
+                var notices = db.Notice.Where(n => (n.RecipientID == userid && n.IsRead == false)).OrderByDescending(n => n.NoticeTime);
                 //遍历所有的Notice
                 foreach(var notice in notices)
                 {
@@ -113,7 +114,8 @@ namespace Ewu.WebUI.Controllers
                                 },
                                 Content = notice.NoticeContent,
                                 isRead = notice.IsRead,
-                                Time = notice.NoticeTime
+                                Time = notice.NoticeTime,
+                                Id = notice.NoticeUID.ToString()
                             });
                         }
                         //其他通知类
@@ -134,7 +136,8 @@ namespace Ewu.WebUI.Controllers
                                     Action = notice.NoticeObject,
                                     isRead = notice.IsRead,
                                     Time = notice.NoticeTime,
-                                    Treasure = trea
+                                    Treasure = trea,
+                                    Id = notice.NoticeUID.ToString()
                                 });
                             }
                         }
@@ -805,10 +808,10 @@ namespace Ewu.WebUI.Controllers
         /// <param name="UserID"></param>
         /// <param name="Comment"></param>
         /// <returns></returns>
-        public JsonResult Comment(string UserID="",string Comment = "")
+        public JsonResult Comment(string UserID="",string Comment = "",string TreaUID = "")
         {
             string result = "Fail";
-            if (!string.IsNullOrEmpty(UserID) && !string.IsNullOrEmpty(Comment))
+            if (!string.IsNullOrEmpty(UserID) && !string.IsNullOrEmpty(Comment) && !string.IsNullOrEmpty(TreaUID)) 
             {
                 //获取当前用户id
                 string curruserid = CurrentUser.Id;
@@ -816,25 +819,217 @@ namespace Ewu.WebUI.Controllers
                 {
                     if (UserManager.FindById(UserID) != null)
                     {
-                        using (var db = new NoticeDataContext())
-                        {
-                            db.Notice.InsertOnSubmit(new Domain.Db.Notice
-                            {
-                                IsRead = false,
-                                NoticeContent = Comment,
-                                NoticeObject = "留言",
-                                NoticeTime = DateTime.Now,
-                                NoticeUID = Guid.NewGuid(),
-                                RecipientID = UserID,
-                                SponsorID = curruserid
-                            });
-                            db.SubmitChanges();
-                            result = "OK";
-                        }
+                        //添加Notice
+                        new Identity().AddNotice(UserID, curruserid, "咨询", Comment, TreaUID, null);
+                        result = "OK";
                     }
                 }
             }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 回复
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <param name="Comment"></param>
+        /// <returns></returns>
+        public JsonResult Reply(string UserID = "", string Comment = "", string NoticeId = "")
+        {
+            string result = "Fail";
+            if (!string.IsNullOrEmpty(UserID) && !string.IsNullOrEmpty(Comment) && !string.IsNullOrEmpty(NoticeId))
+            {
+                //获取当前用户id
+                string curruserid = CurrentUser.Id;
+                if (curruserid != UserID)
+                {
+                    if (UserManager.FindById(UserID) != null)
+                    {
+                        //添加Notice
+                        new Identity().AddNotice(UserID, curruserid, "留言", Comment, null, NoticeId);
+                        result = "OK";
+                    }
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 我的通知
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Message(string NoticeUID = "")
+        {
+            if (!string.IsNullOrEmpty(NoticeUID))
+            {
+                //获取通知对象
+                using(var db = new NoticeDataContext())
+                {
+                    var notice = db.Notice.Where(n => n.NoticeUID == Guid.Parse(NoticeUID)).FirstOrDefault();
+
+                    //将当前通知设为已读
+                    notice.IsRead = true;
+                    db.SubmitChanges();
+
+                    if (notice != null)
+                    {
+                        //新建视图模型
+                        MessageViewModel model = new MessageViewModel
+                        {
+                            BasicUserInfoMy = new BasicUserInfo
+                            {
+                                UserID = CurrentUser.Id,
+                                UserName=CurrentUser.UserName
+                            },
+                            BasicUserInfoTa = new BasicUserInfo
+                            {
+                                UserID = UserManager.FindById(notice.SponsorID).Id,
+                                UserName=UserManager.FindById(notice.SponsorID).UserName
+                            },
+                            CurrMessUID = notice.NoticeUID.ToString(),
+                        };
+
+                        //新建历史消息集合
+                        List<Message> messageLog = new List<Message>();
+                        bool isR = true;
+                        //不为空，
+                        if (notice.RelpyNoticeUID != null)
+                        {
+                            do
+                            {
+                                //获取发起人
+                                var Spon = UserManager.FindById(notice.SponsorID);
+                                if (Spon != null)
+                                {
+                                    messageLog.Add(new Message
+                                    {
+                                        BasicUserInfo = new BasicUserInfo
+                                        {
+                                            UserID = Spon.Id,
+                                            HeadImg = Spon.HeadPortrait,
+                                            Email = Spon.Email,
+                                            UserName = Spon.UserName
+                                        },
+                                        Notice = notice
+                                    });
+                                }
+                                if (notice.RelpyNoticeUID == null)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    notice = db.Notice.Where(n => n.NoticeUID == Guid.Parse(notice.RelpyNoticeUID)).FirstOrDefault();
+                                }
+                            } while (true);
+                        }
+                        else
+                        {
+                            do
+                            {
+                                //获取发起人
+                                var Spon = UserManager.FindById(notice.SponsorID);
+                                if (Spon != null)
+                                {
+                                    messageLog.Add(new Message
+                                    {
+                                        BasicUserInfo = new BasicUserInfo
+                                        {
+                                            UserID = Spon.Id,
+                                            HeadImg = Spon.HeadPortrait,
+                                            Email = Spon.Email,
+                                            UserName = Spon.UserName
+                                        },
+                                        Notice = notice
+                                    });
+                                }
+                                //检查当前有无回复目标
+                                notice = db.Notice.Where(t => t.RelpyNoticeUID == notice.NoticeUID.ToString()).FirstOrDefault();
+                                if (notice == null)
+                                {
+                                    break;
+                                }
+                            } while (true);
+                            isR = false;
+                        }
+                        if (isR)
+                        {
+                            var notice2 = db.Notice.Where(n => n.NoticeUID == Guid.Parse(NoticeUID)).FirstOrDefault();
+                            int cnt = 0;
+                            do
+                            {
+                                //获取发起人
+                                var Spon = UserManager.FindById(notice2.SponsorID);
+                                if (Spon != null)
+                                {
+                                    if (cnt != 0)
+                                    {
+                                        messageLog.Add(new Message
+                                        {
+                                            BasicUserInfo = new BasicUserInfo
+                                            {
+                                                UserID = Spon.Id,
+                                                HeadImg = Spon.HeadPortrait,
+                                                Email = Spon.Email,
+                                                UserName = Spon.UserName
+                                            },
+                                            Notice = notice2
+                                        });
+                                    }
+                                }
+                                //检查当前有无回复目标
+                                notice2 = db.Notice.Where(t => t.RelpyNoticeUID == notice2.NoticeUID.ToString()).FirstOrDefault();
+                                if (notice2 == null)
+                                {
+                                    break;
+                                }
+                                cnt = 1;
+                            } while (true);
+                        }
+
+                        //添加数据
+                        model.Messages = messageLog.OrderBy(m=>m.Notice.NoticeTime).Distinct().AsEnumerable();
+                        return View(model);
+                    }
+                }
+            }
+
+            return View("Error");
+        }
+
+        /// <summary>
+        /// 所有消息
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult AllMessage()
+        {
+            string id = CurrentUser.Id;
+            List<Message> model = new List<Message>();
+
+            using (var db = new NoticeDataContext())
+            {
+                var notices = db.Notice.Where(n => ((n.RecipientID == id || n.SponsorID == id) && (n.NoticeObject == "留言" || n.NoticeObject == "咨询")));
+                foreach(var no in notices)
+                {
+                    var user = UserManager.FindById(no.SponsorID);
+                    model.Add(new Message
+                    {
+                        BasicUserInfo = new BasicUserInfo
+                        {
+                            UserID = user.Id,
+                            HeadImg = user.HeadPortrait,
+                            UserName = user.UserName
+                        },
+                        Notice = no
+                    });
+                }
+                return View(new AllMessageViewModel
+                {
+                    Cnt = notices.Count(),
+                    Messages = model.OrderBy(m=>m.Notice.NoticeTime).AsEnumerable()
+                });
+            }
         }
 
         /// <summary>

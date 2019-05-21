@@ -1,0 +1,101 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model MessageViewModel
+
+@{
+    ViewBag.Title = "Message";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">通知管理</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">DealLog</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="message_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="chat_area cardify">
+                    <!--标题-->
+                    <div class="chat_area--title">
+                        <h3>
+                            消息来自
+                            <span class="name">@Model.BasicUserInfoTa.UserName</span>
+                        </h3>
+                    </div>
+                    <!--内容-->
+                    <div class="chat_area--conversation">
+                        @foreach (var mess in Model.Messages)
+                        {
+                            <div class="conversation">
+                                <div class="head">
+                                    <div class="chat_avatar">
+                                        <img src=@mess.BasicUserInfo.HeadImg alt="Notification avatar">
+                                    </div>
+
+                                    <div class="name_time">
+                                        <div>
+                                            <h4>@mess.BasicUserInfo.UserName</h4>
+                                            <p>@mess.Notice.NoticeTime</p>
+                                        </div>
+                                        <span class="email">@mess.BasicUserInfo.Email</span>
+                                    </div>
+                                </div>
+
+                                <div class="body">
+                                    <p>
+                                        @mess.Notice.NoticeContent
+                                    </p>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="chat_area cardify">
+                    <div class="chat_area--title">
+                        <h3>回复</h3>
+                    </div>
+
+
+                    <div class="message_composer composing">
+                        <textarea id="comment" type="text" class="recipient_field" placeholder="你的回复"></textarea>
+                        <div class="btns">
+                            <button class="btn btn--icon send btn--sm btn--round" onclick="Comment()">
+                                <span id="Icon" class="fa fa-paper-plane-o"></span>发送
+                            </button>
+                        </div>
+                        @Html.HiddenFor(h=>h.BasicUserInfoTa.UserID)
+                        @Html.HiddenFor(h=>h.CurrMessUID)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -139,7 +139,7 @@
                                     <a href="#product-log" aria-controls="product-comment" role="tab" data-toggle="tab">Ta也看过</a>
                                 </li>
                                 <li class="col-4 text-center">
-                                    <a href="#product-comment" aria-controls="product-details" role="tab" data-toggle="tab">@("给" + (Model.HolderInfo.Gender == "男" ? "他" : "她") + "留言")</a>
+                                    <a href="#product-comment" aria-controls="product-details" role="tab" data-toggle="tab">@("向" + (Model.HolderInfo.Gender == "男" ? "他" : "她") + "咨询")</a>
                                 </li>
                             </ul>
                         </div>
@@ -211,6 +211,7 @@
                                             <!--动作-->
                                             <button class="btn btn--sm btn--round btn--icon  pull-right" onclick=@("Comment('" + Model.HolderInfo.Id + "')")>
                                                 <span id="Icon" class="fa fa-paper-plane-o" style="font-size:large"></span>
+                                                @Html.HiddenFor(t => t.treasureInfo.TreasureUID)
                                             </button>
                                         </div>
                                     </div>

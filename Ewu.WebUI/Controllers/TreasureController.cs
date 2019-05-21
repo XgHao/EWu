@@ -36,6 +36,40 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 主页
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult Index()
+        {
+            //新建视图
+            IndexViewModel model = new IndexViewModel();
+
+            #region 随便看看
+            var Alltreasure = repository.Treasures.Where(t => t.DLogUID == null).ToList().AsEnumerable();
+            List<Treasure> treasureRandom = new List<Treasure>();
+            int cnt = Alltreasure.Count() > 5 ? 5 : Alltreasure.Count();
+            while (true)
+            {
+                treasureRandom = new List<Treasure>();
+                for (int i = 0; i < 2; i++)
+                {
+                    var r = new Random(Guid.NewGuid().GetHashCode());
+                    int res = r.Next(0, Alltreasure.Count());
+                    treasureRandom.Add(Alltreasure.ElementAt(res));
+                }
+                if (cnt == 6)
+                {
+                    break;
+                }
+            }
+            
+            #endregion
+              
+            return View();
+        }
+
+        /// <summary>
         /// 物品列表
         /// </summary>
         /// <param name="category">分类</param>

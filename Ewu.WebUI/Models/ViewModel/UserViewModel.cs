@@ -112,6 +112,11 @@ namespace Ewu.WebUI.Models.ViewModel
     public class NoticeTongZhi
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// 物品
         /// </summary>
         public Treasure Treasure { get; set; }
@@ -143,6 +148,11 @@ namespace Ewu.WebUI.Models.ViewModel
     public class NoticeLiuYan
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// 用户基本信息
         /// </summary>
         public BasicUserInfo BasicUserInfo { get; set; }
@@ -161,6 +171,60 @@ namespace Ewu.WebUI.Models.ViewModel
         /// 是否已读
         /// </summary>
         public bool isRead { get; set; }
+    }
+
+    /// <summary>
+    /// 消息视图模型
+    /// </summary>
+    public class MessageViewModel
+    {
+        /// <summary>
+        /// 所有历史消息
+        /// </summary>
+        public IEnumerable<Message> Messages { get; set; }
+
+        /// <summary>
+        /// 当前消息UID
+        /// </summary>
+        public string CurrMessUID { get; set; }
+
+        /// <summary>
+        /// 当前用户基本信息
+        /// </summary>
+        public BasicUserInfo BasicUserInfoMy { get; set; }
+
+
+        /// <summary>
+        /// 对方用户基本信息
+        /// </summary>
+        public BasicUserInfo BasicUserInfoTa { get; set; }
+    }
+
+
+    /// <summary>
+    /// 所有消息视图模型
+    /// </summary>
+    public class AllMessageViewModel
+    {
+        public int Cnt { get; set; }
+
+        public IEnumerable<Message> Messages { get; set; }
+    }
+    
+    /// <summary>
+    /// 消息类
+    /// </summary>
+    public class Message
+    {
+        /// <summary>
+        /// 用户信息
+        /// </summary>
+        public BasicUserInfo BasicUserInfo { get; set; }
+
+        /// <summary>
+        /// 具体信息
+        /// </summary>
+        public Notice Notice { get; set; }
     }
 
     /// <summary>

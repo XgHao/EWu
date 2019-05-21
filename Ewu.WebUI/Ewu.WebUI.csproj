@@ -778,6 +778,7 @@
     <Compile Include="Models\ViewModel\AccountInfoViewModel.cs" />
     <Compile Include="Models\ViewModel\ChangeInfoViewModel.cs" />
     <Compile Include="Models\ViewModel\FavoriteIndexViewModel.cs" />
+    <Compile Include="Models\ViewModel\IndexViewModel.cs" />
     <Compile Include="Models\ViewModel\LoginViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\ViewModel\TreasureListViewModel.cs" />
@@ -871,6 +872,10 @@
     <Content Include="Views\Account\AccountInfo.cshtml" />
     <Content Include="Views\Treasure\AccountFavorite.cshtml" />
     <Content Include="Views\Treasure\AccountList.cshtml" />
+    <Content Include="Views\Account\Message.cshtml" />
+    <Content Include="Views\Account\AllMessage.cshtml" />
+    <Content Include="Views\Treasure\Index.cshtml" />
+    <Content Include="Views\Shared\_IndexLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -893,6 +898,7 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>

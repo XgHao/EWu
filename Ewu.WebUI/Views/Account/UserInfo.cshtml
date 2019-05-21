@@ -32,28 +32,90 @@
                             @foreach (var logT in Model.noticeTongZhis)
                             {
                                 <!--通知一-->
-                                <div class="notification">
-                                    <div class="notification__info">
-                                        <!--用户头像-->
-                                        <div class="info_avatar">
-                                            <img src=@logT.BasicUserInfo.HeadImg alt="">
+                                if (logT.Action == "咨询")
+                                {
+                                    <a href=@("/Account/Message?NoticeUID="+logT.Id)>
+                                        <div class="notification">
+                                            <div class="notification__info">
+                                                <!--用户头像-->
+                                                <div class="info_avatar">
+                                                    <img src=@logT.BasicUserInfo.HeadImg alt="">
+                                                </div>
+                                                <!--缩略信息-->
+                                                <div class="info">
+                                                    <p>
+                                                        <span>@logT.BasicUserInfo.UserName</span> @logT.Action
+                                                        <!--物品详情信息-->
+                                                        <a href=@logT.Treasure.Link>@logT.Treasure.TreasureName</a>
+                                                    </p>
+                                                    <!--时间-->
+                                                    <p class="time">@logT.Time</p>
+                                                </div>
+                                            </div>
+                                            <!--通知类型样式图标-->
+                                            <div class="notification__icons ">
+                                                @if (logT.Action == "咨询")
+                                                {
+                                                    <span class="fa fa-question loved noti_icon"></span>
+                                                }
+                                                else if (logT.Action == "收藏")
+                                                {
+                                                    <span class="fa fa-heart loved noti_icon"></span>
+                                                }
+                                                else if (logT.Action == "发起交易")
+                                                {
+                                                    <span class="fa fa-handshake-o loved noti_icon"></span>
+                                                }
+                                                else if (logT.Action == "评价")
+                                                {
+                                                    <span class="fa fa-pencil loved noti_icon"></span>
+                                                }
+                                            </div>
                                         </div>
-                                        <!--缩略信息-->
-                                        <div class="info">
-                                            <p>
-                                                <span>@logT.BasicUserInfo.UserName</span> @logT.Action
-                                                <!--物品详情信息-->
-                                                <a href=@logT.Treasure.Link>@logT.Treasure.TreasureName</a>
-                                            </p>
-                                            <!--时间-->
-                                            <p class="time">@logT.Time</p>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="#">
+                                        <div class="notification">
+                                            <div class="notification__info">
+                                                <!--用户头像-->
+                                                <div class="info_avatar">
+                                                    <img src=@logT.BasicUserInfo.HeadImg alt="">
+                                                </div>
+                                                <!--缩略信息-->
+                                                <div class="info">
+                                                    <p>
+                                                        <span>@logT.BasicUserInfo.UserName</span> @logT.Action
+                                                        <!--物品详情信息-->
+                                                        <a href=@logT.Treasure.Link>@logT.Treasure.TreasureName</a>
+                                                    </p>
+                                                    <!--时间-->
+                                                    <p class="time">@logT.Time</p>
+                                                </div>
+                                            </div>
+                                            <!--通知类型样式图标-->
+                                            <div class="notification__icons ">
+                                                @if (logT.Action == "咨询")
+                                                {
+                                                    <span class="fa fa-question loved noti_icon"></span>
+                                                }
+                                                else if (logT.Action == "收藏")
+                                                {
+                                                    <span class="fa fa-heart loved noti_icon"></span>
+                                                }
+                                                else if (logT.Action == "发起交易")
+                                                {
+                                                    <span class="fa fa-handshake-o loved noti_icon"></span>
+                                                }
+                                                else if (logT.Action == "评价")
+                                                {
+                                                    <span class="fa fa-pencil loved noti_icon"></span>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!--通知类型样式图标-->
-                                    <div class="notification__icons ">
-                                        <span class="lnr lnr-heart loved noti_icon"></span>
-                                    </div>
-                                </div>
+                                    </a>
+                                }
                             }
                         </div>
                     </div>
@@ -79,7 +141,7 @@
                         <div class="messages">
                             @foreach (var logL in Model.noticeLiuYans)
                             {
-                                <a href="message.html" class="message recent">
+                                <a href=@("/Account/Message?NoticeUID="+logL.Id) class="message recent">
                                     <div class="message__actions_avatar">
                                         <div class="avatar">
                                             <img src=@logL.BasicUserInfo.HeadImg alt="">

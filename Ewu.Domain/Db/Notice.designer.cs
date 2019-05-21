@@ -96,6 +96,8 @@ namespace Ewu.Domain.Db
 		
 		private string _TreasureUID;
 		
+		private string _RelpyNoticeUID;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -116,6 +118,8 @@ namespace Ewu.Domain.Db
     partial void OnIsReadChanged();
     partial void OnTreasureUIDChanging(string value);
     partial void OnTreasureUIDChanged();
+    partial void OnRelpyNoticeUIDChanging(string value);
+    partial void OnRelpyNoticeUIDChanged();
     #endregion
 		
 		public Notice()
@@ -279,6 +283,26 @@ namespace Ewu.Domain.Db
 					this._TreasureUID = value;
 					this.SendPropertyChanged("TreasureUID");
 					this.OnTreasureUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RelpyNoticeUID", DbType="VarChar(50)")]
+		public string RelpyNoticeUID
+		{
+			get
+			{
+				return this._RelpyNoticeUID;
+			}
+			set
+			{
+				if ((this._RelpyNoticeUID != value))
+				{
+					this.OnRelpyNoticeUIDChanging(value);
+					this.SendPropertyChanging();
+					this._RelpyNoticeUID = value;
+					this.SendPropertyChanged("RelpyNoticeUID");
+					this.OnRelpyNoticeUIDChanged();
 				}
 			}
 		}

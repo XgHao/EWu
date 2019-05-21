@@ -1,0 +1,81 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model AllMessageViewModel
+@{
+    ViewBag.Title = "AllMessage";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">通知列表</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">DealLog</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="message_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="cardify messaging_sidebar">
+                    <div class="messaging__header">
+                        <div class="messaging_menu ">
+                            <a href="#" id="drop2" class="dropdown-toggle dropdown-trigger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="lnr lnr-inbox"></span>消息
+                                <span class="msg">@Model.Cnt</span>
+                            </a>
+                            
+                        </div>
+                    </div>
+
+                    <div class="messaging__contents">
+                        @foreach (var no in Model.Messages)
+                        {
+                            <div class="messages">
+                                <div class="message">
+                                    <div class="message__actions_avatar">
+                                        <div class="avatar">
+                                            <img src=@no.BasicUserInfo.HeadImg alt="">
+                                        </div>
+                                    </div>
+
+                                    <div class="message_data">
+                                        <div class="name_time">
+                                            <div class="name">
+                                                <p>@no.BasicUserInfo.UserName</p>
+                                                <span class="lnr lnr-envelope"></span>
+                                            </div>
+
+                                            <span class="time">@no.Notice.NoticeTime</span>
+                                            <p>@no.Notice.NoticeContent</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

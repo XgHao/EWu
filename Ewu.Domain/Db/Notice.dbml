@@ -10,6 +10,7 @@
       <Column Name="NoticeTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="TreasureUID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="RelpyNoticeUID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

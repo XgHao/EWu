@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using Ewu.Domain.Db;
 //腾讯云短信
 using qcloudsms_csharp;
 using qcloudsms_csharp.json;
@@ -616,6 +617,37 @@ namespace Ewu.WebUI.API
         }
         #endregion
 
+
+        #region 通知留言增加
+        /// <summary>
+        /// 添加留言通知
+        /// </summary>
+        /// <param name="RecipientID">接收人ID</param>
+        /// <param name="SponsorID">发起人ID</param>
+        /// <param name="NoticeObject">主题(类别)</param>
+        /// <param name="NoticeContent">内容</param>
+        /// <param name="TreasureUID">物品UID（可选）</param>
+        /// <returns></returns>
+        public void AddNotice(string RecipientID, string SponsorID, string NoticeObject, string NoticeContent, string TreasureUID = null, string RelpyNoticeUID = null)
+        {
+            using (var db = new NoticeDataContext())
+            {
+                db.Notice.InsertOnSubmit(new Domain.Db.Notice
+                {
+                    IsRead = false,
+                    NoticeContent = NoticeContent,
+                    NoticeObject = NoticeObject,
+                    NoticeTime = DateTime.Now,
+                    NoticeUID = Guid.NewGuid(),
+                    RecipientID = RecipientID,
+                    SponsorID = SponsorID,
+                    TreasureUID = TreasureUID,
+                    RelpyNoticeUID = RelpyNoticeUID
+                });
+                db.SubmitChanges();
+            }
+        }
+        #endregion
         public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {
             return true;

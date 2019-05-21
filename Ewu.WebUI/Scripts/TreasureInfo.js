@@ -79,6 +79,7 @@ function Comment(userid) {
     //获取评论框对象,按钮对象
     var comBox = $("#comment");
     var btn = $("#Icon");
+    var TreaUID = $("#treasureInfo_TreasureUID").val();
 
     if (btn.hasClass("fa-paper-plane-o")) {
         //获取评论信息
@@ -94,6 +95,7 @@ function Comment(userid) {
                 data: {
                     "UserID": userid,
                     "Comment": comment,
+                    "TreaUID": TreaUID
                 },
                 error: function (msg) {
                     alert("请求失败，请联系957553851@qq.com" + msg);
@@ -103,7 +105,7 @@ function Comment(userid) {
                     //成功
                     if (data == "OK" || data == "\"OK\"") {
                         //清空留言栏
-                        btn.text("");
+                        comBox.val("");
                         //更改样式
                         btn.removeClass("fa-circle-o-notch fa-spin fa-fw").addClass("fa-check");
                     }
