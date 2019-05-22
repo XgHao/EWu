@@ -41,23 +41,25 @@ namespace Ewu.WebUI.Controllers
             //获取各个分类的总数
             using(var db =new TreasureDataContext())
             {
+                var treas = db.Treasures.Where(t => (category == null || t.TreasureType == category) && (t.Cover != null && t.DetailPic != null) && (t.DLogUID == null));
+
                 //获取所有的分类
-                IEnumerable<string> categorise = db.Treasures
-                                                           .Select(x => x.TreasureType)
-                                                           .Distinct()
-                                                           .OrderBy(x => x);
+                IEnumerable<string> categorise = treas
+                                    .Select(x => x.TreasureType)
+                                    .Distinct()
+                                    .OrderBy(x => x);
 
                 //保存全部分类的信息
                 categoryInfos.Add(new CategoryInfo
                 {
-                    CateCount = db.Treasures.Count(),
+                    CateCount = treas.Count(),
                     CateName = "所有物品",
                     CateLink = "/Treasure/List"
                 });
 
                 foreach (var cate in categorise)
                 {
-                    catecount = db.Treasures.Where(x => x.TreasureType == cate).Count();
+                    catecount = treas.Where(x => x.TreasureType == cate).Count();
                     CategoryInfo categoryInfo = new CategoryInfo
                     {
                         CateName = cate,

@@ -802,8 +802,13 @@ namespace Ewu.WebUI.Controllers
                             trea.Favorite++;
                             repository.SaveTreasure(trea);
                         }
+                        //通知信息
+                        new Identity().AddNotice(trea.HolderID, curruserid, "收藏", "收藏", trea.TreasureUID.ToString());
                     }
                 }
+
+                
+
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

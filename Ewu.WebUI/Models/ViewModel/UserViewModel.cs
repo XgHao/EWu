@@ -256,6 +256,12 @@ namespace Ewu.WebUI.Models.ViewModel
         public BasicUserInfo CurrenUser { get; set; }
         //浏览记录
         public IEnumerable<BrowseLog> browseLogs { get; set; }
+
+
+        //推荐信息
+        public int DisRecommend { get; set; }
+        public int Recommend { get; set; }
+
     }
 
     /// <summary>

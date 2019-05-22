@@ -550,6 +550,47 @@ namespace Ewu.WebUI.Controllers
                         }
                     }
 
+
+                    //生成推荐信息
+                    int DisRecommend = 0;
+                    int Recommend = 0;
+                    // 1.首先找出当前用户完成的订单
+                    using (var db = new LogDealDataContext())
+                    {
+                        var logs = db.LogDeal.Where(l => ((l.TraderRecipientID == id || l.TraderSponsorID == id) && (l.DealStatus == "交易成功")));
+                        using (var db2 = new EvaluationDataContext())
+                        {
+                            //遍历所有完成的订单
+                            foreach(var log in logs)
+                            {
+                                var eva = db2.Evaluation.Where(e => e.DLogUID == log.DLogUID.ToString()).FirstOrDefault();
+                                //本次交易用户是接收人，则需要发起人的评价
+                                if (log.TraderRecipientID == id)
+                                {
+                                    //推荐
+                                    if (eva.IsRecommendSToR == true)
+                                    {
+                                        Recommend++;
+                                    }else if (eva.IsRecommendSToR == false)
+                                    {
+                                        DisRecommend++;
+                                    }
+                                }
+                                else
+                                {
+                                    if (eva.IsRecommendRToS == true)
+                                    {
+                                        Recommend++;
+                                    }else if (eva.IsRecommendRToS == false)
+                                    {
+                                        DisRecommend++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
                     //定义一个视图模型
                     TreaInfo treaInfo = new TreaInfo
                     {
@@ -563,7 +604,9 @@ namespace Ewu.WebUI.Controllers
                         {
                             HeadImg = CurrentUser.HeadPortrait
                         },
-                        browseLogs = browses.AsEnumerable()
+                        browseLogs = browses.AsEnumerable(),
+                        DisRecommend = DisRecommend,
+                        Recommend = Recommend
                     };
                     return View(treaInfo);
                 }
