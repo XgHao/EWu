@@ -171,7 +171,7 @@
         <div class="author-author__info inline has_dropdown">
             <!--头像-->
             <div class="author__avatar">
-                <img src=@Model.BasicUserInfo.HeadImg alt="user avatar">
+                <img height="60" width="60" src=@Model.BasicUserInfo.HeadImg alt="user avatar">
             </div>
 
             <!--昵称-->
@@ -188,58 +188,33 @@
                 <ul>
                     <!--个人信息-->
                     <li>
-                        <a href="author.html">
-                            <span class="lnr lnr-user"></span>个人信息
+                        <a href=@("/Account/ChangeUserInfo")>
+                            <span class="fa fa-user"></span>个人信息
                         </a>
                     </li>
                     <li>
-                        <a href="dashboard.html">
-                            <span class="lnr lnr-home"></span> Dashboard
+                        <a href=@("/Account/AccountInfo?UserID="+Model.BasicUserInfo.UserID)>
+                            <span class="fa fa-home"></span> 个人主页
                         </a>
                     </li>
                     <li>
-                        <a href="dashboard-setting.html">
-                            <span class="lnr lnr-cog"></span> 设置
+                        <a href=@("/Treasure/AccountFavorite?UserID="+Model.BasicUserInfo.UserID)>
+                            <span class="fa fa-heart"></span> 收藏
                         </a>
                     </li>
                     <li>
-                        <a href="cart.html">
-                            <span class="lnr lnr-cart"></span>Purchases
+                        <a href="/Account/AllDealLog">
+                            <span class="fa fa-handshake-o"></span>我的交易
                         </a>
                     </li>
                     <li>
-                        <a href="favourites.html">
-                            <span class="lnr lnr-heart"></span> Favourite
-                        </a>
-                    </li>
-                    <li>
-                        <a href="dashboard-add-credit.html">
-                            <span class="lnr lnr-dice"></span>Add Credits
-                        </a>
-                    </li>
-                    <li>
-                        <a href="dashboard-statement.html">
-                            <span class="lnr lnr-chart-bars"></span>Sale Statement
-                        </a>
-                    </li>
-                    <li>
-                        <a href="dashboard-upload.html">
-                            <span class="lnr lnr-upload"></span>Upload Item
-                        </a>
-                    </li>
-                    <li>
-                        <a href="dashboard-manage-item.html">
-                            <span class="lnr lnr-book"></span>Manage Item
-                        </a>
-                    </li>
-                    <li>
-                        <a href="dashboard-withdrawal.html">
-                            <span class="lnr lnr-briefcase"></span>Withdrawals
+                        <a href="/Treasure/MyList">
+                            <span class="fa fa-cubes"></span>我的物品
                         </a>
                     </li>
                     <li>
                         <a href="/IAccount/SignOut">
-                            <span class="lnr lnr-exit"></span>Logout
+                            <span class="fa fa-sign-out"></span>退出
                         </a>
                     </li>
                 </ul>

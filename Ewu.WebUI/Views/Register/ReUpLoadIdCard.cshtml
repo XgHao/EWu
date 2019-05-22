@@ -52,7 +52,9 @@
                                 {
                                     <p>
                                         恭喜您，加入了这个大家庭~
-                                        @Html.ActionLink("去随便看看", "List", "Treasure", null, new { @class = "lable label-primary" })
+                                        @Html.ActionLink("去随便看看", "Index", "Treasure", null, new { @class = "lable label-primary" })
+                                        @Html.ActionLink("完善个人信息", "ChangeUserInfo", "Account", null, new { @class = "lable label-primary" })
+
                                     </p>
                                 }
                                 else

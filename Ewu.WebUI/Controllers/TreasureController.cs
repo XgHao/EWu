@@ -45,28 +45,183 @@ namespace Ewu.WebUI.Controllers
             //新建视图
             IndexViewModel model = new IndexViewModel();
 
-            #region 随便看看
             var Alltreasure = repository.Treasures.Where(t => t.DLogUID == null).ToList().AsEnumerable();
+
+            #region 随便看看
+            //判断数量，决定要显示的物品数量
+            int cnt = Alltreasure.Count() < 50 ? 4 : Alltreasure.Count() / 10;
+            cnt = cnt > Alltreasure.Count() ? Alltreasure.Count() : cnt;
             List<Treasure> treasureRandom = new List<Treasure>();
-            int cnt = Alltreasure.Count() > 5 ? 5 : Alltreasure.Count();
-            while (true)
+            for (int i = 0; i < cnt; i++)
             {
-                treasureRandom = new List<Treasure>();
-                for (int i = 0; i < 2; i++)
+                var r = new Random(Guid.NewGuid().GetHashCode());
+                int res = r.Next(0, Alltreasure.Count());
+                treasureRandom.Add(Alltreasure.ElementAt(res));
+            }
+            List<TreasureAndHolderInfo> treasuresRandomList = new List<TreasureAndHolderInfo>();
+            foreach(var trea in treasureRandom)
+            {
+                //获取物品所属人对象
+                var holder = UserManager.FindById(trea.HolderID);
+
+                //是否被收藏
+                bool IsFavorite = false;
+                using(var db = new FavoriteDataContext())
                 {
-                    var r = new Random(Guid.NewGuid().GetHashCode());
-                    int res = r.Next(0, Alltreasure.Count());
-                    treasureRandom.Add(Alltreasure.ElementAt(res));
+                    var log = db.Favorite.Where(f => (f.TreasureID == trea.TreasureUID.ToString() && f.UserID == CurrentUser.Id)).FirstOrDefault();
+                    if (log != null)
+                    {
+                        IsFavorite = true;
+                    }
                 }
-                if (cnt == 6)
+                if (holder != null)
                 {
-                    break;
+                    var detail = trea.DetailPic.Split('|');
+                    trea.DetailPic = detail.Last();
+                    treasuresRandomList.Add(new TreasureAndHolderInfo
+                    {
+                        Holder = holder,
+                        Treasure = trea,
+                        IsFavorite = IsFavorite
+                    });
                 }
             }
-            
+            model.RandomTrea = treasuresRandomList.AsEnumerable();
             #endregion
-              
-            return View();
+
+            #region 最新物品
+            int cnt2 = Alltreasure.Count() > 6 ? 6 : Alltreasure.Count();
+            Alltreasure.OrderBy(t => t.UploadTime);
+            List<Treasure> treasuresNew = Alltreasure.Take(cnt2).ToList();
+            List<TreasureAndHolderInfo> treasuresNewList = new List<TreasureAndHolderInfo>();
+            foreach(var trea in treasuresNew)
+            {
+                //获取物品所属人
+                var holder = UserManager.FindById(trea.HolderID);
+
+                //是否被收藏
+                bool IsFavorite = false;
+                using(var db = new FavoriteDataContext())
+                {
+                    var log = db.Favorite.Where(f => (f.TreasureID == trea.TreasureUID.ToString() && f.UserID == CurrentUser.Id)).FirstOrDefault();
+                    if (log != null)
+                    {
+                        IsFavorite = true;
+                    }
+                }
+                if (holder != null)
+                {
+                    treasuresNewList.Add(new TreasureAndHolderInfo
+                    {
+                        Holder = holder,
+                        Treasure = trea,
+                        IsFavorite = IsFavorite
+                    });
+                }
+            }
+            model.NewestTrea = treasuresNewList.AsEnumerable();
+            #endregion
+
+            #region 最近热门
+            var treaHot = repository.Treasures.Where(t => t.DLogUID == null).OrderBy(t => t.BrowseNum);
+            int cnt3 = treaHot.Count() > 6 ? 6 : treaHot.Count();
+            var treaHotList = treaHot.Take(cnt3);
+            List<TreasureAndHolderInfo> treasuresHotList = new List<TreasureAndHolderInfo>();
+            foreach(var trea in treaHotList)
+            {
+                var holder = UserManager.FindById(trea.HolderID);
+                bool isFavorite = false;
+                using(var db = new FavoriteDataContext())
+                {
+                    var log = db.Favorite.Where(f => (f.TreasureID == trea.TreasureUID.ToString() && f.UserID == CurrentUser.Id)).FirstOrDefault();
+                    if (log != null)
+                    {
+                        isFavorite = true;
+                        
+                    }
+                }
+                if (holder != null)
+                {
+                    treasuresHotList.Add(new TreasureAndHolderInfo
+                    {
+                        Holder = holder,
+                        Treasure = trea,
+                        IsFavorite = isFavorite
+                    });
+                }
+            }
+            model.HotTrea = treasuresHotList.AsEnumerable();
+            #endregion
+
+            #region 数据
+            model.TreasureCnt = repository.Treasures.Count();
+            using(var db =new LogDealDataContext())
+            {
+                var deallog = db.LogDeal.Where(l => (l.DealStatus == "交易中" || l.DealStatus == "待确认"));
+                model.DealingCnt = deallog.Count();
+            }
+            using(var db = new EvaluationDataContext())
+            {
+                var Evaluation = db.Evaluation;
+                model.EvaluationCnt = Evaluation.Count();
+            }
+            using(var db = new AspNetUserDataContext())
+            {
+                var user = db.AspNetUsers;
+                model.UserCnt = user.Count();
+            }
+            #endregion
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        public ActionResult Search(string KeyWord)
+        {
+            if (!string.IsNullOrEmpty(KeyWord))
+            {
+                //首先把用户全部过滤出来
+                using(var db = new AspNetUserDataContext())
+                {
+                    var users = db.AspNetUsers.Where(u => u.UserName.Contains(KeyWord)).ToList();
+                    string usersIDs = string.Empty;
+                    foreach(var user in users)
+                    {
+                        usersIDs += "|" + user.Id;
+                    }
+
+                    //获取物品集合
+                    var treasures = repository.Treasures.Where(t => (t.DetailContent.Contains(KeyWord) || t.TreasureName.Contains(KeyWord) || t.UploadTime.ToString("yyyy/MM/dd").Contains(KeyWord) || t.TreasureType.Contains(KeyWord) || usersIDs.Contains(t.HolderID))).ToList();
+                    List<TreasureAndHolderInfo> model = new List<TreasureAndHolderInfo>();
+                    foreach(var trea in treasures)
+                    {
+                        //是否被收藏
+                        bool IsFavorite = false;
+                        using (var db2 = new FavoriteDataContext())
+                        {
+                            var log = db2.Favorite.Where(f => (f.TreasureID == trea.TreasureUID.ToString() && f.UserID == CurrentUser.Id)).FirstOrDefault();
+                            if (log != null)
+                            {
+                                IsFavorite = true;
+                            }
+                        }
+                        var holder = UserManager.FindById(trea.HolderID);
+                        if (holder != null)
+                        {
+                            model.Add(new TreasureAndHolderInfo
+                            {
+                                Holder = holder,
+                                IsFavorite = IsFavorite,
+                                Treasure = trea
+                            });
+                        }
+                    }
+                    return View(model.AsEnumerable());
+                }
+            }
+            return View(new LinkedList<TreasureAndHolderInfo>().AsEnumerable());
         }
 
         /// <summary>
@@ -134,7 +289,8 @@ namespace Ewu.WebUI.Controllers
                 //当前分类
                 CurrentCate = category,
                 //当前用户信息
-                CurrentUserInfo = CurrentUser
+                CurrentUserInfo = CurrentUser,
+                AllCnt=repository.Treasures.Count()
             };
             return View(model);
         }
@@ -149,7 +305,7 @@ namespace Ewu.WebUI.Controllers
             //根据页码以及分类来确定具体要显示的物品列表
             var Treasures = repository.Treasures
                                 //筛选-1.类型为空或者当前类 2.是当前登录用户的物品 3.图片为空不显示
-                                .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id && (t.Cover != null && t.DetailPic != null))
+                                .Where(t => (category == null || t.TreasureType == category) && t.HolderID == CurrentUser.Id)
                                 .OrderBy(t => t.TreasureName)
                                 .Skip((page - 1) * PageSize)
                                 .Take(PageSize);

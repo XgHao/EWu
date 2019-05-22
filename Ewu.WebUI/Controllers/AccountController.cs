@@ -159,6 +159,43 @@ namespace Ewu.WebUI.Controllers
         }
 
         /// <summary>
+        /// 修改信息
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult ChangeUserInfo()
+        {
+            return View(CurrentUser);
+        }
+
+        /// <summary>
+        /// 修改信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult ChangeUserInfo(AppUser model)
+        {
+            //获取当前用户信息
+            var AppUser = CurrentUser;
+            AppUser.Job = model.Job;
+            AppUser.OICQ = model.OICQ;
+            AppUser.WeChat = model.WeChat;
+            if (string.IsNullOrEmpty(model.Signature))
+            {
+                AppUser.Signature = AppUser.Gender == "男" ? "他什么也没留下" : "她什么也没留下";
+            }
+            else
+            {
+                AppUser.Signature = model.Signature;
+            }
+            AppUser.HeadPortrait = model.HeadPortrait;
+            UserManager.Update(AppUser);
+            return RedirectToAction("Index", "Treasure");
+        }
+
+        /// <summary>
         /// 编辑物品
         /// </summary>
         /// <param name="TreasureUID">物品UID</param>
@@ -588,6 +625,11 @@ namespace Ewu.WebUI.Controllers
 
             if (!string.IsNullOrEmpty(UserID))
             {
+                UserID = CurrentUser.Id;
+            }
+
+            if (!string.IsNullOrEmpty(UserID))
+            {
                 //获取查看的用户对象
                 var user = UserManager.FindById(UserID);
                 if (user != null)
@@ -811,7 +853,7 @@ namespace Ewu.WebUI.Controllers
         public JsonResult Comment(string UserID="",string Comment = "",string TreaUID = "")
         {
             string result = "Fail";
-            if (!string.IsNullOrEmpty(UserID) && !string.IsNullOrEmpty(Comment) && !string.IsNullOrEmpty(TreaUID)) 
+            if (!string.IsNullOrEmpty(UserID) && !string.IsNullOrEmpty(Comment)) 
             {
                 //获取当前用户id
                 string curruserid = CurrentUser.Id;
@@ -820,7 +862,14 @@ namespace Ewu.WebUI.Controllers
                     if (UserManager.FindById(UserID) != null)
                     {
                         //添加Notice
-                        new Identity().AddNotice(UserID, curruserid, "咨询", Comment, TreaUID, null);
+                        if (!string.IsNullOrEmpty(TreaUID))
+                        {
+                            new Identity().AddNotice(UserID, curruserid, "咨询", Comment, TreaUID, null);
+                        }
+                        else
+                        {
+                            new Identity().AddNotice(UserID, curruserid, "留言", Comment);
+                        }
                         result = "OK";
                     }
                 }

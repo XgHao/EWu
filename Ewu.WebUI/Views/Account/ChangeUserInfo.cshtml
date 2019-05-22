@@ -1,0 +1,188 @@
+﻿@using Ewu.Domain.Entities;
+@model  AppUser
+@{
+    ViewBag.Title = "ChangeUserInfo";
+    Layout = "~/Views/Shared/_DealLayout.cshtml";
+}
+
+<!--导航-->
+@section Nav{
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">信息管理</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">The Transaction I Initiated</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="dashboard-area">
+    <div class="dashboard_contents">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="dashboard_title_area">
+                        <div class="dashboard__title">
+                            <h3>个人信息修改</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-6">
+                        <div class="information_module">
+                            <a class="toggle_title">
+                                <h4>基本信息（不可更改）</h4>
+                            </a>
+
+                            <div class="information__set toggle_module">
+                                <div class="information_wrapper form--fields">
+                                    <div class="form-group">
+                                        <span class="fa fa-user"></span>
+                                        <label for="fname">用户名（登录名）</label>
+                                        <input type="text" id="fname" class="text_field" placeholder="First name" value=@Model.UserName readonly="readonly">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <span class="fa fa-user-o"></span>
+                                        <label for="lname">真实姓名</label>
+                                        <input type="text" id="lname" class="text_field" placeholder="Last Name" value=@Model.RealName readonly="readonly">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <span class="fa fa-transgender"></span>
+                                        <label for="dname">性别</label>
+                                        <input type="text" id="dname" class="text_field" placeholder="Display Name" value=@Model.Gender readonly="readonly">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <span class="fa fa-birthday-cake"></span>
+                                        <label for="emailad">出生日期</label>
+                                        <input type="text" id="emailad" class="text_field" placeholder="Email address" value=@Model.BirthDay readonly="readonly">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <span class="fa fa-home"></span>
+                                        <label for="emailad">家庭住址</label>
+                                        <input type="text" id="emailad" class="text_field" placeholder="Email address" value=@Model.NativePlace readonly="readonly">
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="fa fa-id-card-o"></span>
+                                        <label for="emailad">身份证号码</label>
+                                        <input type="text" id="emailad" class="text_field" placeholder="Email address" value=@Model.IDCardNO readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="information_module">
+                            <a class="toggle_title">
+                                <h4>绑定的信息</h4>
+                            </a>
+
+                            <div class="information__set toggle_module">
+                                <div class="information_wrapper form--fields">
+                                    <div class="form-group">
+                                        <span class="fa fa-phone"></span>
+                                        <label for="address1">手机号码</label>
+                                        <input type="text" id="address1" class="text_field" placeholder="Address line one" value=@Model.PhoneNumber readonly="readonly">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <span class="fa fa-envelope"></span>
+                                        <label for="address2">电子邮箱</label>
+                                        <input type="text" id="address2" class="text_field" placeholder="Address line two" value=@Model.Email readonly="readonly">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <span class="fa fa-user-plus"></span>
+                                        <label for="address2">注册时间</label>
+                                        <input type="text" id="address2" class="text_field" placeholder="Address line two" value=@Model.RegisterTime readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm())
+                        {
+                            <div class="information_module">
+                                <a class="toggle_title">
+                                    <h4>更多信息（选填）</h4>
+                                </a>
+
+                                <div class="information__set toggle_module">
+                                    <div class="information_wrapper form--fields">
+                                        <div class="form-group">
+                                            <span class="fa fa-qq"></span>
+                                            <label for="fname">QQ</label>
+                                            @Html.TextBoxFor(u => u.OICQ, new { @class = "text_field", placeholder = "你的QQ号码", type = "number" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-wechat"></span>
+                                            <label for="lname">微信</label>
+                                            @Html.TextBoxFor(u => u.WeChat, new { @class = "text_field", placeholder = "你的微信号码" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-briefcase"></span>
+                                            <label for="dname">职业</label>
+                                            @Html.TextBoxFor(u => u.Job, new { @class = "text_field", placeholder = "职业名称" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-commenting"></span>
+                                            <label for="emailad">个性签名</label>
+                                            @Html.TextAreaFor(u => u.Signature, new { @class = "text_field", placeholder = "说点什么吧~" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="information_module">
+                                <a class="toggle_title">
+                                    <h4>选择一个头像</h4>
+                                </a>
+                                <div class="information__set toggle_module">
+                                    <div class="information_wrapper form--fields">
+                                        <div class="row">
+                                            @for (int i = 1; i <= 16; i++)
+                                            {
+                                                <div class="col-2">
+                                                    <div class="form-group text-center">
+                                                        <span id=@("choose" + i) class="fa fa-circle-o text-center text-info"></span>
+                                                        <img src=@("/images/HeadImg/HeadImg" + i + ".png") onclick=@("ChooseImg('" + i + "')") />
+                                                    </div>
+                                                </div>
+                                            }
+                                            @Html.HiddenFor(u => u.HeadPortrait)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dashboard_setting_btn">
+                                <button type="submit" class="btn btn--round btn--md">确认</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+

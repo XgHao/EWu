@@ -28,6 +28,9 @@ namespace Ewu.WebUI.Models.ViewModel
 
         //显示样式
         public string Display { get; set; }
+
+        //所有物品数
+        public int AllCnt { get; set; }
     }
 
     //导航分类

@@ -18,6 +18,11 @@ namespace Ewu.WebUI.Models.ViewModel
         public IEnumerable<TreasureAndHolderInfo> NewestTrea { get; set; }
 
         /// <summary>
+        /// 最近热门
+        /// </summary>
+        public IEnumerable<TreasureAndHolderInfo> HotTrea { get; set; }
+
+        /// <summary>
         /// 物品数
         /// </summary>
         public int TreasureCnt { get; set; }
@@ -37,9 +42,5 @@ namespace Ewu.WebUI.Models.ViewModel
         /// </summary>
         public int UserCnt { get; set; }
 
-        /// <summary>
-        /// 评价
-        /// </summary>
-        public UserEvaluation UserEvaluation { get; set; }
     }
 }

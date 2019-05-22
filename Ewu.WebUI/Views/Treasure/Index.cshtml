@@ -1,4 +1,6 @@
-﻿
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IndexViewModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_IndexLayout.cshtml";
@@ -15,15 +17,13 @@
                     <div class="col-md-12">
                         <div class="hero__content__title">
                             <h1>
-                                <span class="light">Create Your Own</span>
-                                <span class="bold">Digital Product Marketplace</span>
+                                <span class="light">易物Ewu</span>
+                                <span class="bold">让你的闲物发挥余热</span>
                             </h1>
-                            <p class="tagline">MartPlace is the most powerful, & customizable template for Easy Digital Downloads Products</p>
+                            <p class="tagline">麟角凤距，比喻有而用不到的珍贵东西。————《抱朴子·自叙》</p>
                         </div>
-
                         <div class="hero__btn-area">
-                            <a href="all-products.html" class="btn btn--round btn--lg">View All Products</a>
-                            <a href="all-products.html" class="btn btn--round btn--lg">Popular Products</a>
+                            <a href="/Treasure/UploadItem" class="btn btn--round btn--lg">上传你的物品</a>
                         </div>
                     </div>
                 </div>
@@ -35,20 +35,15 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="search_box">
-                        <form action="#">
-                            <input type="text" class="text_field" placeholder="Search your products...">
-                            <div class="search__select select-wrap">
-                                <select name="category" class="select--field" id="blah">
-                                    <option value="">All Categories</option>
-                                    <option value="">PSD</option>
-                                    <option value="">HTML</option>
-                                    <option value="">WordPress</option>
-                                    <option value="">All Categories</option>
-                                </select>
-                                <span class="lnr lnr-chevron-down"></span>
+                        <div class="row">
+                            <div class="col-9">
+                                <input id="wordkey" type="text" class="text_field" placeholder="如果想搜索时间，格式需如20xx/x/xx">
                             </div>
-                            <button type="submit" class="search-btn btn--lg">Search Now</button>
-                        </form>
+                            <div class="col-3">
+                                <button onclick="Search()" type="submit" class="search-btn btn--lg">搜索</button>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,6 +51,7 @@
     </div>
 </section>
 
+<!--随便看看-->
 <section class="featured-products bgcolor  section--padding">
     <div class="container">
         <div class="row">
@@ -78,139 +74,242 @@
         <div class="row">
             <div class="col-md-12 no0-padding">
                 <div class="featured-product-slider prod-slider1">
-                    <div class="featured__single-slider">
-                        <div class="featured__preview-img">
-                            <img src="~/images/featprod.jpg" alt="Featured products">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">查看详情</a>
-                            </div>
-                        </div>
-
-                        <div class="featured__product-description">
-                            <div class="product-desc desc--featured">
-                                <a href="single-product.html" class="product_title">
-                                    <h4>Rida - vCard, Portfolio / Resume Template</h4>
-                                </a>
-                                <ul class="titlebtm">
-                                    <li>
-                                        <img class="auth-img" src="~/images/auth.jpg" alt="author image">
-                                        <p>
-                                            <a href="#">AazzTech</a>
-                                        </p>
-                                    </li>
-                                    <li class="product_cat">
-                                        <a href="#">
-                                            <span class="lnr lnr-book"></span> WordPress
-                                        </a>
-                                    </li>
-                                </ul>
-
-                                <p>
-                                    Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the
-                                    mattis, leo quam aliquet congue placerat mi id nisi interdum mollis. Praesent pharetra,
-                                    justo ut scelerisque the mattis, leo quam aliquet congue justo ut scelerisque.
-                                </p>
+                    @foreach (var trea in Model.RandomTrea)
+                    {
+                        <div class="featured__single-slider">
+                            <div class="featured__preview-img">
+                                <img src=@trea.Treasure.DetailPic alt="Featured products" height="450">
+                                <div class="prod_btn">
+                                    <a href=@trea.Treasure.Link class="transparent btn--sm btn--round">查看详情</a>
+                                </div>
                             </div>
 
-                            <div class="product_data">
-                                <div class="product-purchase featured--product-purchase">
-                                    <div class="price_love">
-                                        <span>$10 - $50</span>
-                                        <p>
-                                            <span class="lnr lnr-heart"></span> 90
-                                        </p>
-                                    </div>
-                                    <div class="sell">
-                                        <p>
-                                            <span class="lnr lnr-cart"></span>
-                                            <span>16</span>
-                                        </p>
+                            <div class="featured__product-description">
+                                <div class="product-desc desc--featured">
+                                    <a href=@trea.Treasure.Link class="product_title">
+                                        <h4>@trea.Treasure.TreasureName</h4>
+                                    </a>
+                                    <ul class="titlebtm">
+                                        <li>
+                                            <img class="auth-img" src=@trea.Holder.HeadPortrait alt="author image">
+                                            <p>
+                                                <a href=@("/Account/AccountInfo?UserID="+trea.Holder.Id)>@trea.Holder.UserName</a>
+                                            </p>
+                                        </li>
+                                        <li class="product_cat">
+                                            <a href=@("/Treasure/List/"+trea.Treasure.TreasureType)>
+                                                <span class="lnr lnr-book"></span> @trea.Treasure.TreasureType
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <p>
+                                        @trea.Treasure.DetailContent
+                                    </p>
+                                </div>
+
+                                <div class="product_data">
+                                    <div class="product-purchase featured--product-purchase">
+                                        <div class="price_love">
+                                            <span>@trea.Treasure.UploadTime.ToShortDateString()</span>
+                                            <!--收藏数-->
+                                            <a href="javascript:void(0);" onclick=@("AddFavorite('"+trea.Treasure.TreasureUID+"')")>
+                                                <!--已收藏-->
+                                                @if (trea.IsFavorite)
+                                                {
+                                                    <span id=@("Favorite_"+trea.Treasure.TreasureUID) class="fa fa-heart text-danger">@trea.Treasure.Favorite</span>
+                                                }
+                                                else
+                                                {
+                                                    <span id=@("Favorite_"+trea.Treasure.TreasureUID) class="fa fa-heart-o text-danger">@trea.Treasure.Favorite</span>
+                                                }
+                                            </a>
+                                        </div>
+                                        <div class="sell">
+                                            <p>
+                                                <span class="fa fa-eye"></span>
+                                                <span>@trea.Treasure.BrowseNum</span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </section>
-
+<!--最新的物品-->
 <section class="products section--padding">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="product-title-area">
                     <div class="product__title">
-                        <h2>Newest Release Products</h2>
+                        <h2>最近上传</h2>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="product product--card">
+            @foreach (var trea in Model.NewestTrea)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="product product--card">
 
-                    <div class="product__thumbnail">
-                        <img src="~/images/p1.jpg" alt="Product Image">
-                        <div class="prod_btn">
-                            <a href="single-product.html" class="transparent btn--sm btn--round">查看详情</a>
+                        <div class="product__thumbnail">
+                            <img src=@trea.Treasure.Cover height="480" width="350" alt="Product Image">
+                            <div class="prod_btn">
+                                <a href=@trea.Treasure.Link class="transparent btn--sm btn--round">查看详情</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="product-desc">
-                        <a href="single-product.html" class="product_title">
-                            <h4>MartPlace Extension Bundle</h4>
-                        </a>
-                        <ul class="titlebtm">
-                            <li>
-                                <img class="auth-img" src="images/auth.jpg" alt="author image">
-                                <p>
-                                    <a href="#">AazzTech</a>
-                                </p>
-                            </li>
-                            <li class="product_cat">
-                                <a href="#">
-                                    <span class="lnr lnr-book"></span>Plugin
+                        <div class="product-desc">
+                            <a href=@trea.Treasure.Link class="product_title">
+                                <h4>@trea.Treasure.TreasureName</h4>
+                            </a>
+                            <ul class="titlebtm">
+                                <li>
+                                    <img class="auth-img" src=@trea.Holder.HeadPortrait alt="author image">
+                                    <p>
+                                        <a href=@("/Account/AccountInfo?UserID="+trea.Holder.Id)>@trea.Holder.UserName</a>
+                                    </p>
+                                </li>
+                                <li class="product_cat">
+                                    <a href=@("/Treasure/List/"+trea.Treasure.TreasureType)>
+                                        <span class="lnr lnr-book"></span>@trea.Treasure.TreasureType
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <p>
+                                @trea.Treasure.DetailContent
+                            </p>
+                        </div>
+
+                        <div class="product-purchase">
+                            <div class="price_love">
+                                <span>@trea.Treasure.UpdateTime.ToShortDateString()</span>
+                                <!--收藏数-->
+                                <a href="javascript:void(1);" onclick=@("AddFavorite1('"+trea.Treasure.TreasureUID+"')")>
+                                    <!--已收藏-->
+                                    @if (trea.IsFavorite)
+                                    {
+                                        <span id=@("Favorite1_"+trea.Treasure.TreasureUID) class="fa fa-heart text-danger">@trea.Treasure.Favorite</span>
+                                    }
+                                    else
+                                    {
+                                        <span id=@("Favorite1_"+trea.Treasure.TreasureUID) class="fa fa-heart-o text-danger">@trea.Treasure.Favorite</span>
+                                    }
                                 </a>
-                            </li>
-                        </ul>
-
-                        <p>
-                            Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                            leo quam aliquet congue.
-                        </p>
-                    </div>
-                    <!-- end /.product-desc -->
-
-                    <div class="product-purchase">
-                        <div class="price_love">
-                            <span>$10 - $50</span>
-                            <p>
-                                <span class="lnr lnr-heart"></span> 90
-                            </p>
-                        </div>
-                        <div class="sell">
-                            <p>
-                                <span class="lnr lnr-cart"></span>
-                                <span>16</span>
-                            </p>
+                            </div>
+                            <div class="sell">
+                                <p>
+                                    <span class="fa fa-eye"></span>
+                                    <span>@trea.Treasure.BrowseNum</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <!-- end /.product-purchase -->
                 </div>
-            </div>
+            }
+
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="more-product">
-                    <a href="all-products.html" class="btn btn--lg btn--round">查看更多</a>
+                    <a href="/Treasure/List" class="btn btn--lg btn--round">查看更多</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!--最热物品-->
+<section class="followers-feed section--padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-title-area">
+                    <div class="product__title">
+                        <h2>最近热门</h2>
+                    </div>
 
+                    <div class="product__slider-nav follow_feed_nav rounded">
+                        <span class="lnr lnr-chevron-left nav_left"></span>
+                        <span class="lnr lnr-chevron-right nav_right"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product_slider">
+                    @foreach (var trea in Model.HotTrea)
+                    {
+                        <div class="product product--card">
+
+                            <div class="product__thumbnail">
+                                <img src=@trea.Treasure.Cover height="480" width="350" alt="Product Image">
+                                <div class="prod_btn">
+                                    <a href=@trea.Treasure.Link class="transparent btn--sm btn--round">查看详情</a>
+                                </div>
+                            </div>
+
+                            <div class="product-desc">
+                                <a href=@trea.Treasure.Link class="product_title">
+                                    <h4>@trea.Treasure.TreasureName</h4>
+                                </a>
+                                <ul class="titlebtm">
+                                    <li>
+                                        <img class="auth-img" src=@trea.Holder.HeadPortrait alt="author image">
+                                        <p>
+                                            <a href=@("/Account/AccountInfo?UserID="+trea.Holder.Id)>@trea.Holder.UserName</a>
+                                        </p>
+                                    </li>
+                                    <li class="product_cat">
+                                        <a href=@("/Treasure/List/"+trea.Treasure.TreasureType)>
+                                            <span class="lnr lnr-book"></span>@trea.Treasure.TreasureType
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <p>
+                                    @trea.Treasure.DetailContent
+                                </p>
+                            </div>
+                            <div class="product-purchase">
+                                <div class="price_love">
+                                    <span>@trea.Treasure.UpdateTime.ToShortDateString()</span>
+                                    <!--收藏数-->
+                                    <a href="javascript:void(2);" onclick=@("AddFavorite2('"+trea.Treasure.TreasureUID+"')")>
+                                        <!--已收藏-->
+                                        @if (trea.IsFavorite)
+                                        {
+                                            <span id=@("Favorite2_"+trea.Treasure.TreasureUID) class="fa fa-heart text-danger">@trea.Treasure.Favorite</span>
+                                        }
+                                        else
+                                        {
+                                            <span id=@("Favorite2_"+trea.Treasure.TreasureUID) class="fa fa-heart-o text-danger">@trea.Treasure.Favorite</span>
+                                        }
+                                    </a>
+                                </div>
+                                <div class="sell">
+                                    <p>
+                                        <span class="fa fa-eye"></span>
+                                        <span>@trea.Treasure.BrowseNum</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--数据-->
 <section class="counter-up-area bgimage">
     <div class="bg_image_holder" style="background-image: url(&quot;images/countbg.jpg&quot;); opacity: 1;">
         <img src="~/images/countbg.jpg" alt="images/countbg.jpg">
@@ -219,23 +318,23 @@
         <div class="col-md-12">
             <div class="counter-up">
                 <div class="counter mcolor2">
-                    <span class="lnr lnr-briefcase"></span>
-                    <span class="count">38,436</span>
-                    <p>中的物品数</p>
+                    <span class="fa fa-cubes"></span>
+                    <span class="count">@Model.TreasureCnt</span>
+                    <p>已上传的物品</p>
                 </div>
                 <div class="counter mcolor3">
-                    <span class="lnr lnr-cloud-download"></span>
-                    <span class="count">38,436</span>
+                    <span class="fa fa-handshake-o"></span>
+                    <span class="count">@Model.DealingCnt</span>
                     <p>交易中</p>
                 </div>
                 <div class="counter mcolor1">
-                    <span class="lnr lnr-smile"></span>
-                    <span class="count">38,436</span>
+                    <span class="fa fa-comments-o"></span>
+                    <span class="count">@Model.EvaluationCnt</span>
                     <p>评价</p>
                 </div>
                 <div class="counter mcolor4">
-                    <span class="lnr lnr-users"></span>
-                    <span class="count">38,436</span>
+                    <span class="fa fa-users"></span>
+                    <span class="count">@Model.UserCnt</span>
                     <p>成员</p>
                 </div>
             </div>
@@ -243,46 +342,3 @@
     </div>
 </section>
 
-<section class="testimonial-area section--padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-title">
-                    <h1>
-                        最近的评价
-                        <span class="highlighted">Feedback</span>
-                    </h1>
-                    <p>
-                        Laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats. Lid
-                        est laborum dolo rumes fugats untras.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="testimonial-slider">
-                    <div class="testimonial">
-                        <div class="testimonial__about">
-                            <div class="avatar v_middle">
-                                <img src="images/test1.jpg" alt="Testimonial Avatar">
-                            </div>
-                            <div class="name-designation v_middle">
-                                <h4 class="name">Tubeda Pagla</h4>
-                                <span class="desig">Product Designer</span>
-                            </div>
-                            <span class="lnr lnr-bubble quote-icon"></span>
-                        </div>
-                        <div class="testimonial__text">
-                            <p>
-                                Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is the laoreet elit metus. Nunc placerat mi is id nisi interdum
-                                is mollis. Praesent the pharetra, justo ut scelerisque.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>

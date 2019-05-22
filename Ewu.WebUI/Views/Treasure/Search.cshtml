@@ -1,0 +1,106 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<TreasureAndHolderInfo>
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
+}
+
+<section class="search-wrapper">
+        <div class="search-area2 bgimage">
+            <div class="bg_image_holder" style="background-image: url(&quot;images/search.jpg&quot;); opacity: 1;">
+                <img src="images/search.jpg" alt="images/search.jpg">
+            </div>
+            <div class="container content_above">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="search">
+                            <div class="search__title">
+                                <h3>
+                                    找到 <span>@Model.Count()</span> 个物品
+                                </h3>
+                            </div>
+                            <div class="search__field">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="field-wrapper">
+                                            <input id="wordkey" class="relative-field rounded" type="text" placeholder="如果想搜索时间，格式需如20xx/x/xx">
+                                            <button onclick="Search()" class="btn btn--round" type="submit">搜索</button>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="breadcrumb">
+                                <ul>
+                                    <li>
+                                        <a href="#">主页</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#">搜索</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="products section--padding2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    @foreach (var trea in Model)
+                    {
+                        <div class="col-3">
+                            <div class="product product--card product--card-small">
+
+                                <div class="product__thumbnail">
+                                    <img width="255" height="350" src=@trea.Treasure.Cover alt="Product Image">
+                                    <div class="prod_btn">
+                                        <a href=@trea.Treasure.Link class="transparent btn--sm btn--round">查看详情</a>
+                                    </div>
+                                </div>
+
+                                <div class="product-desc">
+                                    <a href=@trea.Treasure.Link class="product_title">
+                                        <h4>@trea.Treasure.TreasureName</h4>
+                                    </a>
+                                    <ul class="titlebtm">
+                                        <li>
+                                            <img class="auth-img" src=@trea.Holder.HeadPortrait alt="author image">
+                                            <p>
+                                                <a href="#">@trea.Holder.UserName</a>
+                                            </p>
+                                        </li>
+                                        <li class="out_of_class_name">
+                                            <div class="sell">
+                                                <p>
+                                                    @trea.Treasure.DetailContent
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <div class="product-purchase">
+                                    <div class="price_love">
+                                        <span>@trea.Treasure.UploadTime.ToShortDateString()</span>
+                                    </div>
+                                    <a href="#">
+                                        <span class="lnr lnr-book"></span>@trea.Treasure.TreasureType
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
