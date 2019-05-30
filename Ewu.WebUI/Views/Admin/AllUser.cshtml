@@ -1,0 +1,70 @@
+﻿@using Ewu.WebUI.Models.ViewModel
+@model IEnumerable<AllUserViewModel>
+
+@{
+    ViewBag.Title = "用户列表";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>用户管理</h3>
+        <div class="panel-body">
+            <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                    <th class="text-left">ID</th>
+                    <th>用户名</th>
+                    <th class="text-left">真实姓名</th>
+                    <th class="text-left">性别</th>
+                    <th class="text-left">注册时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                @*遍历所有物品*@
+                @foreach (var item in Model)
+                {
+            <tr>
+                <td class="text-left">@item.userInfo.UserID</td>
+                @*用户名*@
+                <td>
+                    @Html.ActionLink(
+                        linkText: item.userInfo.UserName,
+                        actionName: "AccountInfo",
+                        controllerName: "Account",
+                        routeValues: new
+                        {
+                            item.userInfo.UserID
+                        },
+                        htmlAttributes: new { }
+                    )
+                </td>
+                <td class="text-left">@item.userInfo.RealName</td>
+                <td class="text-left">@item.userInfo.Gender</td>
+                <td class="text-left">@item.userInfo.RegisterTime</td>
+                <td class="text-center">
+                    @*封禁账号*@
+                    @using (Html.BeginForm("Block", "Admin"))
+                    {
+                        @Html.Hidden("UserID", item.userInfo.UserID)
+                        <input type="submit" class="btn btn-default btn-xs" value="封禁帐号" />
+                    }
+                </td>
+            </tr>
+                }
+            </table>
+        </div>
+        <div class="panel-footer">
+            @*转到物品*@
+            @Html.ActionLink(
+                linkText: "转到物品管理",
+                actionName: "AllTreasure",
+                controllerName: "Admin",
+                routeValues: null,
+                htmlAttributes: new
+                {
+                    @class = "btn btn-default"
+                }
+            )
+        </div>
+    </div>
+</div>
+

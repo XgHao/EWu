@@ -102,7 +102,7 @@ namespace Ewu.WebUI.Controllers
                     if (user != null)
                     {
                         //留言类
-                        if (notice.NoticeObject == "留言")
+                        if (notice.NoticeObject == "留言" || notice.NoticeObject == "警告")
                         {
                             liuYans.Add(new NoticeLiuYan
                             {
@@ -623,7 +623,7 @@ namespace Ewu.WebUI.Controllers
                 TotalTreasureNum = 0
             };
 
-            if (!string.IsNullOrEmpty(UserID))
+            if (string.IsNullOrEmpty(UserID))
             {
                 UserID = CurrentUser.Id;
             }
@@ -752,11 +752,11 @@ namespace Ewu.WebUI.Controllers
                                             });
                                         }
                                     }
-                                    //添加数据
-                                    model.Evaluations = userEvaluations;
+                                    
                                 }
                             }
-
+                            //添加数据
+                            model.Evaluations = userEvaluations;
                             return View(model);
                         }
                     }

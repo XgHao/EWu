@@ -23,6 +23,10 @@
 <body>
     <div>
         @*临时消息*@
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["error"]</div>
+        }
         @if (TempData["message"] != null)
         {
             <div class="alert alert-success">@TempData["message"]</div>

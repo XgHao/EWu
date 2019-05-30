@@ -661,6 +661,24 @@ namespace Ewu.WebUI.Models.ViewModel
 
     }
 
+    /// <summary>
+    /// 物品类型数
+    /// </summary>
+    public class TreasureTypeCnt
+    {
+        public string type { get; set; }
+        public int cnt { get; set; }
+    }
+
+    /// <summary>
+    /// 物品收藏数
+    /// </summary>
+    public class TreasureFavoriteCnt
+    {
+        public string treauid { get; set; }
+        public int cnt { get; set; }
+    }
+
     public class UserViewModel
     {
     }

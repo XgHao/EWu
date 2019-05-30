@@ -171,9 +171,9 @@
     <Content Include="images\HeadImg\HeadImg11.png" />
     <Content Include="images\HeadImg\HeadImg12.png" />
     <Content Include="images\HeadImg\HeadImg13.png" />
+    <Content Include="images\HeadImg\HeadImg14.png" />
+    <Content Include="images\HeadImg\HeadImg15.png" />
     <Content Include="images\HeadImg\HeadImg16.png" />
-    <Content Include="images\HeadImg\HeadImg17.png" />
-    <Content Include="images\HeadImg\HeadImg18.png" />
     <Content Include="images\HeadImg\HeadImg2.png" />
     <Content Include="images\HeadImg\HeadImg3.png" />
     <Content Include="images\HeadImg\HeadImg4.png" />
@@ -793,6 +793,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModel\AccountInfoViewModel.cs" />
+    <Compile Include="Models\ViewModel\AdminViewModel.cs" />
     <Compile Include="Models\ViewModel\ChangeInfoViewModel.cs" />
     <Compile Include="Models\ViewModel\FavoriteIndexViewModel.cs" />
     <Compile Include="Models\ViewModel\IndexViewModel.cs" />
@@ -824,7 +825,7 @@
     <Content Include="Views\Favorite\Checkout.cshtml" />
     <Content Include="Views\Favorite\Completed.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\AllTreasure.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_IdentityLayout.cshtml" />
@@ -859,7 +860,6 @@
     <Content Include="Views\Treasure\UpLoadImg.cshtml" />
     <Content Include="Views\Shared\_InfoLayout.cshtml" />
     <Content Include="Views\Treasure\TreasureInfo.cshtml" />
-    <Content Include="Views\Treasure\Error.cshtml" />
     <Content Include="Views\Shared\_DealLayout.cshtml" />
     <Content Include="Views\Deal\CreateDeal.cshtml" />
     <Content Include="Views\Shared\Summary\DealMyTreasure.cshtml" />
@@ -895,6 +895,7 @@
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
     <Content Include="Views\Treasure\Search.cshtml" />
     <Content Include="Views\Account\ChangeUserInfo.cshtml" />
+    <Content Include="Views\Admin\AllUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,6 +14,7 @@ using Ewu.WebUI.Models.ViewModel;
 using Ewu.WebUI.HtmlHelpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Linq.SqlClient;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -89,6 +90,30 @@ namespace Ewu.WebUI.Controllers
             model.RandomTrea = treasuresRandomList.AsEnumerable();
             #endregion
 
+            #region 每日推荐
+            using(var db = new LogDataContext())
+            {
+                //获取当前用户的浏览记录
+                var log = db.LogBrowse.Where(b => b.BrowserID == CurrentUser.Id).Select(b => b.TreasureID).ToList();
+                //获取用户浏览过的物品类型集合
+                var treas = repository.Treasures.Where(t => log.Contains(t.TreasureUID.ToString())).ToList();
+                var types = treas.Select(t => t.TreasureType);
+                //获取这些这些类型的浏览量
+                List<TreasureTypeCnt> treasuretypecnt = new List<TreasureTypeCnt>();
+                foreach(var type in types)
+                {
+                    var Typecnt = treas.Where(t => t.TreasureType == type).Count();
+                    treasuretypecnt.Add(new TreasureTypeCnt
+                    {
+                        type = type,
+                        cnt = Typecnt
+                    });
+                }
+                //排序
+                treasuretypecnt.OrderBy(t => t.cnt);
+            }
+            #endregion
+
             #region 最新物品
             int cnt2 = Alltreasure.Count() > 6 ? 6 : Alltreasure.Count();
             Alltreasure.OrderBy(t => t.UploadTime);
@@ -103,6 +128,23 @@ namespace Ewu.WebUI.Controllers
                 bool IsFavorite = false;
                 using(var db = new FavoriteDataContext())
                 {
+                    //获取七天内的收藏记录
+                    var FavoriteTrea = db.Favorite.Where(f => (SqlMethods.DateDiffDay(f.FavoriteTime, DateTime.Now) <= 7)).Select(f => f.TreasureID);
+                    var Treas = repository.Treasures.Where(t => FavoriteTrea.Contains(t.TreasureUID.ToString()));
+                    //生成视图模型
+                    List<TreasureFavoriteCnt> treafavos = new List<TreasureFavoriteCnt>();
+                    foreach(var favo in FavoriteTrea.Distinct())
+                    {
+                        var favorecnt = Treas.Where(t => t.TreasureUID == Guid.Parse(favo)).Count();
+                        treafavos.Add(new TreasureFavoriteCnt
+                        {
+                            cnt = favorecnt,
+                            treauid = favo
+                        });
+                    }
+                    //排序
+                    treafavos.OrderBy(t => t.cnt);
+
                     var log = db.Favorite.Where(f => (f.TreasureID == trea.TreasureUID.ToString() && f.UserID == CurrentUser.Id)).FirstOrDefault();
                     if (log != null)
                     {

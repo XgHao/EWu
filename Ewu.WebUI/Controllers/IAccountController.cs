@@ -27,11 +27,6 @@ namespace Ewu.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl= "/Treasure/List")
         {
-            //当前用户通过验证时,不能在登录
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                return View("Error", new string[] { "拒绝访问，请先退出账户" });
-            }
             //验证，如果返回是注销链接，则返回设为List
             ViewBag.returnUrl = returnUrl.Contains("SignOut") ? "/Treasure/List" : returnUrl;
             return View();
@@ -70,6 +65,12 @@ namespace Ewu.WebUI.Controllers
                     {
                         IsPersistent = false            //该属性设为TRUE表示该认证Cookie在浏览器中是持久化的，表明用户在开始新会话时不必再次验证
                     }, ident);                          //SignIn(options,identity)签入用户，意味着创建用来标识已认证请求的Cookie
+
+                    //如果是管理员
+                    if (user.UserName == "XgHao")
+                    {
+                        return RedirectToAction("AllTreasure", "Admin");
+                    }
 
                     //增加登录日志
                     using (var db = new LogDataContext())
