@@ -60,7 +60,8 @@ namespace Ewu.WebUI.Controllers
                 treasureRandom.Add(Alltreasure.ElementAt(res));
             }
             List<TreasureAndHolderInfo> treasuresRandomList = new List<TreasureAndHolderInfo>();
-            foreach(var trea in treasureRandom)
+            //去掉重复元素，然后遍历
+            foreach(var trea in treasureRandom.Distinct())
             {
                 //获取物品所属人对象
                 var holder = UserManager.FindById(trea.HolderID);
@@ -100,17 +101,59 @@ namespace Ewu.WebUI.Controllers
                 var types = treas.Select(t => t.TreasureType);
                 //获取这些这些类型的浏览量
                 List<TreasureTypeCnt> treasuretypecnt = new List<TreasureTypeCnt>();
+                int AllCnt = 0;
                 foreach(var type in types)
                 {
-                    var Typecnt = treas.Where(t => t.TreasureType == type).Count();
-                    treasuretypecnt.Add(new TreasureTypeCnt
-                    {
-                        type = type,
-                        cnt = Typecnt
-                    });
+                    int Typecnt = treas.Where(t => t.TreasureType == type).Count();
+                    TreasureTypeCnt treasureTypeCnt = new TreasureTypeCnt { };
+                    treasureTypeCnt.type = type;
+                    treasureTypeCnt.cnt = Typecnt;
+                    treasuretypecnt.Add(treasureTypeCnt);
+                    AllCnt += Typecnt;
                 }
                 //排序
                 treasuretypecnt.OrderBy(t => t.cnt);
+
+                //根据排序后的类型，进行推荐相同类型的物品
+                List<Treasure> trea = new List<Treasure>();
+                foreach(var ty in treasuretypecnt)
+                {
+                    int TreaCnt = ty.cnt * 5 / AllCnt;
+                    var tr = repository.Treasures.Where(t => t.TreasureType == ty.type).Take(TreaCnt);
+                    trea.AddRange(tr);
+                }
+
+                //去掉重复元素，然后遍历
+                List<TreasureAndHolderInfo> RecommandTrea = new List<TreasureAndHolderInfo>();
+
+                foreach (var Rtrea in trea.Distinct())
+                {
+                    //获取物品所属人对象
+                    var holder = UserManager.FindById(Rtrea.HolderID);
+
+                    //是否被收藏
+                    bool IsFavorite = false;
+                    using (var db2 = new FavoriteDataContext())
+                    {
+                        var log2 = db2.Favorite.Where(f => (f.TreasureID == Rtrea.TreasureUID.ToString() && f.UserID == CurrentUser.Id)).FirstOrDefault();
+                        if (log2 != null)
+                        {
+                            IsFavorite = true;
+                        }
+                    }
+                    if (holder != null)
+                    {
+                        var detail = Rtrea.DetailPic.Split('|');
+                        Rtrea.DetailPic = detail.Last();
+                        RecommandTrea.Add(new TreasureAndHolderInfo
+                        {
+                            Holder = holder,
+                            Treasure = Rtrea,
+                            IsFavorite = IsFavorite
+                        });
+                    }
+                }
+                model.RecommandTrea = RecommandTrea.AsEnumerable();
             }
             #endregion
 

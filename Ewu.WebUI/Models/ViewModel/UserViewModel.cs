@@ -335,6 +335,11 @@ namespace Ewu.WebUI.Models.ViewModel
         /// </summary>
         public string DealLogID { get; set; }
 
+        /// <summary>
+        /// 相似物品推荐
+        /// </summary>
+        public IEnumerable<Treasure> MoreTreasures { get; set; }
+
     }
 
     /// <summary>

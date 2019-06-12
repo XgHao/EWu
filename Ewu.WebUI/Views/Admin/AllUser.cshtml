@@ -22,33 +22,67 @@
                 @*遍历所有物品*@
                 @foreach (var item in Model)
                 {
-            <tr>
-                <td class="text-left">@item.userInfo.UserID</td>
-                @*用户名*@
-                <td>
-                    @Html.ActionLink(
-                        linkText: item.userInfo.UserName,
-                        actionName: "AccountInfo",
-                        controllerName: "Account",
-                        routeValues: new
-                        {
-                            item.userInfo.UserID
-                        },
-                        htmlAttributes: new { }
-                    )
-                </td>
-                <td class="text-left">@item.userInfo.RealName</td>
-                <td class="text-left">@item.userInfo.Gender</td>
-                <td class="text-left">@item.userInfo.RegisterTime</td>
-                <td class="text-center">
-                    @*封禁账号*@
-                    @using (Html.BeginForm("Block", "Admin"))
+                    if (item.isChoose)
                     {
-                        @Html.Hidden("UserID", item.userInfo.UserID)
-                        <input type="submit" class="btn btn-default btn-xs" value="封禁帐号" />
+                        <tr class="danger">
+                            <td class="text-left">@item.userInfo.UserID</td>
+                            @*用户名*@
+                            <td>
+                                @Html.ActionLink(
+                                    linkText: item.userInfo.UserName,
+                                    actionName: "AccountInfo",
+                                    controllerName: "Account",
+                                    routeValues: new
+                                    {
+                                        item.userInfo.UserID
+                                    },
+                                    htmlAttributes: new { }
+                                )
+                            </td>
+                            <td class="text-left">@item.userInfo.RealName</td>
+                            <td class="text-left">@item.userInfo.Gender</td>
+                            <td class="text-left">@item.userInfo.RegisterTime</td>
+                            <td class="text-center">
+                                @*封禁账号*@
+                                @using (Html.BeginForm("Block", "Admin"))
+                                {
+                                    @Html.Hidden("UserID", item.userInfo.UserID)
+                                    <input type="submit" class="btn btn-default btn-xs" value="封禁帐号" />
+                                }
+                            </td>
+                        </tr>
                     }
-                </td>
-            </tr>
+                    else
+                    {
+                        <tr>
+                            <td class="text-left">@item.userInfo.UserID</td>
+                            @*用户名*@
+                            <td>
+                                @Html.ActionLink(
+                                    linkText: item.userInfo.UserName,
+                                    actionName: "AccountInfo",
+                                    controllerName: "Account",
+                                    routeValues: new
+                                    {
+                                        item.userInfo.UserID
+                                    },
+                                    htmlAttributes: new { }
+                                )
+                            </td>
+                            <td class="text-left">@item.userInfo.RealName</td>
+                            <td class="text-left">@item.userInfo.Gender</td>
+                            <td class="text-left">@item.userInfo.RegisterTime</td>
+                            <td class="text-center">
+                                @*封禁账号*@
+                                @using (Html.BeginForm("Block", "Admin"))
+                                {
+                                    @Html.Hidden("UserID", item.userInfo.UserID)
+                                    <input type="submit" class="btn btn-default btn-xs" value="封禁帐号" />
+                                }
+                            </td>
+                        </tr>
+                    }
+
                 }
             </table>
         </div>

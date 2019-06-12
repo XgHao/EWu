@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LinJiaoFengJu" Class="LogDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=139.199.82.204;Initial Catalog=LinJiaoFengJu;Persist Security Info=True;User ID=zxh;MultipleActiveResultSets=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.LogLogin" Member="LogLogin">
+    <Type Name="LogLogin">
+      <Column Name="LoginUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LoginerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LoginIP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LoginTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.LogBrowse" Member="LogBrowse">
     <Type Name="LogBrowse">
       <Column Name="BLogUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -7,14 +15,6 @@
       <Column Name="TreasureID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="BrowserTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="BrowseIP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.LogLogin" Member="LogLogin">
-    <Type Name="LogLogin">
-      <Column Name="LoginUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="LoginerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LoginIP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="LoginTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

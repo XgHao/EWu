@@ -2,16 +2,16 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Log">
   <DataContextMoniker Name="/LogDataContext" />
   <nestedChildShapes>
-    <classShape Id="c0302185-11d6-4a2d-9f63-92a81b0294fa" absoluteBounds="3.25, 3.25, 2, 1.7220992024739581">
-      <DataClassMoniker Name="/LogDataContext/LogBrowse" />
-      <nestedChildShapes>
-        <elementListCompartment Id="be67e697-4657-4c80-93be-42d6aec7575b" absoluteBounds="3.265, 3.71, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="69c6ea7a-3e6a-457c-84a4-1db8eb844650" absoluteBounds="1.5, 3.625, 2, 1.5373050944010416">
+    <classShape Id="19728ecc-5681-4289-b9ba-d78f57832cac" absoluteBounds="3.125, 3.5, 2, 1.5373050944010416">
       <DataClassMoniker Name="/LogDataContext/LogLogin" />
       <nestedChildShapes>
-        <elementListCompartment Id="bf80ac6c-fc67-47ed-88fb-2087046b4d32" absoluteBounds="1.5150000000000001, 4.085, 1.9700000000000002, 0.97730509440104174" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bb112bef-08e2-4ee9-81e3-6cd187f778dc" absoluteBounds="3.14, 3.96, 1.9700000000000002, 0.97730509440104174" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dc6160d4-4b45-4350-bbe5-79b61b50a3af" absoluteBounds="5.875, 4.25, 2, 1.7220992024739581">
+      <DataClassMoniker Name="/LogDataContext/LogBrowse" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a668174e-6aed-41e0-813f-6346c96db2fd" absoluteBounds="5.89, 4.71, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

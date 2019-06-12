@@ -20,7 +20,7 @@ namespace Ewu.WebUI
                 //默认值-主页
                 defaults: new
                 {
-                    controller = "Home",
+                    controller = "Treasure",
                     action = "Index",
                     //category = (string)null,
                     //page = 1

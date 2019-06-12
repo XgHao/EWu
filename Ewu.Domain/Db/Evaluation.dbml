@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LinJiaoFengJu" Class="EvaluationDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=tcp:ewu.database.chinacloudapi.cn,1433;Initial Catalog=LinJiaoFengJu;Persist Security Info=False;User ID=XgHao;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=139.199.82.204;Initial Catalog=LinJiaoFengJu;Persist Security Info=True;User ID=zxh;MultipleActiveResultSets=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="Ewu.Domain.Properties.Settings" SettingsPropertyName="LinJiaoFengJuConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Evaluation" Member="Evaluation">
     <Type Name="Evaluation">
       <Column Name="DLogUID" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />

@@ -23,6 +23,11 @@ namespace Ewu.WebUI.Models.ViewModel
         public IEnumerable<TreasureAndHolderInfo> HotTrea { get; set; }
 
         /// <summary>
+        /// 推荐物品
+        /// </summary>
+        public IEnumerable<TreasureAndHolderInfo> RecommandTrea { get; set; }
+
+        /// <summary>
         /// 物品数
         /// </summary>
         public int TreasureCnt { get; set; }

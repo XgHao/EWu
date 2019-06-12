@@ -13,6 +13,7 @@ using Ewu.WebUI.Models.ViewModel;
 using Ewu.WebUI.API;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Linq.SqlClient;
 
 namespace Ewu.WebUI.Controllers
 {
@@ -378,15 +379,30 @@ namespace Ewu.WebUI.Controllers
                 var treaS = repository.Treasures
                                     .Where(t => t.TreasureUID == Guid.Parse(deal.TreasureRecipientID))
                                     .FirstOrDefault();
-                if (treaR != null && treaS != null)
+
+                //相似推荐
+                //获取相似物品
+                var Moretreas = repository.Treasures
+                                        .Where(t => t.TreasureType == treaR.TreasureType).OrderBy(t => t.Favorite).Take(3);
+
+                //过滤是当前用户的
+                Moretreas.Where(t => t.HolderID != CurrentUser.Id);
+
+                //根据七天的收藏量
+                using (var db2 = new FavoriteDataContext())
                 {
-                    return View(new DealLogCreate
+                    var FavoriteTrea = db2.Favorite.Where(f => (SqlMethods.DateDiffDay(f.FavoriteTime, DateTime.Now) <= 7)).Select(f => f.TreasureID);
+                    if (treaR != null && treaS != null)
                     {
-                        DealInTreasure = treaR,
-                        DealOutTreasure = treaS,
-                        Remark = deal.RemarkSToR,
-                        DealLogID = DLogUID
-                    });
+                        return View(new DealLogCreate
+                        {
+                            DealInTreasure = treaR,
+                            DealOutTreasure = treaS,
+                            Remark = deal.RemarkSToR,
+                            DealLogID = DLogUID,
+                            MoreTreasures = Moretreas.AsEnumerable()
+                        });
+                    }
                 }
             }
             return View("Error");
